@@ -1,0 +1,58 @@
+:root {
+  --ifm-color-primary: #000000; /* Charcoal */
+  --ifm-color-primary-dark: #e3d28d; /* Darker Charcoal */
+  --ifm-color-primary-darker: #2a2926; /* Very Dark Charcoal */
+  --ifm-color-primary-darkest: #22211e; /* Almost Black */
+  --ifm-color-primary-light: #4a4945; /* Light Charcoal */
+  --ifm-color-primary-lighter: #5c5b58; /* Lighter Gray */
+  --ifm-color-primary-lightest: #737270; /* Warm Gray */
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(55, 55, 55, 0.1);
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #000000; /* Medium Gray */
+  --ifm-color-primary-dark: #7a7373; /* Slightly Darker Gray */
+  --ifm-color-primary-darker: #6c6666; /* Darker Medium Gray */
+  --ifm-color-primary-darkest: #595151; /* Deep Gray */
+  --ifm-color-primary-light: #a29d9d; /* Lighter Gray */
+  --ifm-color-primary-lighter: #b8b3b3; /* Soft Gray */
+  --ifm-color-primary-lightest: #cdc9c9; /* Very Light Gray */
+  --docusaurus-highlighted-code-line-bg: black
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+h1, h2, h3 {
+  font-family: 'Poppins', sans-serif;
+    font-weight: 100;
+  font-style: normal;
+}
+
+
+.footer{
+  background-color: black;
+}
+
+
+.breadcrumbs__item--active .breadcrumbs__link {
+  background: var(--ifm-breadcrumb-item-background-active);
+  color: var(--ifm-color-primary-lightest);
+}
+
+a {
+  color: var(--ifm-color-primary-lightest);
+}
+
+.menu__link--active {
+  color: var( --ifm-color-primary-lighter);
+}
+
+.navbar__link {
+  color: var(--ifm-navbar-link-color);
+  font-weight: var(--ifm-font-weight-semibold);
+  color: var( --ifm-color-primary-lighter);
+
+}
