@@ -2,7 +2,7 @@
 sidebar_position: 3
 ---
 
-# zkmerkle
+# ZkMerkle
 
 Zero-Knowledge Merkle Trees with support for custom trusted setups.
 
