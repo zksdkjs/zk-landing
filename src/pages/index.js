@@ -21,7 +21,7 @@ function HomepageHeader() {
         marginBottom: "60px"
       }}>
         <h1 style={{
-          fontSize: "5rem",
+          fontSize: "4rem",
           fontWeight: "200",
           color: "#ffffff",
           margin: "0 0 20px 0",
@@ -34,7 +34,7 @@ function HomepageHeader() {
           margin: "0 auto"
         }}>
           <h2 style={{
-            fontSize: "2.5rem",
+            fontSize: "1.75rem",
             fontWeight: "300",
             color: "#f2f2f2",
             margin: "0 0 15px 0",
@@ -43,10 +43,8 @@ function HomepageHeader() {
             Build ZK apps with ease and efficiency
           </h2>
           <div style={{
-            fontSize: "1.2rem",
-            fontWeight: "300",
-            color: "#f2f2f2",
-            opacity: "0.7",
+            fontSize: "1rem",
+            color: "#999",
             marginBottom: "40px",
             lineHeight: "1.6"
           }}>
@@ -57,30 +55,29 @@ function HomepageHeader() {
           className="button button--primary button--lg"
           to="/docs/intro"
           style={{
-            backgroundColor: "transparent",
-            color: "#ffffff",
-            border: "1px solid rgba(255,255,255,0.6)",
-            borderRadius: "4px",
-            padding: "12px 24px",
+            backgroundColor: "#333",
+            color: "#fff",
+            border: "none",
+            borderRadius: "6px",
+            padding: "15px 30px",
+            fontSize: "1.1rem",
+            fontWeight: "500",
             textDecoration: "none",
-            fontSize: "1rem",
-            letterSpacing: "0.05em",
-            transition: "all 0.2s ease"
+            transition: "all 0.2s ease",
+            marginTop: "20px"
           }}
         >
           Get Started
         </Link>
       </div>
 
-      <div className="terminal-window" style={{
+      <div style={{
         maxWidth: "800px",
         width: "100%",
-        background: "#1E1E1E !important",
-        borderRadius: "8px",
+        background: "#111",
+        borderRadius: "12px",
         overflow: "hidden",
-        boxShadow: "0 20px 40px rgba(0,0,0,0.4)",
-        position: "relative",
-        zIndex: 1
+        boxShadow: "0 25px 50px -12px rgba(0,0,0,0.5)"
       }}>
         <div style={{
           background: "#2D2D2D",
