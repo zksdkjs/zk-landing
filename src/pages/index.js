@@ -158,7 +158,7 @@ function HomepageHeader() {
 const zkMerkle = new ZkMerkle()
 
 // Add some data to your tree
-const myData = [🌳, 🌲, 🌴 , 🌱, 🌿, 🍃];
+const myData = [🌳, 🌲, 🌴 , 🌱, 🌿, 🍃]
 
 // Calculate tree depth
 const depth = Math.ceil(Math.log2(myData.length))
