@@ -1,8 +1,8 @@
 ---
-sidebar_position: 2
+sidebar_position: 3
 ---
 
-# ZkMerkle Program
+# zkmerkle
 
 Zero-Knowledge Merkle Trees with support for custom trusted setups.
 
@@ -19,11 +19,12 @@ This package helps you work with Merkle Trees that have zero-knowledge capabilit
 ## Installation
 
 ```bash
-# Using bun (recommended)
 bun add zkmerkle
 
-# Using npm
+or 
+
 npm i zkmerkle
+
 ```
 
 ## Basic Usage
@@ -41,48 +42,15 @@ const myData = ['apple', 'banana', 'orange', 'grape', 'mango'];
 const depth = Math.ceil(Math.log2(myData.length));
 
 // Generate a proof
-const { proof, publicSignals, root } = 
-  await zkMerkle.generateMerkleProof('apple', myData);
+const { proof, publicSignals, root } = await zkMerkle.generateMerkleProof('apple', myData);
 
 console.log('Merkle Root:', root);
 console.log('Proof:', JSON.stringify(proof, null, 2));
 console.log('Public Signals:', publicSignals);
 
 // Verify the proof
-const isValid = await zkMerkle.verifyProof(
-  proof, 
-  publicSignals, 
-  depth
-);
-
+const isValid = await zkMerkle.verifyProof(proof, publicSignals, depth);
 console.log(`Proof verification: ${isValid ? 'SUCCESS' : 'FAILED'}`);
-```
-
-## Advanced Usage
-
-### Production Setup
-
-For production environments, use a custom trusted setup:
-
-```typescript
-// Use your ceremony output
-const zkMerkle = new ZkMerkle('./production-zkconfig');
-```
-
-### Custom Configuration
-
-Configure the ZkMerkle instance with specific settings:
-
-```typescript
-const zkMerkle = new ZkMerkle({
-  baseDir: './my-setup',
-  maxDepth: 20,
-  circuits: {
-    wasmDir: './my-circuits',
-    zkeyDir: './my-keys',
-    verificationDir: './my-verifiers'
-  }
-});
 ```
 
 ## Understanding Trusted Setup
@@ -110,6 +78,7 @@ async function coordinatorSetup() {
   const ptauFile = await ceremony.initCeremony();
   
   // 2. Share ptauFile with first participant
+  // Coordinator must send the file to Participant 1
   
   // 3. After receiving final contribution
   await ceremony.finalizeCeremony();
@@ -132,7 +101,63 @@ async function participantContribution(ptauFile: string, participantNumber: numb
   const newPtau = await ceremony.contributePhase1(`Participant ${participantNumber}`);
   
   // 3. Send newPtau to next participant or back to coordinator
+  // Participant must manually send the file to the next person
 }
+```
+
+### File Exchange Process
+
+1. Coordinator → Participant 1:
+   - Sends initial `pot15_0000.ptau`
+
+2. Participant 1 → Participant 2:
+   - Contributes and sends `pot15_0001.ptau`
+
+3. Participant 2 → Participant 3:
+   - Contributes and sends `pot15_0002.ptau`
+
+4. Final Participant → Coordinator:
+   - Sends final contribution
+   - Coordinator finalizes ceremony
+
+## Directory Structure
+
+```
+📁 zkConfig/                # Configuration directory
+├── 📁 ceremony/           
+│   └── 📁 pot/           # Trusted setup files
+├── 📁 circuits/          
+│   ├── 📁 wasm/          # Circuit files
+│   ├── 📁 zkey/          # Proving keys
+│   └── 📁 verification/  # Verification keys
+└── 📁 templates/         # Smart contract templates
+```
+
+## Usage Options
+
+### 1. Testing Environment (Pre-built Setup)
+```typescript
+// Uses included test setup
+const zkMerkle = new ZkMerkle();
+```
+
+### 2. Production Environment (Custom Setup)
+```typescript
+// Use your ceremony output
+const zkMerkle = new ZkMerkle('./production-zkconfig');
+```
+
+### 3. Custom Configuration
+```typescript
+const zkMerkle = new ZkMerkle({
+  baseDir: './my-setup',
+  maxDepth: 20,
+  circuits: {
+    wasmDir: './my-circuits',
+    zkeyDir: './my-keys',
+    verificationDir: './my-verifiers'
+  }
+});
 ```
 
 ## Important Notes
@@ -150,20 +175,11 @@ async function participantContribution(ptauFile: string, participantNumber: numb
    - Each participant must keep their randomness secret
    - Coordinator should verify contributions
 
-## Directory Structure
-
-```
-📁 zkConfig/                # Configuration directory
-├── 📁 ceremony/           
-│   └── 📁 pot/           # Trusted setup files
-├── 📁 circuits/          
-│   ├── 📁 wasm/          # Circuit files
-│   ├── 📁 zkey/          # Proving keys
-│   └── 📁 verification/  # Verification keys
-└── 📁 templates/         # Smart contract templates
-```
-
 ## Support
 
+- [Documentation](https://docs.zksdk.io)
 - [GitHub Issues](https://github.com/zkthings/zksdk/issues)
-- [Main Website](https://zksdk.io)
+
+## License
+
+MIT © [zkSDK Team](https://github.com/zksdk)
