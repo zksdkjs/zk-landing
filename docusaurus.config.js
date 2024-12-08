@@ -80,21 +80,26 @@ const config = {
       ],
       image: 'img/docusaurus-social-card.jpg',
       navbar: {
-        title: 'zksdk',
+        title: 'zkSDK',
         // logo: {
         //   alt: 'My Site Logo',
         //   src: 'img/logo.svg',
         // },
         items: [
           {
-            type: 'docSidebar',
-            sidebarId: 'tutorialSidebar',
+            type: 'doc',
+            docId: 'intro',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Documentation',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
           {
-            href: 'https://github.com/facebook/docusaurus',
+            type: 'doc',
+            docId: 'vision',
+            position: 'left',
+            label: 'Vision',
+          },
+          {
+            href: 'https://github.com/zkthings/zksdk',
             label: 'GitHub',
             position: 'right',
           },
@@ -107,8 +112,8 @@ const config = {
             title: 'Docs',
             items: [
               {
-                label: 'Tutorial',
-                to: '/docs/intro',
+                label: 'Documentation',
+                href: 'https://docs.zksdk.io',
               },
             ],
           },
@@ -116,16 +121,12 @@ const config = {
             title: 'Community',
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-              },
-              {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
-              },
-              {
                 label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
+                href: 'https://twitter.com/0xsayd',
+              },
+              {
+                label: 'GitHub',
+                href: 'https://github.com/zkthings/zksdk',
               },
             ],
           },
@@ -133,17 +134,13 @@ const config = {
             title: 'More',
             items: [
               {
-                label: 'Blog',
-                to: '/blog',
-              },
-              {
-                label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                label: 'Main Website',
+                href: 'https://zksdk.io',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} zkSDK. Built with Docusaurus.`,
       },
       prism: {
         theme: prismThemes.github,
