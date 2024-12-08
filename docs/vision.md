@@ -6,7 +6,7 @@ sidebar_position: 1
 
 ## Unifying Zero Knowledge Development
 
-zkSDK aims to revolutionize how developers interact with zero-knowledge technologies by providing a unified, intuitive SDK for all ZK-related development.
+zkSDK is an open-source initiative that aims to revolutionize how developers interact with zero-knowledge technologies by providing a unified, intuitive SDK for all ZK-related development.
 
 ## Our Vision
 

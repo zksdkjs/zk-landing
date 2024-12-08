@@ -29,15 +29,30 @@ function HomepageHeader() {
         }}>
           {siteConfig.title}
         </h1>
-        <p style={{
-          fontSize: "1.5rem",
-          fontWeight: "300",
-          color: "#f2f2f2",
-          margin: "0 0 30px 0",
-          opacity: "0.9"
+        <div style={{
+          maxWidth: "600px",
+          margin: "0 auto"
         }}>
-          Build ZK apps with ease and efficiency
-        </p>
+          <h2 style={{
+            fontSize: "2.5rem",
+            fontWeight: "300",
+            color: "#f2f2f2",
+            margin: "0 0 15px 0",
+            lineHeight: "1.4"
+          }}>
+            Build ZK apps with ease and efficiency
+          </h2>
+          <div style={{
+            fontSize: "1.2rem",
+            fontWeight: "300",
+            color: "#f2f2f2",
+            opacity: "0.7",
+            marginBottom: "40px",
+            lineHeight: "1.6"
+          }}>
+            An open-source SDK for zero-knowledge development
+          </div>
+        </div>
         <Link
           className="button button--primary button--lg"
           to="/docs/intro"
@@ -49,7 +64,8 @@ function HomepageHeader() {
             padding: "12px 24px",
             textDecoration: "none",
             fontSize: "1rem",
-            letterSpacing: "0.05em"
+            letterSpacing: "0.05em",
+            transition: "all 0.2s ease"
           }}
         >
           Get Started
@@ -91,15 +107,15 @@ function HomepageHeader() {
 // Create a new ZK Merkle Tree
 const zkMerkle = new ZkMerkle();
 
-const myData = ['apple', 'banana', 'orange'];
+// Add some data to your tree
+const myData = ['apple', 'banana', 'orange', 'grape', 'mango'];
+
+// Calculate tree depth
 const depth = Math.ceil(Math.log2(myData.length));
 
 // Generate a proof
 const { proof, publicSignals, root } = 
-  await zkMerkle.generateMerkleProof(
-    'apple',
-    myData
-  );
+  await zkMerkle.generateMerkleProof('apple', myData);
 
 // Verify the proof
 const isValid = await zkMerkle.verifyProof(
