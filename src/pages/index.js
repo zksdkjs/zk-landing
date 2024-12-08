@@ -55,16 +55,17 @@ function HomepageHeader() {
           className="button button--primary button--lg"
           to="/docs/intro"
           style={{
-            backgroundColor: "#333",
-            color: "#fff",
-            border: "none",
-            borderRadius: "6px",
-            padding: "15px 30px",
-            fontSize: "1.1rem",
-            fontWeight: "500",
+            backgroundColor: "rgba(255,255,255,0.1)",
+            color: "#ffffff",
+            border: "1px solid rgba(255,255,255,0.2)",
+            borderRadius: "8px",
+            padding: "12px 28px",
             textDecoration: "none",
+            fontSize: "1rem",
+            letterSpacing: "0.05em",
             transition: "all 0.2s ease",
-            marginTop: "20px"
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)"
           }}
         >
           Get Started
@@ -74,43 +75,65 @@ function HomepageHeader() {
       <div style={{
         maxWidth: "800px",
         width: "100%",
-        background: "#111",
+        background: "linear-gradient(145deg, #1A1A1A, #111111)",
         borderRadius: "12px",
         overflow: "hidden",
-        boxShadow: "0 25px 50px -12px rgba(0,0,0,0.5)"
+        boxShadow: "0 25px 50px -12px rgba(0,0,0,0.7)",
+        border: "1px solid rgba(255,255,255,0.1)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)"
       }}>
         <div style={{
-          background: "#2D2D2D",
+          background: "rgba(255,255,255,0.03)",
           padding: "12px 20px",
-          borderBottom: "1px solid rgba(255,255,255,0.1)"
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          borderBottom: "1px solid rgba(255,255,255,0.05)"
         }}>
-          <div style={{
-            display: "flex",
-            gap: "6px"
-          }}>
-            <div style={{ width: "12px", height: "12px", borderRadius: "50%", backgroundColor: "#FF5F56" }}></div>
-            <div style={{ width: "12px", height: "12px", borderRadius: "50%", backgroundColor: "#FFBD2E" }}></div>
-            <div style={{ width: "12px", height: "12px", borderRadius: "50%", backgroundColor: "#27C93F" }}></div>
-          </div>
+          <div style={{ 
+            width: "12px", 
+            height: "12px", 
+            borderRadius: "50%", 
+            backgroundColor: "#ff5f57",
+            boxShadow: "0 0 0 1px rgba(0,0,0,0.05)",
+            transition: "all 0.2s ease"
+          }}></div>
+          <div style={{ 
+            width: "12px", 
+            height: "12px", 
+            borderRadius: "50%", 
+            backgroundColor: "#febc2e",
+            boxShadow: "0 0 0 1px rgba(0,0,0,0.05)",
+            transition: "all 0.2s ease"
+          }}></div>
+          <div style={{ 
+            width: "12px", 
+            height: "12px", 
+            borderRadius: "50%", 
+            backgroundColor: "#28c840",
+            boxShadow: "0 0 0 1px rgba(0,0,0,0.05)",
+            transition: "all 0.2s ease"
+          }}></div>
         </div>
-        <div className="terminal-content" style={{
-          margin: 0,
-          padding: "30px",
-          fontSize: "0.9rem",
-          lineHeight: "1.5",
-          overflow: "auto",
-          backgroundColor: "#1E1E1E !important",
-          color: "#f8f8f2 !important",
-          fontFamily: "'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace"
+        <div style={{
+          padding: "35px",
+          fontSize: "0.95rem",
+          lineHeight: "1.6",
+          fontFamily: "'Fira Code', 'JetBrains Mono', monospace",
+          color: "#e4e4e4",
+          background: "transparent",
+          position: "relative"
         }}>
-          <pre style={{
-            margin: 0,
-            color: "inherit",
-            background: "transparent"
+          <pre style={{ 
+            margin: 0, 
+            background: "transparent",
+            overflow: "auto",
+            maxHeight: "500px"
           }}>
-            <code style={{
-              color: "#f8f8f2 !important",
-              background: "transparent !important"
+            <code style={{ 
+              color: "#e4e4e4",
+              textShadow: "0 0 1px rgba(255,255,255,0.1)"
             }}>{`import { ZkMerkle } from 'zkmerkle';
 
 // Create a new ZK Merkle Tree
