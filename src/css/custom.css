@@ -56,3 +56,27 @@ a {
   color: var( --ifm-color-primary-lighter);
 
 }
+
+/* Force consistent dark theme for code blocks */
+[data-theme='light'] .terminal-window,
+[data-theme='dark'] .terminal-window {
+  background-color: #111 !important;
+}
+
+/* Improve code readability */
+pre, code {
+  font-family: 'Fira Code', 'JetBrains Mono', monospace !important;
+  font-size: 0.95rem !important;
+  line-height: 1.6 !important;
+}
+
+/* Button hover effect */
+.button--primary:hover {
+  background-color: #444 !important;
+  transform: translateY(-1px);
+}
+
+/* Smooth transitions */
+* {
+  transition: all 0.2s ease;
+}

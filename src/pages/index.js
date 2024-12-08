@@ -72,13 +72,15 @@ function HomepageHeader() {
         </Link>
       </div>
 
-      <div style={{
+      <div className="terminal-window" style={{
         maxWidth: "800px",
         width: "100%",
-        background: "#1E1E1E",
+        background: "#1E1E1E !important",
         borderRadius: "8px",
         overflow: "hidden",
-        boxShadow: "0 20px 40px rgba(0,0,0,0.4)"
+        boxShadow: "0 20px 40px rgba(0,0,0,0.4)",
+        position: "relative",
+        zIndex: 1
       }}>
         <div style={{
           background: "#2D2D2D",
@@ -94,15 +96,25 @@ function HomepageHeader() {
             <div style={{ width: "12px", height: "12px", borderRadius: "50%", backgroundColor: "#27C93F" }}></div>
           </div>
         </div>
-        <pre style={{
+        <div className="terminal-content" style={{
           margin: 0,
           padding: "30px",
           fontSize: "0.9rem",
           lineHeight: "1.5",
-          overflow: "auto"
+          overflow: "auto",
+          backgroundColor: "#1E1E1E !important",
+          color: "#f8f8f2 !important",
+          fontFamily: "'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace"
         }}>
-          <code style={{ color: "#f8f8f2" }}>
-{`import { ZkMerkle } from 'zkmerkle';
+          <pre style={{
+            margin: 0,
+            color: "inherit",
+            background: "transparent"
+          }}>
+            <code style={{
+              color: "#f8f8f2 !important",
+              background: "transparent !important"
+            }}>{`import { ZkMerkle } from 'zkmerkle';
 
 // Create a new ZK Merkle Tree
 const zkMerkle = new ZkMerkle();
@@ -124,9 +136,9 @@ const isValid = await zkMerkle.verifyProof(
   depth
 );
 
-console.log(\`Verification: \${isValid ? '✅' : '❌'}\`);`}
-          </code>
-        </pre>
+console.log(\`Verification: \${isValid ? '✅' : '❌'}\`);`}</code>
+          </pre>
+        </div>
       </div>
     </div>
   );
