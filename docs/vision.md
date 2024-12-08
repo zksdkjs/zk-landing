@@ -68,3 +68,7 @@ Our goal is to abstract away the complexity of different ZK implementations, all
 We're building the future of privacy-preserving computation. This is an open-source initiative focused on making zero-knowledge technology accessible to every developer, regardless of their preferred platform or token standard.
 
 Want to contribute? Check out our [GitHub](https://github.com/zkthings/zksdk) or join the discussion on [Twitter](https://twitter.com/0xsayd).
+
+<a href="/docs/sdk-guide/zkmerkle">
+  <h2>📄️ ZkMerkle</h2>
+</a>
