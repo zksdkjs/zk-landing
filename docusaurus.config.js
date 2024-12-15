@@ -140,7 +140,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} zkSDK. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} zkSDK.`,
       },
       prism: {
         theme: prismThemes.github,
