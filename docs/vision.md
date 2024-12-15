@@ -12,10 +12,11 @@ zkSDK is an open-source initiative that aims to revolutionize how developers int
 
 We envision a future where developers can seamlessly work with any zero-knowledge or fully homomorphic encryption (FHE) technology through a single, unified JavaScript SDK. Imagine writing one piece of code that works across multiple ZK platforms with minimal modifications:
 
-```javascript
+````javascript
 // The same code pattern working across different platforms
 const token = new ZkToken({
-  platform: 'mina' | 'ethereum' | 'fhe' | 'custom',
+  platform: 'mina' | 'ethereum' | 'midnight' | 'fhe' |
+  type: 'zkp' | 'fhe',
   // Platform-specific configs handled internally
 });
 
@@ -26,40 +27,41 @@ await token.generateProof();
 
 // Deploy and interact with zkVMs the same way
 const zkApp = new ZkVM({
-  platform: 'midnight' | 'succinct' | 'custom',
+  platform: 'SP1' | 'Valida' | 'RISCZero',
   // zkVM-specific configs handled internally
 });
 
 await zkApp.deploy(code);
 await zkApp.execute(input);
 await zkApp.verifyExecution();
-```
+````
 
 Our goal is to abstract away the complexity of different ZK implementations, allowing developers to focus on building their applications rather than dealing with the intricacies of each platform.
 
 ## Core Components
 
-### Unified Token Interactions
-- Deploy and interact with ZK tokens on Mina Protocol, the same way you would deploy and interact with tokens on other chains (or as close as possible)
-- One consistent interface for privacy-preserving tokens across Ethereum's zkEVM, Mina Protocol, and FHE implementations
-- Write once, deploy anywhere approach for ZK applications
-- Cross-chain ZK bridges using standardized proof formats
+### Unified ZK Development
+- Write ZK applications using familiar patterns across all supported platforms
+- Abstract away complex implementation details:
+  - ZK Circuit development
+  - Cryptographic primitives
+  - Smart contract interactions
+  - Proof generation and verification
+- Develop once, deploy, and interact with all ZK platforms using the same scripts, ensuring a seamless and unified experience for every ZK application.
 
-### Cross-Platform ZK Operations
-- Generate and verify proofs using the same patterns across platforms
-- Interact with different ZK virtual machines (Midnight, Succinct, etc.) through a unified interface
-- Support for custom ZK circuits with automated compilation
-- Consistent state management regardless of underlying platform
+### Cross-Platform ZK Operations and Integration
+- Generate and verify proofs using consistent patterns across all supported platforms
+- Interact with various ZK virtual machines through a unified interface, abstracting away platform-specific complexities
+- Support for custom ZK circuits with automated compilation and deployment
+- Ensure consistent state management and proof verification across different environments
 
-### zkVM Integration
-- Deploy applications to Midnight, Succinct, or custom zkVMs using identical patterns
-- Abstract away VM-specific complexities while maintaining platform benefits
-- Unified approach to zkVM state management and proof verification
-- Cross-VM compatibility where possible
+### Proof Aggregation and Trustless Verification
+- Aggregate proofs from multiple sources to streamline verification processes
+- Enable trustless verification across platforms, ensuring security and integrity
+- Facilitate seamless connections between proofs and verifications, enhancing cross-platform operability
 
 ### Developer Tools
 - Simple JavaScript interfaces that feel native to web developers
-- Write ZK logic once, run it anywhere
 - Built-in testing and deployment tools that work across platforms
 - Automated proof generation and verification
 
@@ -69,6 +71,6 @@ We're building the future of privacy-preserving computation. This is an open-sou
 
 Want to contribute? Check out our [GitHub](https://github.com/zkthings/zksdk) or join the discussion on [Twitter](https://twitter.com/0xsayd).
 
-<a href="/docs/sdk-guide/zkmerkle">
-  <h2>📄️ ZkMerkle</h2>
+<a href="/docs/sdk-guides/zkmerkle">
+  📄️ ZkMerkle
 </a>
