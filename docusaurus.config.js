@@ -78,7 +78,7 @@ const config = {
           type: 'text/css',
         },
       ],
-      image: 'img/docusaurus-social-card.jpg',
+      image: undefined,
       navbar: {
         title: 'zkSDK',
         // logo: {
@@ -157,6 +157,7 @@ const config = {
           autoCollapseCategories: true,
         },
       },
+      metadata: [],
     }),
 };
 
