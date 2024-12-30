@@ -34,7 +34,7 @@ import { ZkMerkleTree } from '@zkthings/merkle-evm';
 const zkMerkle = new ZkMerkleTree();
 
 // Add data and generate proof
-const values = [‘Dragon Tree’, ‘Olive’ , ‘Linden’]
+const values = ['Dragon Tree', 'Olive' , 'Linden']
 
 const { proof, publicSignals } = await zkMerkle.generateMerkleProof(
   values,
@@ -52,17 +52,55 @@ const verifierContract = await zkMerkle.exportVerifierContract();
 
 ### Trusted Setup
 
+A trusted setup is a crucial security process that creates the cryptographic parameters needed for zero-knowledge proofs. It requires multiple participants to ensure no single party has access to the complete setup information.
+
+The setup process happens in two phases:
+1. Phase 1 (Powers of Tau): General setup that can be reused
+2. Phase 2: Circuit-specific setup for Merkle Tree operations
+
+#### Coordinator Setup
 ```typescript
 import { PowerOfTau } from '@zkthings/merkle-evm';
 
 // Initialize ceremony
 const ceremony = new PowerOfTau(15);  // For trees up to depth 15
+
+// 1. Initialize ceremony
 const ptauFile = await ceremony.initCeremony();
 
-// Generate production parameters
+// 2. Share ptauFile with participants
+// Each participant must contribute sequentially
+
+// 3. After receiving final contribution
 await ceremony.finalizeCeremony();
+
+// 4. Generate production parameters
+await ceremony.initPhase2('MerkleTreeProof');
 await ceremony.finalizeCircuit('MerkleTreeProof');
 ```
+
+#### Participant Contribution
+```typescript
+import { PowerOfTau } from '@zkthings/merkle-evm';
+
+// Each participant runs this
+const ceremony = new PowerOfTau(15);
+
+// Import previous contribution
+await ceremony.importContribution(ptauFile);
+
+// Add contribution
+const newPtau = await ceremony.contributePhase1(`Participant ${id}`);
+
+// Send newPtau to next participant or coordinator
+```
+
+#### Ceremony Flow
+1. Coordinator initializes: `pot15_0000.ptau`
+2. Participant 1 contributes: `pot15_0001.ptau`
+3. Participant 2 contributes: `pot15_0002.ptau`
+4. Final participant returns to coordinator
+5. Coordinator finalizes ceremony
 
 ### Production Deployment
 ```typescript
@@ -100,7 +138,6 @@ const isValid = await zkMerkle.verifyProofOffChain(proof, publicSignals);
 // Secure production configuration
 const zkMerkle = new ZkMerkleTree({
   baseDir: './production-zkconfig',
-  maxDepth: 20
 });
 ```
 
@@ -121,27 +158,6 @@ const zkMerkle = new ZkMerkleTree({
    - Use off-chain for testing only
    - Validate all proof components
 
-## API Reference
-
-### ZkMerkleTree
-```typescript
-class ZkMerkleTree {
-  constructor(config?: ZkConfig);
-  generateMerkleProof(values: string[], valueToProve: string): Promise<ProofData>;
-  verifyProofOffChain(proof: Proof, publicSignals: PublicSignals): Promise<boolean>;
-  exportVerifierContract(): Promise<string>;
-}
-```
-
-### PowerOfTau
-```typescript
-class PowerOfTau {
-  constructor(depth: number);
-  initCeremony(): Promise<string>;
-  finalizeCeremony(): Promise<void>;
-  finalizeCircuit(name: string): Promise<void>;
-}
-```
 
 ## Contributing
 

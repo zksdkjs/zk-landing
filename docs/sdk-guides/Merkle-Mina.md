@@ -140,24 +140,6 @@ const deployment = await deployZkApp(MerkleProver, {
    - Monitor gas costs
    - Use local network for testing
 
-## API Reference
-
-### ZkMerkleTree
-```typescript
-class ZkMerkleTree {
-  constructor(maxDepth?: number);
-  generateMerkleProof<T>(values: T[], valueToProve: T, owner?: PublicKey): Promise<MerkleProof>;
-  verifyProofOffChain(proof: Proof, publicSignals: PublicSignals): Promise<boolean>;
-  verifyProofOnChain(contract: MerkleProver, proof: Proof, publicSignals: PublicSignals): Promise<boolean>;
-}
-```
-
-### MerkleProver Contract
-```typescript
-class MerkleProver extends SmartContract {
-  @method verifyProof(witness: MerkleWitness8, leafData: LeafData, expectedRoot: Field): boolean;
-}
-```
 
 ## Contributing
 
@@ -166,7 +148,6 @@ PRs welcome! Check our [Contributing Guide](https://github.com/zkthings/merkle-m
 ## Support
 
 - [Documentation](https://zksdk.io/docs/intro)
-- [Discord](https://discord.gg/zkthings)
 - [GitHub Issues](https://github.com/zkthings/merkle-mina/issues)
 
 ## License

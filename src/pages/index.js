@@ -67,7 +67,7 @@ const isValidOnChain = await zkMerkle.verifyProofOnChain(
       code: `// Coming soon...
 
 // StarkNet implementation will be available in the next release
-// Join our Discord to stay updated!`
+// Stay tuned!`
     }
   };
 
