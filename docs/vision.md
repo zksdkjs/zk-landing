@@ -4,13 +4,24 @@ sidebar_position: 1
 
 # The Long-Term Vision
 
-## Unifying Zero Knowledge Development
+zkSDK standardizes how developers work with zero-knowledge systems. Right now, every ZK platform has its own way of doing things - different APIs, different patterns, different tooling. We're fixing that.
 
-zkSDK is an open-source initiative that aims to revolutionize how developers interact with zero-knowledge technologies by providing a unified, intuitive SDK for all ZK-related development.
+## What We're Building
+
+zkSDK provides a unified development experience for zero-knowledge applications:
+
+- A cross-platform Merkle tree implementation that works seamlessly across Mina, StarkNet, EVM chains and zkVMs
+- A standardized API for private tokens (ERC20/NFT) with consistent behavior across all platforms
+- A unified interface for generating and verifying zero-knowledge proofs
+- Platform-agnostic deployment tooling for zkVM applications
+- Comprehensive proof verification infrastructure with cross-platform support
+
+
+Here's what that looks like in practice:
 
 ## Our Vision
 
-We envision a future where developers can seamlessly work with any zero-knowledge or fully homomorphic encryption (FHE) technology through a single, unified JavaScript SDK. Imagine writing one piece of code that works across multiple ZK platforms with minimal modifications:
+We're building the foundation for privacy-preserving applications. By providing robust building blocks and intuitive interfaces, we're enabling developers to harness the full power of zero-knowledge technology:
 
 ````javascript
 // The same code pattern working across different platforms
@@ -22,12 +33,12 @@ const token = new ZkToken({
 
 // Deploy and interact using consistent patterns
 await token.deploy();
-await token.transfer(to, amount);
-await token.generateProof();
+await token.transfer(to, amount,salt);a
+await token.generateProof({});
 
 // Deploy and interact with zkVMs the same way
 const zkApp = new ZkVM({
-  platform: 'SP1' | 'Valida' | 'RISCZero',
+  platform: 'SP1' | 'Valida' | 'RISCZero',a
   // zkVM-specific configs handled internally
 });
 
@@ -40,37 +51,37 @@ Our goal is to abstract away the complexity of different ZK implementations, all
 
 ## Core Components
 
-### Unified ZK Development
-- Write ZK applications using familiar patterns across all supported platforms
-- Abstract away complex implementation details:
-  - ZK Circuit development
-  - Cryptographic primitives
-  - Smart contract interactions
-  - Proof generation and verification
-- Develop once, deploy, and interact with all ZK platforms using the same scripts, ensuring a seamless and unified experience for every ZK application.
+### ZK Development
+- Write once, run anywhere
+- Built-in circuit development
+- Cross-platform smart contracts
+- Automated proof handling
 
-### Cross-Platform ZK Operations and Integration
-- Generate and verify proofs using consistent patterns across all supported platforms
-- Interact with various ZK virtual machines through a unified interface, abstracting away platform-specific complexities
-- Support for custom ZK circuits with automated compilation and deployment
-- Ensure consistent state management and proof verification across different environments
+### Cross-Platform Operations
+- Consistent proof generation
+- Unified VM interfaces
+- Custom circuit support
+- State management across chains
 
-### Proof Aggregation and Trustless Verification
-- Aggregate proofs from multiple sources to streamline verification processes
-- Enable trustless verification across platforms, ensuring security and integrity
-- Facilitate seamless connections between proofs and verifications, enhancing cross-platform operability
+### Proof System
+- Multi-source proof aggregation
+- Cross-platform verification
+- Proof registry and discovery
 
 ### Developer Tools
-- Simple JavaScript interfaces that feel native to web developers
-- Built-in testing and deployment tools that work across platforms
-- Automated proof generation and verification
+- JavaScript-first APIs
+- Cross-platform testing
+- Automated deployments
 
-## Join the Journey
+## Join Us
 
-We're building the future of privacy-preserving computation. This is an open-source initiative focused on making zero-knowledge technology accessible to every developer, regardless of their preferred platform or token standard.
+Building privacy tech should be easier. Help us make it happen.
 
-Want to contribute? Check out our [GitHub](https://github.com/zkthings/zksdk) or join the discussion on [Twitter](https://twitter.com/0xsayd).
+[GitHub](https://github.com/zkthings/zksdk) | [Twitter](https://twitter.com/0xsayd)
 
 <a href="/docs/sdk-guides/zkmerkle">
   📄️ ZkMerkle
 </a>
+````
+
+
