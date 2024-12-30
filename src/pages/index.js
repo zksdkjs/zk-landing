@@ -22,7 +22,7 @@ const values = [🌳, 🌲, 🌴]
 
 const { proof, publicSignals } = await zkMerkle.generateMerkleProof(
   values,
-  'world'
+  '🌳'
 )
 
 // Verify off-chain (for testing)

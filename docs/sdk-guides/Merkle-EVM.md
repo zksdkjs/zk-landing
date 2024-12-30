@@ -38,7 +38,7 @@ const values = [‘Dragon Tree’, ‘Olive’ , ‘Linden’]
 
 const { proof, publicSignals } = await zkMerkle.generateMerkleProof(
   values,
-  'world'
+  'Olive'
 );
 
 // Verify off-chain (for testing)
