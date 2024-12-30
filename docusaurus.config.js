@@ -113,7 +113,7 @@ const config = {
             items: [
               {
                 label: 'Documentation',
-                href: '/docs/sdk-guides/zkmerkle/',
+                to: '/docs/intro',
               },
             ],
           },

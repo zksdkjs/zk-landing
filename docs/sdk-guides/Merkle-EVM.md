@@ -145,11 +145,11 @@ class PowerOfTau {
 
 ## Contributing
 
-PRs welcome! Check our [Contributing Guide](CONTRIBUTING.md).
+PRs welcome! Check our [Contributing Guide](https://github.com/zkthings/merkle-evm/blob/main/CONTRIBUTING.md).
 
 ## Support
 
-- [Documentation](https://docs.zksdk.io)
+- [Documentation](https://zksdk.io/docs/intro)
 - [Discord](https://discord.gg/zkthings)
 - [GitHub Issues](https://github.com/zkthings/merkle-evm/issues)
 
