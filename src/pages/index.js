@@ -25,7 +25,7 @@ const { proof, publicSignals } = await zkMerkle.generateMerkleProof(
   '🌳'
 )
 
-// Verify off-chain (for testing)
+// Verify off-chain 
 const isValidOffChain = await zkMerkle.verifyProofOffChain(
   proof, 
   publicSignals
