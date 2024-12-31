@@ -19,6 +19,16 @@ Zero-Knowledge Merkle Trees implementation using circom circuits and snarkjs, de
 
 ## Installation
 
+v0.1 version soon deprecated,
+
+```bash
+bun add zkmerkle
+# or
+npm install zkmerkle
+```
+
+Soon moving to @zkthings/merkle-evm instead
+
 ```bash
 bun add @zkthings/merkle-evm
 # or
@@ -38,7 +48,7 @@ const values = ['Dragon Tree', 'Olive' , 'Linden']
 
 const { proof, publicSignals } = await zkMerkle.generateMerkleProof(
   values,
-  'Olive'
+  'Dragon Tree'
 );
 
 // Verify off-chain (for testing)
@@ -166,7 +176,6 @@ PRs welcome! Check our [Contributing Guide](https://github.com/zkthings/merkle-e
 ## Support
 
 - [Documentation](https://zksdk.io/docs/intro)
-- [Discord](https://discord.gg/zkthings)
 - [GitHub Issues](https://github.com/zkthings/merkle-evm/issues)
 
 ## License

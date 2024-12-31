@@ -3,11 +3,11 @@ sidebar_position: 4
 ---
 # Zk Merkle Tree for Mina
 
-
 Zero-Knowledge Merkle Tree implementation for Mina Protocol, powered by o1js.
 
 ⚠️ **Early Stage Project**: This package is under active development. APIs may change as we improve the implementation.
 
+🚧 🔄 **Not Released Yet**: This npm package is going through changes. If you need access to the codebase now, please contact us.
 ## Features
 
 - 🌳 ZK Merkle Tree with native Mina integration
@@ -43,7 +43,7 @@ const values = ['Banyan', 'Sakura', 'Tembusu'];
 // 3. Generate Proof
 const { proof, publicSignals } = await zkMerkle.generateMerkleProof(
   values,
-  'world',
+  'Tembusu',
   deployment.deployerAccount
 );
 
