@@ -211,6 +211,37 @@ const isValidOnChain = await zkMerkle.verifyProofOnChain(
           </pre>
         </div>
       </div>
+      
+      <div style={{
+        display: "flex",
+        justifyContent: "center",
+        marginTop: "40px",
+        marginBottom: "60px"
+      }}>
+        <Link
+          to="/docs/intro"
+          style={{
+            padding: "8px 16px",
+            background: "transparent",
+            border: "1px solid rgba(255,255,255,0.2)",
+            borderRadius: "8px",
+            color: "#fff",
+            cursor: "pointer",
+            transition: "all 0.2s ease",
+            fontSize: "0.9rem",
+            letterSpacing: "0.05em",
+            textDecoration: "none"
+          }}
+          onMouseOver={(e) => {
+            e.currentTarget.style.background = "rgba(255,255,255,0.1)";
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.background = "transparent";
+          }}
+        >
+          GET STARTED
+        </Link>
+      </div>
     </div>
   );
 }
