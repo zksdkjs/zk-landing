@@ -8,35 +8,40 @@ import styles from './index.module.css';
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
   const [platform, setPlatform] = useState('evm');
+  const [selectedOperation, setSelectedOperation] = useState('membership');
 
   const platformConfigs = {
     evm: {
       title: 'merkle.evm.ts',
-      code: `import { ZkMerkle } from '@zkthings/merkle-evm'
+      membership: {
+        code: `import { ZkMerkle } from '@zkthings/proof-membership-evm'
 
 // Initialize ZK Merkle Tree
 const zkMerkle = new ZkMerkle()
 
 // Add data and generate proof
 const values = [🌳, 🌲, 🌴]
-
 const { proof, publicSignals } = await zkMerkle.generateMerkleProof(
   values,
   '🌳'
 )
 
-// Verify off-chain 
-const isValidOffChain = await zkMerkle.verifyProofOffChain(
-  proof, 
+// Verify the proof
+const isValid = await zkMerkle.verifyProof(
+  proof,
   publicSignals
 )
 
-// Export and deploy verifier contract
-const verifierContract = await zkMerkle.exportVerifierContract()`
+console.log('Verification result:', isValid)`
+      },
+      range: {
+        code: `Coming soon...`
+      }
     },
     mina: {
       title: 'merkle.mina.ts',
-      code: `import { ZkMerkle } from '@zkthings/merkle-mina'
+      membership: {
+        code: `import { ZkMerkle } from '@zkthings/proof-membership-mina'
 
 // Initialize ZK Merkle Tree
 const zkMerkle = new ZkMerkle()
@@ -61,13 +66,53 @@ const isValidOnChain = await zkMerkle.verifyProofOnChain(
   proof,
   publicSignals
 );`
+      },
+      range: {
+        code: `Coming soon...`
+      }
     },
     starknet: {
       title: 'merkle.starknet.ts',
-      code: `// Coming soon...
+      membership: {
+        code: `// Coming soon...
 
 // StarkNet implementation will be available in the next release
 // Stay tuned!`
+      },
+      range: {
+        code: `// Coming soon...
+
+// StarkNet implementation will be available in the next release
+// Stay tuned!`
+      }
+    }
+  };
+
+  const operationConfigs = {
+    membership: {
+      code: `import { ZkMerkle } from '@zkthings/merkle-evm'
+
+// Initialize ZK Merkle Tree
+const zkMerkle = new ZkMerkle()
+
+// Add data and generate proof
+const values = [🌳, 🌲, 🌴]
+const { proof, publicSignals } = await zkMerkle.generateMerkleProof(
+  values,
+  '🌳'
+)`
+    },
+    range: {
+      code: `import { ZkRange } from '@zkthings/range-evm'
+
+// Initialize ZK Range Proof
+const zkRange = new ZkRange()
+
+// Generate range proof
+const { proof, publicSignals } = await zkRange.generateRangeProof(
+  myValue,
+  '>'
+)`
     }
   };
 
@@ -94,56 +139,112 @@ const isValidOnChain = await zkMerkle.verifyProofOnChain(
         }}>
           {siteConfig.title}
         </h1>
-        <p style={{
-          color: "#999",
-          margin: "0 0 40px 0",
-          fontSize: "1rem"
-        }}>by zkThings Labs</p>
-        
-        <h2 style={{
-          fontSize: "2rem",
-          fontWeight: "300",
-          color: "#f2f2f2",
-          margin: "0 0 15px 0",
-          lineHeight: "1.4"
-        }}>
-          Build ZK apps with ease and efficiency
-        </h2>
-        
+
+
         <div style={{
           fontSize: "1rem",
           color: "#999",
           marginBottom: "40px",
           lineHeight: "1.6"
         }}>
-          An open-source SDK for zero-knowledge development
+          npm i @zkthings/your-next-zk-adventure
         </div>
 
         <div style={{
           display: "flex",
-          gap: "10px",
-          justifyContent: "center",
+          flexDirection: "column",
+          gap: "40px",
           marginBottom: "40px"
         }}>
-          {Object.keys(platformConfigs).map((p) => (
-            <button
-              key={p}
-              onClick={() => setPlatform(p)}
-              style={{
-                padding: "8px 16px",
-                background: platform === p ? "rgba(255,255,255,0.1)" : "transparent",
-                border: "1px solid rgba(255,255,255,0.2)",
-                borderRadius: "8px",
-                color: platform === p ? "#fff" : "#999",
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-                fontSize: "0.9rem",
-                letterSpacing: "0.05em"
-              }}
-            >
-              {p.toUpperCase()}
-            </button>
-          ))}
+          <div>
+            <div style={{
+              color: "#999",
+              marginBottom: "15px",
+              fontSize: "0.9rem",
+              textAlign: "center",
+              textTransform: "uppercase",
+              letterSpacing: "0.1em"
+            }}>
+              Platform
+            </div>
+            <div style={{
+              display: "flex",
+              gap: "10px",
+              justifyContent: "center"
+            }}>
+              {Object.keys(platformConfigs).map((p) => (
+                <button
+                  key={p}
+                  onClick={() => setPlatform(p)}
+                  style={{
+                    padding: "8px 16px",
+                    background: platform === p ? "rgba(255,255,255,0.1)" : "transparent",
+                    border: "1px solid rgba(255,255,255,0.2)",
+                    borderRadius: "8px",
+                    color: platform === p ? "#fff" : "#999",
+                    cursor: "pointer",
+                    transition: "all 0.2s ease",
+                    fontSize: "0.9rem",
+                    letterSpacing: "0.05em"
+                  }}
+                >
+                  {p.toUpperCase()}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <div style={{
+              color: "#999",
+              marginBottom: "20px",
+              fontSize: "0.9rem",
+              textAlign: "center",
+              textTransform: "uppercase",
+              letterSpacing: "0.2em"
+            }}>
+              Operations
+            </div>
+            <div style={{
+              display: "flex",
+              gap: "10px",
+              justifyContent: "center"
+            }}>
+              <button
+                onClick={() => setSelectedOperation('membership')}
+                style={{
+                  padding: "8px 16px",
+                  background: selectedOperation === 'membership' ? "rgba(255,255,255,0.1)" : "transparent",
+                  border: "1px solid rgba(255,255,255,0.2)",
+                  borderRadius: "8px",
+                  color: selectedOperation === 'membership' ? "#fff" : "#999",
+                  cursor: "pointer",
+                  transition: "all 0.2s ease",
+                  fontSize: "0.9rem",
+                  letterSpacing: "0.05em"
+                }}
+              >
+                Membership Proofs
+              </button>
+
+              <button
+                onClick={() => setSelectedOperation('range')}
+                style={{
+                  padding: "8px 16px",
+                  background: selectedOperation === 'range' ? "rgba(255,255,255,0.1)" : "transparent",
+                  border: "1px solid rgba(255,255,255,0.2)",
+                  borderRadius: "8px",
+                  color: selectedOperation === 'range' ? "#fff" : "#999",
+                  cursor: "pointer",
+                  transition: "all 0.2s ease",
+                  fontSize: "0.9rem",
+                  letterSpacing: "0.05em"
+                }}
+              >
+                Range Operations
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -206,12 +307,12 @@ const isValidOnChain = await zkMerkle.verifyProofOnChain(
             maxHeight: "400px"
           }}>
             <code>
-              {platformConfigs[platform].code}
+              {platformConfigs[platform][selectedOperation].code}
             </code>
           </pre>
         </div>
       </div>
-      
+
       <div style={{
         display: "flex",
         justifyContent: "center",

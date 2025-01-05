@@ -34,6 +34,12 @@ const config = {
     locales: ['en'],
   },
 
+  markdown: {
+    mermaid: true,
+  },
+
+  themes: ['@docusaurus/theme-mermaid'],
+
   presets: [
     [
       'classic',
@@ -42,7 +48,6 @@ const config = {
         docs: {
           sidebarPath: './sidebars.js',
           // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
@@ -53,7 +58,6 @@ const config = {
             xslt: true,
           },
           // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
           // Useful options to enforce blogging best practices
@@ -94,9 +98,9 @@ const config = {
           },
           {
             type: 'doc',
-            docId: 'vision',
+            docId: 'Open_Source_Open_for_All',
             position: 'left',
-            label: 'Vision',
+            label: 'Open Source Open for all',
           },
           {
             href: 'https://github.com/zkthings/zksdk',
