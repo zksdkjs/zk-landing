@@ -123,12 +123,35 @@ const isValidOnChain = await zkMerkle.verifyProofOnChain(
         }}>
           npm i @zkthings/your-next-zk-adventure
         </div>
-
+        <Link
+          to="/docs/intro"
+          style={{
+            padding: "8px 16px",
+            background: "transparent",
+            border: "1px solid rgba(255,255,255,0.2)",
+            borderRadius: "8px",
+            color: "#fff",
+            cursor: "pointer",
+            transition: "all 0.2s ease",
+            fontSize: "0.9rem",
+            letterSpacing: "0.05em",
+            textDecoration: "none"
+          }}
+          onMouseOver={(e) => {
+            e.currentTarget.style.background = "rgba(255,255,255,0.1)";
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.background = "transparent";
+          }}
+        >
+          GET STARTED
+        </Link>
         <div style={{
           display: "flex",
           flexDirection: "column",
           gap: "40px",
-          marginBottom: "40px"
+          marginBottom: "40px",
+          marginTop: "100px"
         }}>
           <div>
             <div style={{
@@ -297,29 +320,7 @@ const isValidOnChain = await zkMerkle.verifyProofOnChain(
         marginBottom: "60px",
         position: "relative"
       }}>
-        <Link
-          to="/docs/intro"
-          style={{
-            padding: "8px 16px",
-            background: "transparent",
-            border: "1px solid rgba(255,255,255,0.2)",
-            borderRadius: "8px",
-            color: "#fff",
-            cursor: "pointer",
-            transition: "all 0.2s ease",
-            fontSize: "0.9rem",
-            letterSpacing: "0.05em",
-            textDecoration: "none"
-          }}
-          onMouseOver={(e) => {
-            e.currentTarget.style.background = "rgba(255,255,255,0.1)";
-          }}
-          onMouseOut={(e) => {
-            e.currentTarget.style.background = "transparent";
-          }}
-        >
-          GET STARTED
-        </Link>
+
 
         <p style={{
           fontSize: '12px',
