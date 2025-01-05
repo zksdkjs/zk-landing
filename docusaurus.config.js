@@ -144,7 +144,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} zkSDK.`,
+        copyright: `Copyright © ${new Date().getFullYear()} zkThings labs.`,
       },
       prism: {
         theme: prismThemes.github,

@@ -12,7 +12,7 @@ function HomepageHeader() {
 
   const platformConfigs = {
     evm: {
-      title: 'merkle.evm.ts',
+      title: 'EVM',
       membership: {
         code: `import { ZkMerkle } from '@zkthings/proof-membership-evm'
 
@@ -21,25 +21,27 @@ const zkMerkle = new ZkMerkle()
 
 // Add data and generate proof
 const values = [🌳, 🌲, 🌴]
+
 const { proof, publicSignals } = await zkMerkle.generateMerkleProof(
   values,
   '🌳'
 )
 
-// Verify the proof
-const isValid = await zkMerkle.verifyProof(
-  proof,
+// Verify off-chain 
+const isValidOffChain = await zkMerkle.verifyProofOffChain(
+  proof, 
   publicSignals
 )
 
-console.log('Verification result:', isValid)`
+// Export and deploy verifier contract
+const verifierContract = await zkMerkle.exportVerifierContract()`
       },
       range: {
         code: `Coming soon...`
       }
     },
     mina: {
-      title: 'merkle.mina.ts',
+      title: 'Mina',
       membership: {
         code: `import { ZkMerkle } from '@zkthings/proof-membership-mina'
 
@@ -72,7 +74,7 @@ const isValidOnChain = await zkMerkle.verifyProofOnChain(
       }
     },
     starknet: {
-      title: 'merkle.starknet.ts',
+      title: 'StarkNet',
       membership: {
         code: `// Coming soon...
 
@@ -88,33 +90,6 @@ const isValidOnChain = await zkMerkle.verifyProofOnChain(
     }
   };
 
-  const operationConfigs = {
-    membership: {
-      code: `import { ZkMerkle } from '@zkthings/merkle-evm'
-
-// Initialize ZK Merkle Tree
-const zkMerkle = new ZkMerkle()
-
-// Add data and generate proof
-const values = [🌳, 🌲, 🌴]
-const { proof, publicSignals } = await zkMerkle.generateMerkleProof(
-  values,
-  '🌳'
-)`
-    },
-    range: {
-      code: `import { ZkRange } from '@zkthings/range-evm'
-
-// Initialize ZK Range Proof
-const zkRange = new ZkRange()
-
-// Generate range proof
-const { proof, publicSignals } = await zkRange.generateRangeProof(
-  myValue,
-  '>'
-)`
-    }
-  };
 
   return (
     <div style={{
@@ -124,7 +99,8 @@ const { proof, publicSignals } = await zkRange.generateRangeProof(
       alignItems: "center",
       justifyContent: "flex-start",
       flexDirection: "column",
-      padding: "120px 20px 40px"
+      padding: "120px 20px 40px",
+      position: "relative"
     }}>
       <div style={{
         textAlign: "center",
@@ -139,8 +115,6 @@ const { proof, publicSignals } = await zkRange.generateRangeProof(
         }}>
           {siteConfig.title}
         </h1>
-
-
         <div style={{
           fontSize: "1rem",
           color: "#999",
@@ -316,8 +290,12 @@ const { proof, publicSignals } = await zkRange.generateRangeProof(
       <div style={{
         display: "flex",
         justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+        maxWidth: "850px",
         marginTop: "40px",
-        marginBottom: "60px"
+        marginBottom: "60px",
+        position: "relative"
       }}>
         <Link
           to="/docs/intro"
@@ -342,6 +320,16 @@ const { proof, publicSignals } = await zkRange.generateRangeProof(
         >
           GET STARTED
         </Link>
+
+        <p style={{
+          fontSize: '12px',
+          color: 'rgba(153, 153, 153, 0.6)',
+          position: "absolute",
+          right: "20px",
+          margin: 0
+        }}>
+          by zkThings labs
+        </p>
       </div>
     </div>
   );
