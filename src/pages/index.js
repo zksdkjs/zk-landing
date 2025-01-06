@@ -238,7 +238,7 @@ const isValidOnChain = await zkMerkle.verifyProofOnChain(
                   letterSpacing: "0.05em"
                 }}
               >
-                Range Operations
+                Comparison Proofs
               </button>
             </div>
           </div>
