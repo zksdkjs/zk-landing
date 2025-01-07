@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -7,14 +7,14 @@ import styles from './index.module.css';
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
-  const [platform, setPlatform] = useState('evm');
-  const [selectedOperation, setSelectedOperation] = useState('membership');
-
-  const platformConfigs = {
-    evm: {
-      title: 'EVM',
-      membership: {
-        code: `import { ZkMerkle } from '@zkthings/proof-membership-evm'
+  
+  const operationConfigs = {
+    membership: {
+      title: 'Membership Proofs',
+      implementations: {
+        evm: {
+          title: 'EVM',
+          code: `import { ZkMerkle } from '@zkthings/proof-membership-evm'
 
 // Initialize ZK Merkle Tree
 const zkMerkle = new ZkMerkle()
@@ -35,15 +35,10 @@ const isValidOffChain = await zkMerkle.verifyProofOffChain(
 
 // Export and deploy verifier contract
 const verifierContract = await zkMerkle.exportVerifierContract()`
-      },
-      range: {
-        code: `Coming soon...`
-      }
-    },
-    mina: {
-      title: 'Mina',
-      membership: {
-        code: `import { ZkMerkle } from '@zkthings/proof-membership-mina'
+        },
+        mina: {
+          title: 'Mina',
+          code: `import { ZkMerkle } from '@zkthings/proof-membership-mina'
 
 // Initialize ZK Merkle Tree
 const zkMerkle = new ZkMerkle()
@@ -62,275 +57,250 @@ const isValidOffChain = await zkMerkle.verifyProofOffChain(
   publicSignals
 )
 
-//Verify On-chain 
+// Verify On-chain 
 const isValidOnChain = await zkMerkle.verifyProofOnChain(
   deployment.contract,
   proof,
   publicSignals
-);`
-      },
-      range: {
-        code: `Coming soon...`
+)`
+        },
+        starknet: {
+          title: 'StarkNet',
+          code: `// Coming Soon! 🚀
+
+// StarkNet implementation will support:
+// - Native Cairo compatibility
+// - Optimized for STARK proofs
+// - Efficient state management
+// 
+// Join our GitHub to stay updated!`
+        }
       }
     },
-    starknet: {
-      title: 'StarkNet',
-      membership: {
-        code: `// Coming soon...
+    comparison: {
+      title: 'Comparison Operators',
+      implementations: {
+        evm: {
+          title: 'EVM',
+          code: `// Coming Soon! 🚀
 
-// StarkNet implementation will be available in the next release
-// Stay tuned!`
-      },
-      range: {
-        code: `// Coming soon...
+// Comparison operators will support:
+// - Greater than/less than
+// - Range proofs
+// - Equality checks
+// 
+// Join our GitHub to stay updated!`
+        },
+        mina: {
+          title: 'Mina',
+          code: `// Coming Soon! 🚀
 
-// StarkNet implementation will be available in the next release
-// Stay tuned!`
+// Mina comparison circuits coming soon...`
+        },
+        starknet: {
+          title: 'StarkNet',
+          code: `// Coming Soon! 🚀
+
+// StarkNet comparison circuits coming soon...`
+        }
+      }
+    },
+    privateData: {
+      title: 'Private Data Framework',
+      implementations: {
+        general: {
+          title: 'General',
+          code: `// Coming Soon! 🚀
+
+// Private Data Framework will support:
+// - Encrypted data storage
+// - Selective disclosure
+// - Zero-knowledge proofs
+// 
+// Join our GitHub to stay updated!`
+        },
+        ipfs: {
+          title: 'IPFS',
+          code: `// Coming Soon with IPFS support! 🚀`
+        },
+        mongo: {
+          title: 'MongoDB',
+          code: `// Coming Soon with MongoDB support! 🚀`
+        },
+        sql: {
+          title: 'SQL',
+          code: `// Coming Soon with SQL support! 🚀`
+        }
       }
     }
   };
 
+  const [selectedOperation, setSelectedOperation] = useState('membership');
+  const [selectedImplementation, setSelectedImplementation] = useState('evm');
+
+  // Handle operation change
+  const handleOperationChange = (op) => {
+    setSelectedOperation(op);
+    // Get first available implementation for new operation
+    const firstImpl = Object.keys(operationConfigs[op].implementations)[0];
+    setSelectedImplementation(firstImpl);
+  };
 
   return (
     <div style={{
-      backgroundColor: "#000000",
+      backgroundColor: "#000",
       minHeight: "100vh",
       display: "flex",
       alignItems: "center",
-      justifyContent: "flex-start",
-      flexDirection: "column",
-      padding: "120px 20px 40px",
-      position: "relative"
+      justifyContent: "center",
+      padding: "20px"
     }}>
       <div style={{
-        textAlign: "center",
-        marginBottom: "20px"
+        maxWidth: "800px",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        gap: "60px",
+        alignItems: "center"
       }}>
-        <h1 style={{
-          fontSize: "4.5rem",
-          fontWeight: "200",
-          color: "#ffffff",
-          margin: "0 0 10px 0",
-          letterSpacing: "0.05em"
-        }}>
-          {siteConfig.title}
-        </h1>
+        {/* Minimal Header */}
         <div style={{
-          fontSize: "1rem",
-          color: "#999",
-          marginBottom: "40px",
-          lineHeight: "1.6"
-        }}>
-          npm i @zkthings/your-next-zk-adventure
-        </div>
-        <Link
-          to="/docs/intro"
-          style={{
-            padding: "8px 16px",
-            background: "transparent",
-            border: "1px solid rgba(255,255,255,0.2)",
-            borderRadius: "8px",
-            color: "#fff",
-            cursor: "pointer",
-            transition: "all 0.2s ease",
-            fontSize: "0.9rem",
-            letterSpacing: "0.05em",
-            textDecoration: "none"
-          }}
-          onMouseOver={(e) => {
-            e.currentTarget.style.background = "rgba(255,255,255,0.1)";
-          }}
-          onMouseOut={(e) => {
-            e.currentTarget.style.background = "transparent";
-          }}
-        >
-          GET STARTED
-        </Link>
-        <div style={{
+          textAlign: "center",
           display: "flex",
           flexDirection: "column",
-          gap: "40px",
-          marginBottom: "40px",
-          marginTop: "100px"
+          gap: "8px"
         }}>
-          <div>
-            <div style={{
-              color: "#999",
-              marginBottom: "15px",
-              fontSize: "0.9rem",
-              textAlign: "center",
-              textTransform: "uppercase",
-              letterSpacing: "0.1em"
-            }}>
-              Platform
-            </div>
+          <h1 style={{
+            fontSize: "3.5rem",
+            fontWeight: "300",
+            color: "#fff",
+            margin: 0,
+            letterSpacing: "0.02em",
+            fontFamily: "-apple-system, BlinkMacSystemFont, sans-serif"
+          }}>
+            {siteConfig.title}
+          </h1>
+          <div style={{
+            fontSize: "0.95rem",
+            color: "rgba(255,255,255,0.5)",
+            fontFamily: "SF Mono, monospace",
+            letterSpacing: "0.02em"
+          }}>
+   npm i @zkthings/build-privacy
+          </div>
+        </div>
+
+        {/* Terminal Window with fixed height */}
+        <div style={{
+          width: "100%",
+          height: "500px", // Fixed height
+          background: "rgba(32, 32, 32, 0.95)",
+          borderRadius: "12px",
+          overflow: "hidden",
+          border: "1px solid rgba(255,255,255,0.1)",
+          display: "flex",
+          flexDirection: "column" // Enable flex layout
+        }}>
+          {/* Window Controls */}
+          <div style={{
+            padding: "12px",
+            borderBottom: "1px solid rgba(255,255,255,0.06)",
+            display: "flex",
+            gap: "6px",
+            alignItems: "center",
+            flexShrink: 0 // Prevent shrinking
+          }}>
+            <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#ff5f57" }}/>
+            <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#febc2e" }}/>
+            <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#28c840" }}/>
+          </div>
+
+          {/* Content Area with flex layout */}
+          <div style={{
+            padding: "2%",
+            display: "flex",
+            flexDirection: "column",
+            gap: "20px",
+            height: "100%", // Take remaining height
+            overflow: "hidden" // Hide overflow
+          }}>
+            {/* Operation Tabs */}
             <div style={{
               display: "flex",
-              gap: "10px",
-              justifyContent: "center"
+              gap: "8px",
+              justifyContent: "center",
+              flexShrink: 0 // Prevent shrinking
             }}>
-              {Object.keys(platformConfigs).map((p) => (
+              {Object.keys(operationConfigs).map((op) => (
                 <button
-                  key={p}
-                  onClick={() => setPlatform(p)}
+                  key={op}
+                  onClick={() => handleOperationChange(op)}
                   style={{
-                    padding: "8px 16px",
-                    background: platform === p ? "rgba(255,255,255,0.1)" : "transparent",
-                    border: "1px solid rgba(255,255,255,0.2)",
-                    borderRadius: "8px",
-                    color: platform === p ? "#fff" : "#999",
+                    padding: "6px 12px",
+                    background: "transparent",
+                    border: "none",
+                    borderRadius: "6px",
+                    color: selectedOperation === op ? "#fff" : "rgba(255,255,255,0.4)",
                     cursor: "pointer",
-                    transition: "all 0.2s ease",
-                    fontSize: "0.9rem",
-                    letterSpacing: "0.05em"
+                    fontSize: "13px",
+                    fontFamily: "-apple-system, BlinkMacSystemFont, sans-serif",
+                    transition: "color 0.2s ease"
                   }}
                 >
-                  {p.toUpperCase()}
+                  {operationConfigs[op].title}
                 </button>
               ))}
             </div>
-          </div>
 
-          <div>
-            <div style={{
-              color: "#999",
-              marginBottom: "20px",
-              fontSize: "0.9rem",
-              textAlign: "center",
-              textTransform: "uppercase",
-              letterSpacing: "0.2em"
-            }}>
-              Operations
-            </div>
+            {/* Implementation Pills */}
             <div style={{
               display: "flex",
-              gap: "10px",
-              justifyContent: "center"
+              gap: "6px",
+              justifyContent: "center",
+              flexShrink: 0 // Prevent shrinking
             }}>
-              <button
-                onClick={() => setSelectedOperation('membership')}
-                style={{
-                  padding: "8px 16px",
-                  background: selectedOperation === 'membership' ? "rgba(255,255,255,0.1)" : "transparent",
-                  border: "1px solid rgba(255,255,255,0.2)",
-                  borderRadius: "8px",
-                  color: selectedOperation === 'membership' ? "#fff" : "#999",
-                  cursor: "pointer",
-                  transition: "all 0.2s ease",
-                  fontSize: "0.9rem",
-                  letterSpacing: "0.05em"
-                }}
-              >
-                Membership Proofs
-              </button>
-
-              <button
-                onClick={() => setSelectedOperation('range')}
-                style={{
-                  padding: "8px 16px",
-                  background: selectedOperation === 'range' ? "rgba(255,255,255,0.1)" : "transparent",
-                  border: "1px solid rgba(255,255,255,0.2)",
-                  borderRadius: "8px",
-                  color: selectedOperation === 'range' ? "#fff" : "#999",
-                  cursor: "pointer",
-                  transition: "all 0.2s ease",
-                  fontSize: "0.9rem",
-                  letterSpacing: "0.05em"
-                }}
-              >
-                Comparison Proofs
-              </button>
+              {Object.keys(operationConfigs[selectedOperation].implementations).map((impl) => (
+                <button
+                  key={impl}
+                  onClick={() => setSelectedImplementation(impl)}
+                  style={{
+                    padding: "4px 10px",
+                    background: selectedImplementation === impl ? "rgba(255,255,255,0.1)" : "transparent",
+                    border: "none",
+                    borderRadius: "4px",
+                    color: selectedImplementation === impl ? "#fff" : "rgba(255,255,255,0.4)",
+                    cursor: "pointer",
+                    fontSize: "12px",
+                    fontFamily: "SF Mono, monospace",
+                    letterSpacing: "0.02em",
+                    transition: "all 0.2s ease"
+                  }}
+                >
+                  {impl.toUpperCase()}
+                </button>
+              ))}
             </div>
+
+            {/* Code Display with scrolling */}
+            <pre style={{
+              margin: 0,
+              padding: "20px",
+              background: "rgba(0,0,0,0.2)",
+              borderRadius: "8px",
+              overflow: "auto",
+              fontSize: "13px",
+              lineHeight: "1.5",
+              fontFamily: "SF Mono, monospace",
+              color: "rgba(255,255,255,0.85)",
+              flex: 1, // Take remaining space
+              minHeight: 0 // Allow shrinking
+            }}>
+              <code>
+                {operationConfigs[selectedOperation].implementations[selectedImplementation].code}
+              </code>
+            </pre>
           </div>
         </div>
-      </div>
-
-      <div style={{
-        maxWidth: "850px",
-        width: "100%",
-        background: "#1c1c1c",
-        borderRadius: "12px",
-        overflow: "hidden",
-        boxShadow: "0 25px 50px -12px rgba(0,0,0,0.8)",
-        border: "1px solid rgba(255,255,255,0.05)"
-      }}>
-        <div style={{
-          background: "#2a2a2a",
-          padding: "12px 20px",
-          display: "flex",
-          alignItems: "center",
-          borderBottom: "1px solid rgba(255,255,255,0.05)"
-        }}>
-          <div style={{ display: "flex", gap: "8px", flex: 1 }}>
-            <div style={{
-              width: "12px",
-              height: "12px",
-              borderRadius: "50%",
-              backgroundColor: "#ff5f57"
-            }}></div>
-            <div style={{
-              width: "12px",
-              height: "12px",
-              borderRadius: "50%",
-              backgroundColor: "#febc2e"
-            }}></div>
-            <div style={{
-              width: "12px",
-              height: "12px",
-              borderRadius: "50%",
-              backgroundColor: "#28c840"
-            }}></div>
-          </div>
-          <div style={{
-            color: "rgba(255,255,255,0.6)",
-            fontSize: "13px",
-            fontFamily: "-apple-system, BlinkMacSystemFont, sans-serif"
-          }}>
-            {platformConfigs[platform].title}
-          </div>
-        </div>
-
-        <div style={{
-          padding: "30px 35px",
-          fontSize: "14px",
-          lineHeight: "1.6",
-          fontFamily: "'Fira Code', 'JetBrains Mono', monospace",
-          color: "#e4e4e4"
-        }}>
-          <pre style={{
-            margin: 0,
-            background: "transparent",
-            overflow: "auto",
-            maxHeight: "400px"
-          }}>
-            <code>
-              {platformConfigs[platform][selectedOperation].code}
-            </code>
-          </pre>
-        </div>
-      </div>
-
-      <div style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
-        maxWidth: "850px",
-        marginTop: "40px",
-        marginBottom: "60px",
-        position: "relative"
-      }}>
-
-
-        <p style={{
-          fontSize: '12px',
-          color: 'rgba(153, 153, 153, 0.6)',
-          position: "absolute",
-          right: "20px",
-          margin: 0
-        }}>
-          by zkThings labs
-        </p>
       </div>
     </div>
   );
@@ -341,7 +311,7 @@ export default function Home() {
   return (
     <Layout
       title={`Welcome to ${siteConfig.title}`}
-      description="zkSDK - The easiest way to build Zero Knowledge apps">
+      description="Private Data Framework">
       <HomepageHeader />
     </Layout>
   );
