@@ -119,15 +119,15 @@ const isValidOnChain = await zkMerkle.verifyProofOnChain(
 // 
 // Join our GitHub to stay updated!`
         },
-        ipfs: {
+        EVM: {
           title: 'EVM',
           code: `// Coming Soon with EVM support! 🚀`
         },
-        mongo: {
+        IPFS: {
           title: 'IPFS',
           code: `// Coming Soon with IPFS support! 🚀`
         },
-        sql: {
+        'MongoDB/SQL': {
           title: 'MongoDB/SQL',
           code: `// Coming Soon! 🚀`
         }
