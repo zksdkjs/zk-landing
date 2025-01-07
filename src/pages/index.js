@@ -217,7 +217,7 @@ const isValidOnChain = await zkMerkle.verifyProofOnChain(
 
           {/* Content Area with flex layout */}
           <div style={{
-            padding: "2%",
+            padding: "24px",
             display: "flex",
             flexDirection: "column",
             gap: "20px",
