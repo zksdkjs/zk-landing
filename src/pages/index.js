@@ -310,9 +310,46 @@ const isValidOnChain = await zkMerkle.verifyProofOnChain(
                 {operationConfigs[selectedOperation].implementations[selectedImplementation].code}
               </code>
             </pre>
+
           </div>
         </div>
+
+        <div style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "40px"
+            }}>
+              <Link
+                to="/docs/intro"
+                style={{
+                  padding: "12px 24px",
+                  // background: "rgba(255,255,255,0.9)",
+                  color: "white",
+                  borderRadius: "8px",
+                  fontSize: "0.95rem",
+                  fontFamily: "-apple-system, BlinkMacSystemFont, sans-serif",
+                  textDecoration: "none",
+                  fontWeight: "500",
+                  letterSpacing: "0.02em",
+                  transition: "all 0.2s ease",
+                  border: "none",
+                  cursor: "pointer",
+                  border: "1px solid white",
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.background = "#fff";
+                  e.target.style.transform = "translateY(-1px)";
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.background = "rgba(255,255,255,0.9)";
+                  e.target.style.transform = "translateY(0)";
+                }}
+              >
+                Get Started →
+              </Link>
+            </div>
       </div>
+      
     </div>
   );
 }
