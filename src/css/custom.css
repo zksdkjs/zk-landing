@@ -65,9 +65,11 @@ a {
 
 /* Improve code readability */
 pre, code {
-  font-family: 'Fira Code', 'JetBrains Mono', monospace !important;
-  font-size: 0.95rem !important;
-  line-height: 1.6 !important;
+  font-family: 'SF Mono', Menlo, 'Fira Code', 'JetBrains Mono', monospace !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Button hover effect */
@@ -80,3 +82,6 @@ pre, code {
 /* * {
   transition: all 0.2s ease;
 } */
+
+/* Optional: Add font imports if needed */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap');

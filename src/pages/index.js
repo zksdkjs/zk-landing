@@ -290,12 +290,23 @@ const isValidOnChain = await zkMerkle.verifyProofOnChain(
               overflow: "auto",
               fontSize: "13px",
               lineHeight: "1.5",
-              fontFamily: "SF Mono, monospace",
+              fontFamily: "'SF Mono', Menlo, 'Fira Code', 'JetBrains Mono', monospace",
               color: "rgba(255,255,255,0.85)",
-              flex: 1, // Take remaining space
-              minHeight: 0 // Allow shrinking
+              flex: 1,
+              minHeight: 0,
+              WebkitFontSmoothing: "antialiased",
+              MozOsxFontSmoothing: "grayscale"
             }}>
-              <code>
+              <code style={{
+                fontSize: "0.9rem",
+                fontFamily: "inherit",
+                whiteSpace: "pre",
+                wordSpacing: "normal",
+                wordBreak: "normal",
+                overflowWrap: "normal",
+                tabSize: 2,
+                hyphens: "none"
+              }}>
                 {operationConfigs[selectedOperation].implementations[selectedImplementation].code}
               </code>
             </pre>
