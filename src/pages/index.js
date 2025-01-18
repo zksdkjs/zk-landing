@@ -189,28 +189,130 @@ Help us build the future of private computations! 🚀`
     privateData: {
       title: 'E2E Encryption',
       implementations: {
-        general: {
-          title: 'General',
-          code: `Coming Soon! 🚀
+        "secp256k1 node js": {
+          title: 'secp256k1 nodes',
+          code: `const { Secp256k1E2E } = require('@zkthings/e2e-encryption-secp256k1');
+const { Wallet } = require('ethers');
 
- Private Data Framework will support:
- - Encrypted data storage
- - Selective disclosure
- - Zero-knowledge proofs
- 
- Join our GitHub to stay updated!`
+// Initialize E2E encryption
+const e2e = new Secp256k1E2E();
+
+// Create sample wallets
+const alice = Wallet.createRandom();
+const bob = Wallet.createRandom();
+
+// Encrypt a message for Bob
+const encrypted = await e2e.encryptFor(
+  "Just peachy secrets! 🍑",
+  bob.address,
+  Buffer.from(bob.publicKey.slice(2), 'hex')
+);
+
+// Bob decrypts the message
+const decrypted = await e2e.decrypt({
+  publicSignals: encrypted.publicSignals,
+  privateKey: bob.privateKey
+});
+
+console.log(decrypted); // "Just peachy secrets! 🍑"`
         },
-        EVM: {
-          title: 'EVM',
-          code: `// Coming Soon with EVM support! 🚀`
+        "secp256k1 browser": {
+          title: 'secp256k1 browser',
+          code: `const { Secp256k1E2EBrowser } = require('@zkthings/e2e-encryption-secp256k1');
+const { Wallet } = require('ethers');
+
+// Initialize E2E encryption (browser version)
+const e2e = new Secp256k1E2EBrowser();
+
+// Create sample wallets
+const alice = Wallet.createRandom();
+const bob = Wallet.createRandom();
+
+// Encrypt secret peach message for Bob
+const encrypted = await e2e.encryptFor(
+  "Just peachy secrets! 🍑",
+  bob.address,
+  new Uint8Array(Buffer.from(bob.publicKey.slice(2), 'hex'))
+);
+
+// Bob decrypts the peach message
+const decrypted = await e2e.decrypt(
+  encrypted,  // Note: browser version doesn't need publicSignals wrapper
+  bob.privateKey
+);
+
+console.log(decrypted); // " Just peachy secrets! 🍑"`
         },
         IPFS: {
           title: 'IPFS',
-          code: `// Coming Soon with IPFS support! 🚀`
+          code: `const { Secp256k1E2E } = require('@zkthings/e2e-encryption-secp256k1');
+const { Wallet } = require('ethers');
+const { create } = require('ipfs-http-client');
+
+// Initialize E2E encryption and IPFS client
+const e2e = new Secp256k1E2E();
+const ipfs = create({ url: 'https://ipfs.infura.io:5001/api/v0' });
+
+// Create sample wallets
+const alice = Wallet.createRandom();
+const bob = Wallet.createRandom();
+
+// Encrypt message for Bob
+const encrypted = await e2e.encryptFor(
+  "Secret stored on IPFS! 🍑",
+  bob.address,
+  Buffer.from(bob.publicKey.slice(2), 'hex')
+);
+
+// Store encrypted data on IPFS
+const { cid } = await ipfs.add(JSON.stringify(encrypted));
+console.log('Stored on IPFS:', cid.toString());
+
+// Later: Retrieve and decrypt
+const encryptedData = JSON.parse(
+  Buffer.from(await ipfs.cat(cid)).toString()
+);
+
+const decrypted = await e2e.decrypt({
+  publicSignals: encryptedData.publicSignals,
+  privateKey: bob.privateKey
+});
+
+console.log(decrypted); // "Secret stored on IPFS! 🍑"`
         },
         'MongoDB/SQL': {
           title: 'MongoDB/SQL',
-          code: `// Coming Soon! 🚀`
+          code: `// MongoDB Example
+const { Secp256k1E2E } = require('@zkthings/e2e-encryption-secp256k1');
+const { MongoClient } = require('mongodb');
+
+// Store encrypted data
+const encrypted = await e2e.encryptFor(message, recipientAddress, publicKey);
+await db.collection('secrets').insertOne({
+  recipient: recipientAddress,
+  encryptedData: encrypted
+});
+
+// Retrieve and decrypt
+const data = await db.collection('secrets').findOne({ recipient: myAddress });
+const decrypted = await e2e.decrypt(data.encryptedData, myPrivateKey);
+
+// SQL Example (using PostgreSQL)
+const { Pool } = require('pg');
+
+// Store encrypted data
+const encrypted = await e2e.encryptFor(message, recipientAddress, publicKey);
+await pool.query(
+  'INSERT INTO secrets (recipient, encrypted_data) VALUES ($1, $2)',
+  [recipientAddress, encrypted]
+);
+
+// Retrieve and decrypt
+const { rows } = await pool.query(
+  'SELECT encrypted_data FROM secrets WHERE recipient = $1',
+  [myAddress]
+);
+const decrypted = await e2e.decrypt(rows[0].encrypted_data, myPrivateKey);`
         }
       }
     }
