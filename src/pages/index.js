@@ -10,7 +10,7 @@ function HomepageHeader() {
   
   const operationConfigs = {
     membership: {
-      title: 'Membership Proofs',
+      title: 'zk Membership Proofs',
       implementations: {
         evm: {
           title: 'EVM',
@@ -108,7 +108,7 @@ Help us bring ZK Merkle proofs to Solana! 🚀`
       }
     },
     comparison: {
-      title: 'Comparison Operators',
+      title: 'zk Comparison Operators',
       implementations: {
         evm: {
           title: 'EVM',
