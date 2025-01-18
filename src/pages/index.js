@@ -534,10 +534,10 @@ const decrypted = await e2e.decrypt(rows[0].encrypted_data, myPrivateKey);`
               <div style={{
                 width: "100%",
                 maxWidth: "600px",
-                background: "rgba(32, 32, 32, 0.95)",
+                // background: "rgba(32, 32, 32, 0.95)",
                 borderRadius: "12px",
                 padding: "40px",
-                border: "1px solid rgba(255,255,255,0.1)"
+                // border: "1px solid rgba(255,255,255,0.1)"
               }}>
                 <div style={{
                   display: "flex",
