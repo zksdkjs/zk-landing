@@ -7,7 +7,7 @@ sidebar_position: 3
 Feel free to reach out through any of these channels
 
 ## Get in Touch
-- Twitter: [@zkthings_dev](https://twitter.com/zkthings_dev)
+- Twitter: [@zkthings_labs](https://twitter.com/zkthings_labs)
 - GitHub Issues: [zkThings/zkSDK](https://github.com/zkThings/zkSDK/issues)
 
 For technical discussions and feature requests, please use [GitHub Issues](https://github.com/zkThings/zkSDK/issues) - this helps build a public knowledge base for everyone in the community.

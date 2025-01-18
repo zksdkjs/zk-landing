@@ -126,7 +126,7 @@ const config = {
             items: [
               {
                 label: 'Twitter',
-                href: 'https://twitter.com/zkthings_dev',
+                href: 'https://twitter.com/zkthings_labs',
               },
               {
                 label: 'GitHub',

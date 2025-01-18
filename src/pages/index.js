@@ -81,7 +81,7 @@ const isValidOnChain = await zkMerkle.verifyProofOnChain(
 
  Want to contribute? Join us at:
  github.com/zkThings/ProofofMembership-starknet/issues
-or DM x.com/zkthings_dev
+or DM x.com/zkthings_labs
 
  Help us bring ZK Merkle proofs to StarkNet! 🚀`
         },
@@ -125,7 +125,7 @@ Features planned:
 
 Want to contribute? Join us at:
 https://github.com/zkThings/comparison-operators-evm/issues/1
-or DM x.com/zkthings_dev
+or DM x.com/zkthings_labs
 
 Help us build the future of private computations! 🚀`
         },
@@ -162,7 +162,7 @@ Features planned:
 
 Want to contribute? Join us at:
 https://github.com/zkThings/comparison-operators-starknet/issues/1
-or DM x.com/zkthings_dev
+or DM x.com/zkthings_labs
 
 Help us build the future of private computations! 🚀`
         },
@@ -483,7 +483,7 @@ Help us build the future of private computations! 🚀`
                         <div>Want to contribute</div>
                         <div>something new?</div>
                         <div style={{ marginTop: "8px" }}>Contact us:</div>
-                        <a href="https://x.com/zkthings_dev" style={{ color: "inherit", textDecoration: "none" }}>• Twitter →</a>
+                        <a href="https://x.com/zkthings_labs" style={{ color: "inherit", textDecoration: "none" }}>• Twitter →</a>
                         <a href="mailto:hello@zkthings.com" style={{ color: "inherit", textDecoration: "none" }}>• hello@zkthings.com</a>
                       </div>
                     </div>
