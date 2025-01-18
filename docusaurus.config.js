@@ -126,11 +126,11 @@ const config = {
             items: [
               {
                 label: 'Twitter',
-                href: 'https://twitter.com/0xsayd',
+                href: 'https://twitter.com/zkthings_dev',
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/zkthings/zksdk',
+                href: 'https://github.com/zkthings',
               },
             ],
           },

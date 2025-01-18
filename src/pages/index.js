@@ -66,14 +66,44 @@ const isValidOnChain = await zkMerkle.verifyProofOnChain(
         },
         starknet: {
           title: 'StarkNet',
-          code: `// Coming Soon! 🚀
+          code: `Community Call for Implementation! 
 
-// StarkNet implementation will support:
-// - Native Cairo compatibility
-// - Optimized for STARK proofs
-// - Efficient state management
-// 
-// Join our GitHub to stay updated!`
+ We're looking for contributors to help integrate 
+ ProofOfMembership SDK with StarkNet, enabling 
+ zero-knowledge Merkle tree operations while maintaining 
+ our developer-friendly API design.
+
+ The implementation should mirror our current zkSDK:
+ - Simple API for Merkle tree operations
+ - Native Cairo compatibility
+ - Optimized for STARK proofs
+ - Efficient state management
+
+ Want to contribute? Join us at:
+ github.com/zkThings/ProofofMembership-starknet/issues
+or DM x.com/zkthings_dev
+
+ Help us bring ZK Merkle proofs to StarkNet! 🚀`
+        },
+        solana: {
+          title: 'Solana',
+          code: `Community Call for Implementation! 
+
+We're looking for contributors to help integrate 
+ProofOfMembership SDK with Solana, enabling 
+zero-knowledge Merkle tree operations while maintaining 
+our developer-friendly API design.
+
+The implementation should mirror our current zkSDK:
+- Simple API for Merkle tree operations
+- Native Solana program compatibility
+- Optimized proof generation
+- Efficient state management
+
+Want to contribute? Join us at:
+github.com/zkThings/ProofofMembership-solana/issues
+
+Help us bring ZK Merkle proofs to Solana! 🚀`
         }
       }
     },
@@ -82,42 +112,93 @@ const isValidOnChain = await zkMerkle.verifyProofOnChain(
       implementations: {
         evm: {
           title: 'EVM',
-          code: `// Coming Soon! 🚀
+          code: `Community Call for Implementation! 
 
-// Comparison operators will support:
-// - Greater than/less than
-// - Range proofs
-// - Equality checks
-// 
-// Join our GitHub to stay updated!`
+We're building a Zero-Knowledge Comparison Operators SDK
+that enables private numerical comparisons:
+
+Features planned:
+- Compare numbers privately (>, <, =)
+- Prove ranges without revealing values
+- Efficient circuit generation
+- Simple developer experience
+
+Want to contribute? Join us at:
+https://github.com/zkThings/comparison-operators-evm/issues/1
+or DM x.com/zkthings_dev
+
+Help us build the future of private computations! 🚀`
         },
         mina: {
           title: 'Mina',
-          code: `// Coming Soon! 🚀
+          code: `Community Call for Implementation! 
 
-// Mina comparison circuits coming soon...`
+ We're building a Zero-Knowledge Comparison Operators SDK
+ for Mina Protocol using o1js:
+
+ Features planned:
+ - Compare numbers privately (>, <, =)
+ - Prove ranges without revealing values
+ - Native o1js integration
+ - Simple developer experience
+
+ Want to contribute? Join us at:
+ https://github.com/zkThings/comparison-operators-mina/issues/1
+
+Help us build the future of private computations! 🚀`
         },
         starknet: {
           title: 'StarkNet',
-          code: `// Coming Soon! 🚀
+          code: `Community Call for Implementation! 
 
-// StarkNet comparison circuits coming soon...`
+We're building a Zero-Knowledge Comparison Operators SDK
+for StarkNet using Cairo:
+
+Features planned:
+- Compare numbers privately (>, <, =)
+- Prove ranges without revealing values
+- Native Cairo integration
+- Simple developer experience
+
+Want to contribute? Join us at:
+https://github.com/zkThings/comparison-operators-starknet/issues/1
+or DM x.com/zkthings_dev
+
+Help us build the future of private computations! 🚀`
+        },
+        solana: {
+          title: 'Solana',
+          code: `Community Call for Implementation! 
+
+We're building a Zero-Knowledge Comparison Operators SDK
+for Solana:
+
+Features planned:
+- Compare numbers privately (>, <, =)
+- Prove ranges without revealing values
+- Native Solana program integration
+- Simple developer experience
+
+Want to contribute? Join us at:
+github.com/zkThings/comparison-operators-solana/issues/1
+
+Help us build the future of private computations! 🚀`
         }
       }
     },
     privateData: {
-      title: 'Private Data Framework',
+      title: 'E2E Encryption',
       implementations: {
         general: {
           title: 'General',
-          code: `// Coming Soon! 🚀
+          code: `Coming Soon! 🚀
 
-// Private Data Framework will support:
-// - Encrypted data storage
-// - Selective disclosure
-// - Zero-knowledge proofs
-// 
-// Join our GitHub to stay updated!`
+ Private Data Framework will support:
+ - Encrypted data storage
+ - Selective disclosure
+ - Zero-knowledge proofs
+ 
+ Join our GitHub to stay updated!`
         },
         EVM: {
           title: 'EVM',
@@ -186,7 +267,7 @@ const isValidOnChain = await zkMerkle.verifyProofOnChain(
             fontFamily: "SF Mono, monospace",
             letterSpacing: "0.02em"
           }}>
-   npm i @zkthings/build-privacy
+   build privacy
           </div>
         </div>
 
@@ -316,14 +397,14 @@ const isValidOnChain = await zkMerkle.verifyProofOnChain(
 
         <div style={{
               display: "flex",
-              justifyContent: "center",
-              marginTop: "40px"
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "40px"
             }}>
               <Link
                 to="/docs/intro"
                 style={{
                   padding: "12px 24px",
-                  // background: "rgba(255,255,255,0.9)",
                   color: "white",
                   borderRadius: "8px",
                   fontSize: "0.95rem",
@@ -332,21 +413,83 @@ const isValidOnChain = await zkMerkle.verifyProofOnChain(
                   fontWeight: "500",
                   letterSpacing: "0.02em",
                   transition: "all 0.2s ease",
-                  border: "none",
-                  cursor: "pointer",
                   border: "1px solid white",
+                  cursor: "pointer",
                 }}
                 onMouseEnter={(e) => {
                   e.target.style.background = "#fff";
                   e.target.style.transform = "translateY(-1px)";
                 }}
                 onMouseLeave={(e) => {
-                  e.target.style.background = "rgba(255,255,255,0.9)";
+                  e.target.style.background = "transparent";
                   e.target.style.transform = "translateY(0)";
                 }}
               >
                 Get Started →
               </Link>
+
+              {/* New Contribution Section */}
+              <div style={{
+                width: "100%",
+                maxWidth: "600px",
+                background: "rgba(32, 32, 32, 0.95)",
+                borderRadius: "12px",
+                padding: "40px",
+                border: "1px solid rgba(255,255,255,0.1)"
+              }}>
+                <div style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: "32px",
+                  color: "rgba(255,255,255,0.85)",
+                  fontSize: "0.9rem",
+                  fontFamily: "SF Mono, monospace"
+                }}>
+                  <div style={{ fontSize: "1.1rem", color: "white" }}> Contribute Now</div>
+                  
+                  <div style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: "60px",
+                    width: "100%",
+                    maxWidth: "500px"
+                  }}>
+                    <div>
+                      <div style={{ color: "white", marginBottom: "16px" }}>Open Issues</div>
+                      <div style={{ 
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "8px",
+                        fontSize: "0.85rem"
+                      }}>
+                        <a href="https://github.com/zkThings/proof-membership-starknet/issues/1" style={{ color: "inherit", textDecoration: "none" }}>• StarkNet Membership</a>
+                        <a href="https://github.com/zkThings/proof-membership-solana/issues/1" style={{ color: "inherit", textDecoration: "none" }}>• Solana Membership</a>
+                        <a href="https://github.com/zkThings/comparison-operators-evm/issues/1" style={{ color: "inherit", textDecoration: "none" }}>• EVM Comparison</a>
+                        <a href="https://github.com/zkThings/comparison-operators-mina/issues/1" style={{ color: "inherit", textDecoration: "none" }}>• Mina Comparison</a>
+                        <a href="https://github.com/zkThings/comparison-operators-starknet/issues/1" style={{ color: "inherit", textDecoration: "none" }}>• StarkNet Comparison</a>
+                        <a href="https://github.com/zkThings/comparison-operators-solana/issues/1" style={{ color: "inherit", textDecoration: "none" }}>• Solana Comparison</a>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div style={{ color: "white", marginBottom: "16px" }}>Have Ideas?</div>
+                      <div style={{ 
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "8px",
+                        fontSize: "0.85rem"
+                      }}>
+                        <div>Want to contribute</div>
+                        <div>something new?</div>
+                        <div style={{ marginTop: "8px" }}>Contact us:</div>
+                        <a href="https://x.com/zkthings_dev" style={{ color: "inherit", textDecoration: "none" }}>• Twitter →</a>
+                        <a href="mailto:hello@zkthings.com" style={{ color: "inherit", textDecoration: "none" }}>• hello@zkthings.com</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
       </div>
       
