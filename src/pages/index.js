@@ -243,7 +243,7 @@ const decrypted = await e2e.decrypt(
 
 console.log(decrypted); // " Just peachy secrets! 🍑"`
         },
-        IPFS: {
+        "IPFS e.g": {
           title: 'IPFS',
           code: `const { Secp256k1E2E } = require('@zkthings/e2e-encryption-secp256k1');
 const { Wallet } = require('ethers');
@@ -280,7 +280,7 @@ const decrypted = await e2e.decrypt({
 
 console.log(decrypted); // "Secret stored on IPFS! 🍑"`
         },
-        'MongoDB/SQL': {
+        'MongoDB/SQL e.g': {
           title: 'MongoDB/SQL',
           code: `// MongoDB Example
 const { Secp256k1E2E } = require('@zkthings/e2e-encryption-secp256k1');
