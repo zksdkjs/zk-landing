@@ -147,8 +147,12 @@ The browser version (`Secp256k1E2EBrowser`) is specifically designed for browser
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+Want to contribute? Join our community and help us build the future of private data!
+
+- GitHub: https://github.com/zkThings/e2e-encryption-secp256k1
+- Twitter: https://twitter.com/zkthings_labs
+- Email: hello@zkthings.com
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
