@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://zksdk.io/sitemap.xml
+Disallow: /search 
