@@ -27,6 +27,7 @@ const zkMerkle = new ZkMerkle();
 
 // Add data and generate proof
 const values = ['Dragon Tree', 'Olive' , 'Linden']
+const depth = Math.ceil(Math.log2(values.length));
 
 const { proof, publicSignals } = await zkMerkle.generateMerkleProof(
   values,
@@ -34,7 +35,7 @@ const { proof, publicSignals } = await zkMerkle.generateMerkleProof(
 );
 
 // Verify off-chain (for testing)
-const isValidOffChain = await zkMerkle.verifyProof(proof, publicSignals);
+const isValidOffChain = await zkMerkle.verifyProof(proof, publicSignals, depth);
 
 // Export and deploy verifier contract
 const verifierContract = await zkMerkle.exportVerifierContract();
