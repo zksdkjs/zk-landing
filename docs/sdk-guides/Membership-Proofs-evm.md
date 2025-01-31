@@ -26,7 +26,8 @@ import { ZkMerkle } from '@zkthings/proof-membership-evm';
 const zkMerkle = new ZkMerkle();
 
 // Add data and generate proof
-const values = ['Dragon Tree', 'Olive' , 'Linden']
+const values = ['Dragon Tree', 'Olive' , 'Linden'];
+
 const depth = Math.ceil(Math.log2(values.length));
 
 const { proof, publicSignals } = await zkMerkle.generateMerkleProof(
