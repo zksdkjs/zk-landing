@@ -31,8 +31,8 @@ const values = ['Dragon Tree', 'Olive' , 'Linden'];
 const depth = Math.ceil(Math.log2(values.length));
 
 const { proof, publicSignals } = await zkMerkle.generateMerkleProof(
-  values,
-  'Dragon Tree'
+  'Dragon Tree',
+  values
 );
 
 // Verify off-chain (for testing)
