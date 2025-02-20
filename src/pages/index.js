@@ -23,8 +23,8 @@ const zkMerkle = new ZkMerkle()
 const values = [🌳, 🌲, 🌴]
 
 const { proof, publicSignals } = await zkMerkle.generateMerkleProof(
-  values,
-  '🌳'
+  '🌳',
+  values
 )
 
 // Verify off-chain 
@@ -47,8 +47,8 @@ const zkMerkle = new ZkMerkle()
 const values = [🎋, 🎄, 🌳]
 
 const { proof, publicSignals } = await zkMerkle.generateMerkleProof(
-  values,
-  '🌳'
+  '🌳',
+  values
 )
 
 // Verify off-chain
@@ -331,15 +331,16 @@ const decrypted = await e2e.decrypt(rows[0].encrypted_data, myPrivateKey);`
 
   return (
     <div style={{
-      backgroundColor: "#000",
+      /* Subtle radial gradient for a classy "Apple+Palantir" vibe */
+      background: 'radial-gradient(circle at 50% 50%, #1d1d1f, #0e0e0f)',
       minHeight: "100vh",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      padding: "20px"
+      padding: "40px"
     }}>
       <div style={{
-        maxWidth: "800px",
+        maxWidth: "900px",
         width: "100%",
         display: "flex",
         flexDirection: "column",
@@ -364,12 +365,12 @@ const decrypted = await e2e.decrypt(rows[0].encrypted_data, myPrivateKey);`
             {siteConfig.title}
           </h1>
           <div style={{
-            fontSize: "0.95rem",
-            color: "rgba(255,255,255,0.5)",
+            fontSize: "1rem",
+            color: "rgba(255,255,255,0.6)",
             fontFamily: "SF Mono, monospace",
             letterSpacing: "0.02em"
           }}>
-   build privacy
+            build privacy
           </div>
         </div>
 
@@ -377,25 +378,26 @@ const decrypted = await e2e.decrypt(rows[0].encrypted_data, myPrivateKey);`
         <div style={{
           width: "100%",
           height: "500px", // Fixed height
-          background: "rgba(32, 32, 32, 0.95)",
-          borderRadius: "12px",
+          background: "rgba(32, 32, 32, 0.9)",
+          borderRadius: "16px",
           overflow: "hidden",
-          border: "1px solid rgba(255,255,255,0.1)",
+          border: "1px solid rgba(255,255,255,0.15)",
+          boxShadow: "0 8px 30px rgba(0, 0, 0, 0.4)",
           display: "flex",
-          flexDirection: "column" // Enable flex layout
+          flexDirection: "column"
         }}>
           {/* Window Controls */}
           <div style={{
             padding: "12px",
-            borderBottom: "1px solid rgba(255,255,255,0.06)",
+            borderBottom: "1px solid rgba(255,255,255,0.07)",
             display: "flex",
             gap: "6px",
             alignItems: "center",
-            flexShrink: 0 // Prevent shrinking
+            flexShrink: 0
           }}>
-            <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#ff5f57" }}/>
-            <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#febc2e" }}/>
-            <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#28c840" }}/>
+            <div style={{ width: "12px", height: "12px", borderRadius: "50%", background: "#ff5f57" }}/>
+            <div style={{ width: "12px", height: "12px", borderRadius: "50%", background: "#febc2e" }}/>
+            <div style={{ width: "12px", height: "12px", borderRadius: "50%", background: "#28c840" }}/>
           </div>
 
           {/* Content Area with flex layout */}
@@ -404,30 +406,30 @@ const decrypted = await e2e.decrypt(rows[0].encrypted_data, myPrivateKey);`
             display: "flex",
             flexDirection: "column",
             gap: "20px",
-            height: "100%", // Take remaining height
-            overflow: "hidden" // Hide overflow
+            height: "100%",
+            overflow: "hidden"
           }}>
             {/* Operation Tabs */}
             <div style={{
               display: "flex",
-              gap: "8px",
+              gap: "12px",
               justifyContent: "center",
-              flexShrink: 0 // Prevent shrinking
+              flexShrink: 0
             }}>
               {Object.keys(operationConfigs).map((op) => (
                 <button
                   key={op}
                   onClick={() => handleOperationChange(op)}
                   style={{
-                    padding: "6px 12px",
+                    padding: "8px 16px",
                     background: "transparent",
                     border: "none",
-                    borderRadius: "6px",
-                    color: selectedOperation === op ? "#fff" : "rgba(255,255,255,0.4)",
+                    borderRadius: "8px",
+                    color: selectedOperation === op ? "#fff" : "rgba(255,255,255,0.5)",
                     cursor: "pointer",
-                    fontSize: "13px",
+                    fontSize: "14px",
                     fontFamily: "-apple-system, BlinkMacSystemFont, sans-serif",
-                    transition: "color 0.2s ease"
+                    transition: "color 0.2s ease, background 0.2s ease",
                   }}
                 >
                   {operationConfigs[op].title}
@@ -438,20 +440,20 @@ const decrypted = await e2e.decrypt(rows[0].encrypted_data, myPrivateKey);`
             {/* Implementation Pills */}
             <div style={{
               display: "flex",
-              gap: "6px",
+              gap: "8px",
               justifyContent: "center",
-              flexShrink: 0 // Prevent shrinking
+              flexShrink: 0
             }}>
               {Object.keys(operationConfigs[selectedOperation].implementations).map((impl) => (
                 <button
                   key={impl}
                   onClick={() => setSelectedImplementation(impl)}
                   style={{
-                    padding: "4px 10px",
-                    background: selectedImplementation === impl ? "rgba(255,255,255,0.1)" : "transparent",
+                    padding: "6px 12px",
+                    background: selectedImplementation === impl ? "rgba(255,255,255,0.15)" : "transparent",
                     border: "none",
-                    borderRadius: "4px",
-                    color: selectedImplementation === impl ? "#fff" : "rgba(255,255,255,0.4)",
+                    borderRadius: "6px",
+                    color: selectedImplementation === impl ? "#fff" : "rgba(255,255,255,0.5)",
                     cursor: "pointer",
                     fontSize: "12px",
                     fontFamily: "SF Mono, monospace",
@@ -493,108 +495,106 @@ const decrypted = await e2e.decrypt(rows[0].encrypted_data, myPrivateKey);`
                 {operationConfigs[selectedOperation].implementations[selectedImplementation].code}
               </code>
             </pre>
-
           </div>
         </div>
 
         <div style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "40px"
+        }}>
+          <Link
+            to="/docs/intro"
+            style={{
+              padding: "12px 28px",
+              color: "white",
+              borderRadius: "8px",
+              fontSize: "0.95rem",
+              fontFamily: "-apple-system, BlinkMacSystemFont, sans-serif",
+              textDecoration: "none",
+              fontWeight: "500",
+              letterSpacing: "0.02em",
+              transition: "all 0.2s ease",
+              border: "1px solid white",
+              cursor: "pointer",
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.background = "#fff";
+              e.target.style.color = "#000";
+              e.target.style.transform = "translateY(-1px)";
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.background = "transparent";
+              e.target.style.color = "#fff";
+              e.target.style.transform = "translateY(0)";
+            }}
+          >
+            Get Started →
+          </Link>
+
+          {/* New Contribution Section */}
+          <div style={{
+            width: "100%",
+            maxWidth: "600px",
+            borderRadius: "12px",
+            padding: "40px",
+          }}>
+            <div style={{
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              gap: "40px"
+              gap: "32px",
+              color: "rgba(255,255,255,0.85)",
+              fontSize: "0.9rem",
+              fontFamily: "SF Mono, monospace"
             }}>
-              <Link
-                to="/docs/intro"
-                style={{
-                  padding: "12px 24px",
-                  color: "white",
-                  borderRadius: "8px",
-                  fontSize: "0.95rem",
-                  fontFamily: "-apple-system, BlinkMacSystemFont, sans-serif",
-                  textDecoration: "none",
-                  fontWeight: "500",
-                  letterSpacing: "0.02em",
-                  transition: "all 0.2s ease",
-                  border: "1px solid white",
-                  cursor: "pointer",
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.background = "#fff";
-                  e.target.style.transform = "translateY(-1px)";
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.background = "transparent";
-                  e.target.style.transform = "translateY(0)";
-                }}
-              >
-                Get Started →
-              </Link>
-
-              {/* New Contribution Section */}
+              <div style={{ fontSize: "1.1rem", color: "white" }}>Contribute Now</div>
+              
               <div style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "60px",
                 width: "100%",
-                maxWidth: "600px",
-                // background: "rgba(32, 32, 32, 0.95)",
-                borderRadius: "12px",
-                padding: "40px",
-                // border: "1px solid rgba(255,255,255,0.1)"
+                maxWidth: "500px"
               }}>
-                <div style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  gap: "32px",
-                  color: "rgba(255,255,255,0.85)",
-                  fontSize: "0.9rem",
-                  fontFamily: "SF Mono, monospace"
-                }}>
-                  <div style={{ fontSize: "1.1rem", color: "white" }}> Contribute Now</div>
-                  
-                  <div style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr",
-                    gap: "60px",
-                    width: "100%",
-                    maxWidth: "500px"
+                <div>
+                  <div style={{ color: "white", marginBottom: "16px" }}>Open Issues</div>
+                  <div style={{ 
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "8px",
+                    fontSize: "0.85rem"
                   }}>
-                    <div>
-                      <div style={{ color: "white", marginBottom: "16px" }}>Open Issues</div>
-                      <div style={{ 
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "8px",
-                        fontSize: "0.85rem"
-                      }}>
-                        <a href="https://github.com/zkThings/proof-membership-starknet/issues/1" style={{ color: "inherit", textDecoration: "none" }}>• StarkNet Membership</a>
-                        <a href="https://github.com/zkThings/proof-membership-solana/issues/1" style={{ color: "inherit", textDecoration: "none" }}>• Solana Membership</a>
-                        <a href="https://github.com/zkThings/comparison-operators-evm/issues/1" style={{ color: "inherit", textDecoration: "none" }}>• EVM Comparison</a>
-                        <a href="https://github.com/zkThings/comparison-operators-mina/issues/1" style={{ color: "inherit", textDecoration: "none" }}>• Mina Comparison</a>
-                        <a href="https://github.com/zkThings/comparison-operators-starknet/issues/1" style={{ color: "inherit", textDecoration: "none" }}>• StarkNet Comparison</a>
-                        <a href="https://github.com/zkThings/comparison-operators-solana/issues/1" style={{ color: "inherit", textDecoration: "none" }}>• Solana Comparison</a>
-                      </div>
-                    </div>
+                    <a href="https://github.com/zkThings/proof-membership-starknet/issues/1" style={{ color: "inherit", textDecoration: "none" }}>• StarkNet Membership</a>
+                    <a href="https://github.com/zkThings/proof-membership-solana/issues/1" style={{ color: "inherit", textDecoration: "none" }}>• Solana Membership</a>
+                    <a href="https://github.com/zkThings/comparison-operators-evm/issues/1" style={{ color: "inherit", textDecoration: "none" }}>• EVM Comparison</a>
+                    <a href="https://github.com/zkThings/comparison-operators-mina/issues/1" style={{ color: "inherit", textDecoration: "none" }}>• Mina Comparison</a>
+                    <a href="https://github.com/zkThings/comparison-operators-starknet/issues/1" style={{ color: "inherit", textDecoration: "none" }}>• StarkNet Comparison</a>
+                    <a href="https://github.com/zkThings/comparison-operators-solana/issues/1" style={{ color: "inherit", textDecoration: "none" }}>• Solana Comparison</a>
+                  </div>
+                </div>
 
-                    <div>
-                      <div style={{ color: "white", marginBottom: "16px" }}>Have Ideas?</div>
-                      <div style={{ 
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "8px",
-                        fontSize: "0.85rem"
-                      }}>
-                        <div>Want to contribute</div>
-                        <div>something new?</div>
-                        <div style={{ marginTop: "8px" }}>Contact us:</div>
-                        <a href="https://x.com/zkthings_labs" style={{ color: "inherit", textDecoration: "none" }}>• Twitter →</a>
-                        <a href="mailto:hello@zkthings.com" style={{ color: "inherit", textDecoration: "none" }}>• hello@zkthings.com</a>
-                      </div>
-                    </div>
+                <div>
+                  <div style={{ color: "white", marginBottom: "16px" }}>Have Ideas?</div>
+                  <div style={{ 
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "8px",
+                    fontSize: "0.85rem"
+                  }}>
+                    <div>Want to contribute</div>
+                    <div>something new?</div>
+                    <div style={{ marginTop: "8px" }}>Contact us:</div>
+                    <a href="https://x.com/zkthings_labs" style={{ color: "inherit", textDecoration: "none" }}>• Twitter →</a>
+                    <a href="mailto:hello@zkthings.com" style={{ color: "inherit", textDecoration: "none" }}>• hello@zkthings.com</a>
                   </div>
                 </div>
               </div>
             </div>
-      </div>
-      
+          </div>
+        </div>
+      </div>  
     </div>
   );
 }
