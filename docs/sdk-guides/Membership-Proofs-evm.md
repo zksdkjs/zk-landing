@@ -6,7 +6,7 @@ sidebar_position: 3
 
 Proof of Membership allows you to verify that an item is part of a set without revealing the entire set.
 
-⚠️ **Early Stage Project**: This package is under active development. APIs may change as we improve the implementation.
+**Early Stage Project**: This package is under active development. APIs may change as we improve the implementation.
 
 
 ## Installation
@@ -174,7 +174,7 @@ const verifierContract = await zkMerkle.exportVerifierContract();
 ## Architecture
 
 ```
-📦 @zkthings/proof-membership-evm
+@zkthings/proof-membership-evm
 ├── core/             # Core Merkle Tree implementation
 ├── circuits/         # Circom circuit definitions
 ├── contracts/        # Solidity verifier contracts

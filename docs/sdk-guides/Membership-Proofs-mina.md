@@ -5,9 +5,9 @@ sidebar_position: 4
 
 Zero-Knowledge Merkle Tree implementation for Mina Protocol, powered by o1js.
 
-⚠️ **Early Stage Project**: This package is under active development. APIs may change as we improve the implementation.
+**Early Stage Project**: This package is under active development. APIs may change as we improve the implementation.
 
-🚧 🔄 **Not Released Yet**: This npm package is going through changes. If you need access to the codebase now, please contact us.
+**Not Released Yet**: This npm package is going through changes. If you need access to the codebase now, please contact us.
 
 
 
@@ -97,11 +97,11 @@ const deployment = await deployZkApp(MerkleProver, {
 ## Architecture
 
 ```
-📦 @zkthings/proof-membership-mina
-├── 🌲 ZkMerkleTree     # Core Merkle Tree implementation
-├── 📜 MerkleProver     # On-chain verification contract
-└── 🛠️ Utils
-    └── deployZkApp     # Deployment helper
+@zkthings/proof-membership-mina
+├── ZkMerkleTree     # Core Merkle Tree implementation
+├── MerkleProver     # On-chain verification contract
+└── Utils
+    └── deployZkApp  # Deployment helper
 ```
 
 ## Best Practices

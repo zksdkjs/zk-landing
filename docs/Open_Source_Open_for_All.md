@@ -6,10 +6,10 @@ sidebar_position: 2
 Our goal is to make ZK development accessible to every developer.
 
 ## Our Journey
-- 🌱 Starting with basic operations (array membership, range proofs)
-- 🌿 Growing into token transfer frameworks
-- 🌲 Proof Registry implementations
-- ✨ And many more privacy-preserving primitives!
+- Starting with basic operations (array membership, range proofs)
+- Growing into token transfer frameworks
+- Proof Registry implementations
+- And many more privacy-preserving primitives!
 
 ## Our Vision
 One SDK, multiple chains, endless possibilities. We're abstracting away the complexity of different ZK implementations to provide a seamless development experience.

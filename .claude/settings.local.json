@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm:*)",
+      "Bash(node:*)",
+      "Bash(echo $PATH)",
+      "Bash(ls:*)",
+      "Bash(sudo rm:*)",
+      "Bash(rm:*)"
+    ],
+    "deny": []
+  }
+}
