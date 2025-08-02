@@ -9,10 +9,11 @@ function HomepageHeader() {
   const packages = [
     {
       id: 'evm-membership',
-      title: 'EVM zkSDK',
-      subtitle: 'Zero-Knowledge Membership Proofs',
+      title: 'Membership Proofs',
+      subtitle: 'EVM Compatible • JavaScript Library • Smart Contracts',
       npm: '@zkthings/proof-membership-evm',
-      code: `import { ZkMerkle } from '@zkthings/proof-membership-evm'
+      code: `import { ZkMerkle, makeProof, verifyOffchain } from '@zkthings/proof-membership-evm';
+    
 
 // Initialize ZK Merkle Tree
 const zkMerkle = new ZkMerkle()
@@ -35,40 +36,9 @@ const isValidOffChain = await zkMerkle.verifyProofOffChain(
 const verifierContract = await zkMerkle.exportVerifierContract()`
     },
     {
-      id: 'mina-membership',
-      title: 'Mina zkSDK',
-      subtitle: 'Zero-Knowledge Membership Proofs',
-      npm: '@zkthings/proof-membership-mina',
-      code: `import { ZkMerkle } from '@zkthings/proof-membership-mina'
-
-// Initialize ZK Merkle Tree
-const zkMerkle = new ZkMerkle()
-
-// Add data and generate proof
-const values = ['user1', 'user2', 'user3']
-
-const { proof, publicSignals } = await zkMerkle.generateMerkleProof(
-  values,
-  'user1'
-)
-
-// Verify off-chain
-const isValidOffChain = await zkMerkle.verifyProofOffChain(
-  proof, 
-  publicSignals
-)
-
-// Verify On-chain 
-const isValidOnChain = await zkMerkle.verifyProofOnChain(
-  deployment.contract,
-  proof,
-  publicSignals
-)`
-    },
-    {
       id: 'e2e-encryption',
       title: 'E2E Encryption',
-      subtitle: 'End-to-End Encryption for secp256k1',
+      subtitle: 'Private Messaging • Wallet-to-Wallet • JavaScript SDK',
       npm: '@zkthings/e2e-encryption-secp256k1',
       code: `const { Secp256k1E2E } = require('@zkthings/e2e-encryption-secp256k1');
 const { Wallet } = require('ethers');
@@ -94,6 +64,38 @@ const decrypted = await e2e.decrypt({
 });
 
 console.log(decrypted); // "Private message content"`
+    },
+    {
+      id: 'mina-membership',
+      title: 'Membership Proofs (Mina)',
+      subtitle: 'Coming Soon ',
+      npm: '@zkthings/proof-membership-mina',
+      inactive: true,
+      code: `import { ZkMerkle } from '@zkthings/proof-membership-mina'
+
+// Initialize ZK Merkle Tree
+const zkMerkle = new ZkMerkle()
+
+// Add data and generate proof
+const values = ['user1', 'user2', 'user3']
+
+const { proof, publicSignals } = await zkMerkle.generateMerkleProof(
+  values,
+  'user1'
+)
+
+// Verify off-chain
+const isValidOffChain = await zkMerkle.verifyProofOffChain(
+  proof, 
+  publicSignals
+)
+
+// Verify On-chain 
+const isValidOnChain = await zkMerkle.verifyProofOnChain(
+  deployment.contract,
+  proof,
+  publicSignals
+)`
     }
   ];
 
@@ -153,31 +155,36 @@ console.log(decrypted); // "Private message content"`
           {packages.map((pkg, index) => (
             <div
               key={pkg.id}
-              onClick={() => setSelectedPackage(index)}
+              onClick={() => !pkg.inactive && setSelectedPackage(index)}
               style={{
-                background: selectedPackage === index 
-                  ? "rgba(255, 255, 255, 0.1)" 
-                  : "rgba(255, 255, 255, 0.05)",
+                background: pkg.inactive 
+                  ? "rgba(255, 255, 255, 0.02)"
+                  : selectedPackage === index 
+                    ? "rgba(255, 255, 255, 0.1)" 
+                    : "rgba(255, 255, 255, 0.05)",
                 borderRadius: "16px",
                 padding: "32px",
-                cursor: "pointer",
+                cursor: pkg.inactive ? "not-allowed" : "pointer",
                 border: "1px solid",
-                borderColor: selectedPackage === index 
-                  ? "rgba(255, 255, 255, 0.3)" 
-                  : "rgba(255, 255, 255, 0.1)",
+                borderColor: pkg.inactive
+                  ? "rgba(255, 255, 255, 0.05)"
+                  : selectedPackage === index 
+                    ? "rgba(255, 255, 255, 0.3)" 
+                    : "rgba(255, 255, 255, 0.1)",
                 transition: "all 0.3s ease",
                 display: "flex",
                 flexDirection: "column",
-                gap: "12px"
+                gap: "12px",
+                opacity: pkg.inactive ? 0.4 : 1
               }}
               onMouseEnter={(e) => {
-                if (selectedPackage !== index) {
+                if (!pkg.inactive && selectedPackage !== index) {
                   e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.2)";
                   e.currentTarget.style.background = "rgba(255, 255, 255, 0.08)";
                 }
               }}
               onMouseLeave={(e) => {
-                if (selectedPackage !== index) {
+                if (!pkg.inactive && selectedPackage !== index) {
                   e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
                   e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
                 }
