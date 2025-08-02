@@ -224,7 +224,7 @@ const isValidOnChain = await zkMerkle.verifyProofOnChain(
             fontFamily: "'Poppins', sans-serif",
             fontWeight: "300"
           }}>
-         Privacy, without drama
+       Privacy dev tools
           </div>
         </div>
 
