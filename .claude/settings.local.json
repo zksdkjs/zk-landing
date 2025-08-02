@@ -6,7 +6,9 @@
       "Bash(echo $PATH)",
       "Bash(ls:*)",
       "Bash(sudo rm:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": []
   }
