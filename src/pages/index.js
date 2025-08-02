@@ -12,6 +12,7 @@ function HomepageHeader() {
       title: 'Membership Proofs',
       subtitle: 'EVM Compatible • Prove Set Membership • Without Revealing Identity',
       npm: '@zkthings/proof-membership-evm',
+      docUrl: '/docs/sdk-guides/Membership-Proofs-evm',
       code: `import { ZkMerkle, makeProof, verifyOffchain } from '@zkthings/proof-membership-evm';
     
 
@@ -40,6 +41,7 @@ const verifierContract = await zkMerkle.exportVerifierContract()`
       title: 'Range Proofs',
       subtitle: 'EVM Compatible • Prove Values in Ranges • Without Revealing Exact Amounts',
       npm: '@zkthings/range-proof-evm',
+      docUrl: '/docs/sdk-guides/Range-Proofs-evm',
       code: `import { RangeProof } from '@zkthings/range-proof-evm';
 
 // Prove you're 18+ without revealing exact age
@@ -61,9 +63,10 @@ const verifierContract = await rangeProof.exportSolidityVerifier(ageProof);`
     },
     {
       id: 'e2e-encryption',
-      title: 'E2E Encryption',
-      subtitle: 'EVM Compatible • Private Messaging • Wallet-to-Wallet',
+      title: 'E2E Encryption EVM',
+      subtitle: 'EVM and secp256k1 Wallets Compatible • Private Messaging • Wallet-to-Wallet',
       npm: '@zkthings/e2e-encryption-secp256k1',
+      docUrl: '/docs/sdk-guides/E2E-Encryption-secp256k1',
       code: `const { Secp256k1E2E } = require('@zkthings/e2e-encryption-secp256k1');
 const { Wallet } = require('ethers');
 
@@ -88,12 +91,71 @@ const decrypted = await e2e.decrypt({
 });
 
 console.log(decrypted); // "Private message content"`
+    },
+    {
+      id: 'ed25519-encryption',
+      title: 'E2E Encryption Solona',
+      subtitle: `Solona & StarkNet & ed25519 wallets  Compatible • Private Messaging • Wallet-to-Wallet`,
+      npm: '@zkthings/e2e-encryption-ed25519',
+      docUrl: '/docs/sdk-guides/E2E-Encryption-ed25519',
+      code: `import { Ed25519E2E } from '@zkthings/e2e-encryption-ed25519';
+
+// Initialize E2E encryption
+const e2e = new Ed25519E2E();
+
+// Encrypt data for recipient
+const encrypted = await e2e.encryptFor(
+  'Hello, World!',
+  '0x1234...', // recipient address
+  publicKey    // recipient's Ed25519 public key
+);
+
+// Decrypt data
+const decrypted = await e2e.decrypt(encrypted, privateKey);
+console.log(decrypted); // "Hello, World!"
+
+// Works with any Ed25519-compatible wallet
+// Solana, StarkNet, etc.`
     }
   ];
 
   const [selectedPackage, setSelectedPackage] = useState(0);
   const [totalDownloads, setTotalDownloads] = useState('...');
   const [packageDownloads, setPackageDownloads] = useState({});
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const [packagesPerView, setPackagesPerView] = useState(3);
+  
+  // Responsive packages per view
+  useEffect(() => {
+    const updatePackagesPerView = () => {
+      if (window.innerWidth <= 768) {
+        setPackagesPerView(1); // Mobile: 1 item
+      } else if (window.innerWidth <= 1024) {
+        setPackagesPerView(2); // Tablet: 2 items
+      } else {
+        setPackagesPerView(3); // Desktop: 3 items
+      }
+    };
+    
+    updatePackagesPerView();
+    window.addEventListener('resize', updatePackagesPerView);
+    return () => window.removeEventListener('resize', updatePackagesPerView);
+  }, []);
+
+  // Reset carousel when packagesPerView changes
+  useEffect(() => {
+    setCarouselIndex(0);
+  }, [packagesPerView]);
+  
+  const maxIndex = Math.max(0, packages.length - packagesPerView);
+  
+  const nextSlide = () => {
+    setCarouselIndex(prev => prev >= maxIndex ? 0 : prev + 1);
+  };
+  
+  const prevSlide = () => {
+    setCarouselIndex(prev => prev <= 0 ? maxIndex : prev - 1);
+  };
 
   // Fetch download stats from NPM
   useEffect(() => {
@@ -103,6 +165,7 @@ console.log(decrypted); // "Private message content"`
           '@zkthings/proof-membership-evm',
           '@zkthings/range-proof-evm',
           '@zkthings/e2e-encryption-secp256k1',
+          '@zkthings/e2e-encryption-ed25519',
           'zkmerkle'
         ];
         
@@ -176,7 +239,6 @@ console.log(decrypted); // "Private message content"`
   }, [totalDownloads]);
 
   return (
-    <>
     <div style={{
       background: 'linear-gradient(to bottom, #0a0a0a, #1a1a1a)',
       minHeight: "100vh",
@@ -220,14 +282,114 @@ console.log(decrypted); // "Private message content"`
           </div>
         </div>
 
-        {/* Package Cards */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-          gap: "24px",
-          width: "100%"
-        }}>
-          {packages.map((pkg, index) => (
+        {/* Pretty Carousel */}
+        <div 
+          style={{
+            position: "relative",
+            width: "100%",
+            maxWidth: "1200px",
+            margin: "0 auto",
+            overflow: "hidden"
+          }}
+          onMouseEnter={(e) => {
+            const arrows = e.currentTarget.querySelectorAll('.carousel-arrow');
+            arrows.forEach(arrow => arrow.style.opacity = '1');
+          }}
+          onMouseLeave={(e) => {
+            const arrows = e.currentTarget.querySelectorAll('.carousel-arrow');
+            arrows.forEach(arrow => arrow.style.opacity = '0');
+          }}
+        >
+          {/* Elegant Navigation Arrows */}
+          {packages.length > packagesPerView && (
+            <>
+              <button
+                className="carousel-arrow"
+                onClick={prevSlide}
+                style={{
+                  position: "absolute",
+                  left: "16px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  zIndex: 10,
+                  background: "rgba(0, 0, 0, 0.8)",
+                  backdropFilter: "blur(10px)",
+                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                  borderRadius: "12px",
+                  width: "48px",
+                  height: "48px",
+                  color: "#fff",
+                  fontSize: "1.2rem",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "all 0.3s ease",
+                  opacity: "0"
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "rgba(0, 0, 0, 0.9)";
+                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.2)";
+                  e.currentTarget.style.transform = "translateY(-50%) scale(1.05)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "rgba(0, 0, 0, 0.8)";
+                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
+                  e.currentTarget.style.transform = "translateY(-50%) scale(1)";
+                }}
+              >
+                ←
+              </button>
+              
+              <button
+                className="carousel-arrow"
+                onClick={nextSlide}
+                style={{
+                  position: "absolute",
+                  right: "16px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  zIndex: 10,
+                  background: "rgba(0, 0, 0, 0.8)",
+                  backdropFilter: "blur(10px)",
+                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                  borderRadius: "12px",
+                  width: "48px",
+                  height: "48px",
+                  color: "#fff",
+                  fontSize: "1.2rem",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "all 0.3s ease",
+                  opacity: "0"
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "rgba(0, 0, 0, 0.9)";
+                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.2)";
+                  e.currentTarget.style.transform = "translateY(-50%) scale(1.05)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "rgba(0, 0, 0, 0.8)";
+                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
+                  e.currentTarget.style.transform = "translateY(-50%) scale(1)";
+                }}
+              >
+                →
+              </button>
+            </>
+          )}
+
+          {/* Carousel Track */}
+          <div style={{
+            display: "flex",
+            transform: `translateX(-${carouselIndex * (100 / packagesPerView)}%)`,
+            transition: "transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+            gap: "24px",
+            padding: "0 8px"
+          }}>
+            {packages.map((pkg, index) => (
             <div
               key={pkg.id}
               onClick={() => !pkg.inactive && setSelectedPackage(index)}
@@ -247,6 +409,8 @@ console.log(decrypted); // "Private message content"`
                     ? "rgba(255, 255, 255, 0.3)" 
                     : "rgba(255, 255, 255, 0.1)",
                 transition: "all 0.3s ease",
+                flex: `0 0 calc(${100 / packagesPerView}% - 18px)`,
+                minWidth: `calc(${100 / packagesPerView}% - 18px)`,
                 display: "flex",
                 flexDirection: "column",
                 gap: "12px",
@@ -284,23 +448,67 @@ console.log(decrypted); // "Private message content"`
                 {pkg.subtitle}
               </p>
               
-              {/* Package Download Count */}
+              {/* Package Download Count & Guide Button */}
               {!pkg.inactive && (
                 <div style={{
-                  fontSize: "0.75rem",
-                  color: "rgba(255, 255, 255, 0.5)",
-                  fontFamily: "SF Mono, monospace",
                   display: "flex",
                   alignItems: "center",
-                  gap: "4px",
+                  justifyContent: ['@zkthings/proof-membership-evm', '@zkthings/range-proof-evm', '@zkthings/e2e-encryption-secp256k1', '@zkthings/e2e-encryption-ed25519', 'zkmerkle'].includes(pkg.npm) ? "space-between" : "flex-end",
                   marginTop: "4px"
                 }}>
-                  <span>📊</span>
-                  <span>
-                    {packageDownloads[pkg.npm] 
-                      ? packageDownloads[pkg.npm].toLocaleString() 
-                      : '...'} installs
-                  </span>
+                  {/* Only show download stats for packages that exist on NPM */}
+                  {['@zkthings/proof-membership-evm', '@zkthings/range-proof-evm', '@zkthings/e2e-encryption-secp256k1', '@zkthings/e2e-encryption-ed25519', 'zkmerkle'].includes(pkg.npm) && (
+                    <div style={{
+                      fontSize: "0.75rem",
+                      color: "rgba(255, 255, 255, 0.5)",
+                      fontFamily: "SF Mono, monospace",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "4px"
+                    }}>
+                      <span>📊</span>
+                      <span>
+                        {packageDownloads[pkg.npm] !== undefined
+                          ? packageDownloads[pkg.npm] === 0 
+                            ? 'NEW'
+                            : `${packageDownloads[pkg.npm].toLocaleString()} installs`
+                          : '... installs'}
+                      </span>
+                    </div>
+                  )}
+                  
+                  <Link
+                    to={pkg.docUrl}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "4px",
+                      padding: "4px 8px",
+                      background: "rgba(255, 255, 255, 0.05)",
+                      border: "1px solid rgba(255, 255, 255, 0.1)",
+                      borderRadius: "4px",
+                      color: "rgba(255, 255, 255, 0.7)",
+                      textDecoration: "none",
+                      fontSize: "0.7rem",
+                      fontFamily: "'Poppins', sans-serif",
+                      fontWeight: "300",
+                      transition: "all 0.2s ease"
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = "rgba(255, 255, 255, 0.08)";
+                      e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.15)";
+                      e.currentTarget.style.color = "rgba(255, 255, 255, 0.9)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
+                      e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
+                      e.currentTarget.style.color = "rgba(255, 255, 255, 0.7)";
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <span style={{ fontSize: "0.6rem" }}>📖</span>
+                    <span>docs</span>
+                  </Link>
                 </div>
               )}
               
@@ -318,6 +526,47 @@ console.log(decrypted); // "Private message content"`
               </code>
             </div>
           ))}
+          </div>
+          
+          {/* Elegant Line Indicators */}
+          {packages.length > packagesPerView && (
+            <div style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: "6px",
+              marginTop: "32px"
+            }}>
+              {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCarouselIndex(idx)}
+                  style={{
+                    width: idx === carouselIndex ? "24px" : "8px",
+                    height: "3px",
+                    borderRadius: "2px",
+                    border: "none",
+                    background: idx === carouselIndex 
+                      ? "rgba(255, 255, 255, 0.9)" 
+                      : "rgba(255, 255, 255, 0.3)",
+                    cursor: "pointer",
+                    transition: "all 0.4s ease"
+                  }}
+                  onMouseEnter={(e) => {
+                    if (idx !== carouselIndex) {
+                      e.currentTarget.style.background = "rgba(255, 255, 255, 0.6)";
+                      e.currentTarget.style.width = "16px";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (idx !== carouselIndex) {
+                      e.currentTarget.style.background = "rgba(255, 255, 255, 0.3)";
+                      e.currentTarget.style.width = "8px";
+                    }
+                  }}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Code Display */}
@@ -449,7 +698,6 @@ console.log(decrypted); // "Private message content"`
         </div>
       </div>  
     </div>
-    </>
   );
 }
 

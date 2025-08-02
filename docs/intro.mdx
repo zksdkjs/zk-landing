@@ -16,13 +16,15 @@ zksdk is designed in a modular way, allowing you to download only the packages y
 |---------|-------------|-----------|---------------|
 | **Membership Proofs** | Prove you're in a set without revealing which member | Allowlists, access control, private voting | [📖 Guide →](sdk-guides/Membership-Proofs-evm) |
 | **Range Proofs** | Prove values are within ranges without revealing exact amounts | Age verification, credit scores, balance checks | [📖 Guide →](sdk-guides/Range-Proofs-evm) |
-| **E2E Encryption** | Private messaging between wallet addresses | Web3 chat, confidential data sharing | [📖 Guide →](sdk-guides/E2E-Encryption-secp256k1) |
+| **E2E Encryption (EVM)** | Private messaging using secp256k1 keys | EVM wallet-to-wallet chat, Ethereum data sharing | [📖 Guide →](sdk-guides/E2E-Encryption-secp256k1) |
+| **E2E Encryption (Ed25519)** | Private messaging using Ed25519 keys | Solana, StarkNet wallet encryption, secure messaging | [📖 Guide →](sdk-guides/E2E-Encryption-ed25519) |
 
 ### Quick Installation
 
 ```bash
 # Choose the package you need
-npm install @zkthings/proof-membership-evm    # Membership proofs
-npm install @zkthings/range-proof-evm         # Range proofs  
-npm install @zkthings/e2e-encryption-secp256k1 # E2E encryption
+npm install @zkthings/proof-membership-evm     # Membership proofs
+npm install @zkthings/range-proof-evm          # Range proofs  
+npm install @zkthings/e2e-encryption-secp256k1 # E2E encryption (EVM)
+npm install @zkthings/e2e-encryption-ed25519   # E2E encryption (Ed25519)
 ```

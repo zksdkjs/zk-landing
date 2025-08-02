@@ -1,3 +1,7 @@
+---
+sidebar_position: 2
+---
+
 # Range Proofs for EVM
 
 The Range Proof package enables developers to prove that a value falls within a specific range without revealing the actual value. This is useful for age verification, balance checks, score validation, and many other privacy-preserving applications.
