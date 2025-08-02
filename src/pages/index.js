@@ -349,10 +349,8 @@ console.log(decrypted); // "Private message content"`
 }
 
 export default function Home() {
-  const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
-      title={`Welcome to ${siteConfig.title}`}
       description="Build privacy-first applications with zero-knowledge proofs">
       <HomepageHeader />
     </Layout>

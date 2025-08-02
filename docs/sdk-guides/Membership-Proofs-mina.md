@@ -134,7 +134,7 @@ PRs welcome! Check our [Contributing Guide](https://github.com/zkthings/merkle-m
 
 ## Support
 
-- [Documentation](https://zksdk.io/docs/intro)
+- [Documentation](https://zksdk.dev/docs/intro)
 - [GitHub Issues](https://github.com/zkthings/merkle-mina/issues)
 
 ## License

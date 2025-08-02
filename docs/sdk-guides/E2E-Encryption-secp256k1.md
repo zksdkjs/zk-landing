@@ -151,7 +151,6 @@ Want to contribute? Join our community and help us build the future of private d
 
 - GitHub: https://github.com/zkThings/e2e-encryption-secp256k1
 - Twitter: https://twitter.com/zkthings_labs
-- Email: hello@zkthings.com
 
 ## License
 

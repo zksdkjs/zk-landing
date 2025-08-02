@@ -204,7 +204,7 @@ PRs welcome! Check our [Contributing Guide](https://github.com/zkthings/proofOfM
 
 ## Support
 
-- [Documentation](https://zksdk.io/docs/intro)
+- [Documentation](https://zksdk.dev/docs/intro)
 - [GitHub Issues](https://github.com/zkthings/proofOfMembership-evm/issues)
 
 ## License

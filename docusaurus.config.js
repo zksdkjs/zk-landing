@@ -8,12 +8,12 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'zksdk',
+  title: 'zksdk.dev',
   tagline: '',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/zkimage.png',
 
   // Set the production url of your site here
-  url: 'https://zksdk.io',
+  url: 'https://zksdk.dev',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
@@ -68,13 +68,9 @@ const config = {
           type: 'text/css',
         },
       ],
-      image: undefined,
+      image: 'img/zkimage.png',
       navbar: {
-        title: 'zkSDK',
-        // logo: {
-        //   alt: 'My Site Logo',
-        //   src: 'img/logo.svg',
-        // },
+        title: 'zksdk.dev',
         items: [
           {
             type: 'doc',
@@ -125,7 +121,7 @@ const config = {
             items: [
               {
                 label: 'Main Website',
-                href: 'https://zksdk.io',
+                href: 'https://zksdk.dev',
               },
             ],
           },
