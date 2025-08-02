@@ -123,6 +123,10 @@ const config = {
                 label: 'Main Website',
                 href: 'https://zksdk.dev',
               },
+              {
+                label: 'Legacy: zkmerkle',
+                href: 'https://www.npmjs.com/package/zkmerkle',
+              },
             ],
           },
         ],

@@ -32,8 +32,131 @@ h1, h2, h3 {
 }
 
 
-.footer{
-  background-color: black;
+/* Modern Footer Styling - NO BLUE */
+.footer {
+  background: #000000 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
+  padding: 2rem 0 1rem 0 !important;
+  position: relative;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+}
+
+.footer__title {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  font-size: 1.1rem !important;
+  margin-bottom: 1rem !important;
+  letter-spacing: 0.5px !important;
+}
+
+.footer__item {
+  margin: 0.5rem 0 !important;
+}
+
+.footer__link-item {
+  color: rgba(255, 255, 255, 0.7) !important;
+  text-decoration: none !important;
+  font-size: 0.9rem !important;
+  transition: all 0.3s ease !important;
+  padding: 0.25rem 0 !important;
+  display: inline-block !important;
+}
+
+.footer__link-item:hover {
+  color: #ffffff !important;
+  transform: translateX(4px) !important;
+  text-decoration: none !important;
+}
+
+.footer__copyright {
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-size: 0.85rem !important;
+  text-align: center !important;
+  margin-top: 2rem !important;
+  padding-top: 1.5rem !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  font-family: var(--ifm-font-family-monospace) !important;
+  letter-spacing: 0.3px !important;
+}
+
+.footer__col {
+  margin-bottom: 1.5rem !important;
+}
+
+/* Override any default Docusaurus footer colors */
+.footer * {
+  background-color: transparent !important;
+}
+
+.footer__bottom {
+  background-color: #000000 !important;
+}
+
+.footer__links {
+  background-color: transparent !important;
+}
+
+/* NUCLEAR OPTION - FORCE BLACK FOOTER */
+footer,
+.footer,
+.footer *,
+.footer__bottom,
+.footer__container,
+.footer__row,
+.footer__links,
+.footer__items,
+div[class*="footer"],
+[class*="footer"] {
+  background: #000000 !important;
+  background-color: #000000 !important;
+  background-image: none !important;
+  background-attachment: initial !important;
+  background-clip: initial !important;
+  background-origin: initial !important;
+  background-position: initial !important;
+  background-repeat: initial !important;
+  background-size: initial !important;
+}
+
+/* Target every possible footer selector */
+.footer--dark,
+.footer__row--primary,
+.footer__row--secondary,
+footer[class*="footer"],
+div[class^="footer"],
+div[class$="footer"] {
+  background-color: #000000 !important;
+  background: #000000 !important;
+}
+
+/* Override CSS variables with maximum specificity */
+:root,
+html,
+body,
+[data-theme='dark'],
+[data-theme='light'] {
+  --ifm-footer-background-color: #000000 !important;
+  --docusaurus-footer-background-color: #000000 !important;
+}
+
+/* Direct style injection */
+footer {
+  background: #000000 !important;
+}
+
+/* Use inline styles to override everything */
+.footer {
+  background: #000000 !important;
+  background-color: #000000 !important;
 }
 
 
