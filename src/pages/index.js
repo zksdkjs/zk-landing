@@ -124,6 +124,9 @@ console.log(decrypted); // "Hello, World!"
   const [packageDownloads, setPackageDownloads] = useState({});
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [packagesPerView, setPackagesPerView] = useState(3);
+  const [isHovered, setIsHovered] = useState(false);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
   
   // Responsive packages per view
   useEffect(() => {
@@ -146,8 +149,24 @@ console.log(decrypted); // "Hello, World!"
   useEffect(() => {
     setCarouselIndex(0);
   }, [packagesPerView]);
+
+  // Auto-advance carousel
+  useEffect(() => {
+    if (isHovered || packages.length <= 1) return;
+    
+    const interval = setInterval(() => {
+      setCarouselIndex(prev => {
+        const maxIdx = packagesPerView === 1 ? packages.length - 1 : Math.max(0, packages.length - packagesPerView);
+        return prev >= maxIdx ? 0 : prev + 1;
+      });
+    }, packagesPerView === 1 ? 4000 : 7000); // Mobile: 4s, Desktop: 7s
+    
+    return () => clearInterval(interval);
+  }, [isHovered, packages.length, packagesPerView]);
   
-  const maxIndex = Math.max(0, packages.length - packagesPerView);
+  const maxIndex = packagesPerView === 1 
+    ? packages.length - 1 
+    : Math.max(0, packages.length - packagesPerView);
   
   const nextSlide = () => {
     setCarouselIndex(prev => prev >= maxIndex ? 0 : prev + 1);
@@ -155,6 +174,42 @@ console.log(decrypted); // "Hello, World!"
   
   const prevSlide = () => {
     setCarouselIndex(prev => prev <= 0 ? maxIndex : prev - 1);
+  };
+
+  // Touch/Swipe handlers
+  const handleTouchStart = (e) => {
+    setTouchEnd(0);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      nextSlide();
+    } else if (isRightSwipe) {
+      prevSlide();
+    }
+  };
+
+  // Mouse wheel handler for desktop
+  const handleWheel = (e) => {
+    if (packagesPerView === 1) return; // Only on desktop
+    
+    e.preventDefault();
+    if (e.deltaY > 0) {
+      nextSlide();
+    } else {
+      prevSlide();
+    }
   };
 
   // Fetch download stats from NPM
@@ -282,153 +337,74 @@ console.log(decrypted); // "Hello, World!"
           </div>
         </div>
 
-        {/* Pretty Carousel */}
+        {/* Simple Carousel */}
         <div 
           style={{
-            position: "relative",
             width: "100%",
-            maxWidth: "1200px",
+            maxWidth: "1200px", 
             margin: "0 auto",
-            overflow: "hidden"
+            position: "relative"
           }}
-          onMouseEnter={(e) => {
-            const arrows = e.currentTarget.querySelectorAll('.carousel-arrow');
-            arrows.forEach(arrow => arrow.style.opacity = '1');
-          }}
-          onMouseLeave={(e) => {
-            const arrows = e.currentTarget.querySelectorAll('.carousel-arrow');
-            arrows.forEach(arrow => arrow.style.opacity = '0');
-          }}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          onWheel={handleWheel}
         >
-          {/* Elegant Navigation Arrows */}
-          {packages.length > packagesPerView && (
-            <>
-              <button
-                className="carousel-arrow"
-                onClick={prevSlide}
-                style={{
-                  position: "absolute",
-                  left: "16px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  zIndex: 10,
-                  background: "rgba(0, 0, 0, 0.8)",
-                  backdropFilter: "blur(10px)",
-                  border: "1px solid rgba(255, 255, 255, 0.1)",
-                  borderRadius: "12px",
-                  width: "48px",
-                  height: "48px",
-                  color: "#fff",
-                  fontSize: "1.2rem",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  transition: "all 0.3s ease",
-                  opacity: "0"
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(0, 0, 0, 0.9)";
-                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.2)";
-                  e.currentTarget.style.transform = "translateY(-50%) scale(1.05)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "rgba(0, 0, 0, 0.8)";
-                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
-                  e.currentTarget.style.transform = "translateY(-50%) scale(1)";
-                }}
-              >
-                ←
-              </button>
-              
-              <button
-                className="carousel-arrow"
-                onClick={nextSlide}
-                style={{
-                  position: "absolute",
-                  right: "16px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  zIndex: 10,
-                  background: "rgba(0, 0, 0, 0.8)",
-                  backdropFilter: "blur(10px)",
-                  border: "1px solid rgba(255, 255, 255, 0.1)",
-                  borderRadius: "12px",
-                  width: "48px",
-                  height: "48px",
-                  color: "#fff",
-                  fontSize: "1.2rem",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  transition: "all 0.3s ease",
-                  opacity: "0"
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(0, 0, 0, 0.9)";
-                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.2)";
-                  e.currentTarget.style.transform = "translateY(-50%) scale(1.05)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "rgba(0, 0, 0, 0.8)";
-                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
-                  e.currentTarget.style.transform = "translateY(-50%) scale(1)";
-                }}
-              >
-                →
-              </button>
-            </>
-          )}
-
-          {/* Carousel Track */}
-          <div style={{
-            display: "flex",
-            transform: `translateX(-${carouselIndex * (100 / packagesPerView)}%)`,
-            transition: "transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-            gap: "24px",
-            padding: "0 8px"
-          }}>
-            {packages.map((pkg, index) => (
-            <div
-              key={pkg.id}
-              onClick={() => !pkg.inactive && setSelectedPackage(index)}
-              style={{
-                background: pkg.inactive 
-                  ? "rgba(255, 255, 255, 0.02)"
-                  : selectedPackage === index 
-                    ? "rgba(255, 255, 255, 0.1)" 
-                    : "rgba(255, 255, 255, 0.05)",
-                borderRadius: "16px",
-                padding: "32px",
-                cursor: pkg.inactive ? "not-allowed" : "pointer",
-                border: "1px solid",
-                borderColor: pkg.inactive
-                  ? "rgba(255, 255, 255, 0.05)"
-                  : selectedPackage === index 
-                    ? "rgba(255, 255, 255, 0.3)" 
-                    : "rgba(255, 255, 255, 0.1)",
-                transition: "all 0.3s ease",
-                flex: `0 0 calc(${100 / packagesPerView}% - 18px)`,
-                minWidth: `calc(${100 / packagesPerView}% - 18px)`,
-                display: "flex",
-                flexDirection: "column",
-                gap: "12px",
-                opacity: pkg.inactive ? 0.4 : 1
-              }}
-              onMouseEnter={(e) => {
-                if (!pkg.inactive && selectedPackage !== index) {
-                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.2)";
-                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.08)";
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!pkg.inactive && selectedPackage !== index) {
-                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
-                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
-                }
-              }}
-            >
+          
+          {/* Desktop: Show all cards in a grid */}
+          {packagesPerView > 1 && (
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: `repeat(${packagesPerView}, 1fr)`,
+              gap: "24px",
+              width: "100%",
+              transition: "all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+            }}>
+              {packages.slice(carouselIndex, carouselIndex + packagesPerView).map((pkg, index) => {
+                const originalIndex = carouselIndex + index;
+                return (
+                <div
+                  key={pkg.id}
+                  onClick={() => !pkg.inactive && setSelectedPackage(originalIndex)}
+                  style={{
+                    background: pkg.inactive 
+                      ? "rgba(255, 255, 255, 0.02)"
+                      : selectedPackage === originalIndex 
+                        ? "rgba(255, 255, 255, 0.1)" 
+                        : "rgba(255, 255, 255, 0.05)",
+                    borderRadius: "16px",
+                    padding: "32px",
+                    cursor: pkg.inactive ? "not-allowed" : "pointer",
+                    border: "1px solid",
+                    borderColor: pkg.inactive
+                      ? "rgba(255, 255, 255, 0.05)"
+                      : selectedPackage === originalIndex 
+                        ? "rgba(255, 255, 255, 0.3)" 
+                        : "rgba(255, 255, 255, 0.1)",
+                    transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                    transform: "translateY(0px)",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "12px",
+                    opacity: pkg.inactive ? 0.4 : 1
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!pkg.inactive && selectedPackage !== originalIndex) {
+                      e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.2)";
+                      e.currentTarget.style.background = "rgba(255, 255, 255, 0.08)";
+                      e.currentTarget.style.transform = "translateY(-2px)";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!pkg.inactive && selectedPackage !== originalIndex) {
+                      e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
+                      e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
+                      e.currentTarget.style.transform = "translateY(0px)";
+                    }
+                  }}
+                >
               <h3 style={{
                 fontSize: "1.5rem",
                 fontWeight: "400",
@@ -523,48 +499,247 @@ console.log(decrypted); // "Hello, World!"
                 marginTop: "8px"
               }}>
                 npm i {pkg.npm}
-              </code>
+                  </code>
+                </div>
+                );
+              })}
             </div>
-          ))}
-          </div>
-          
-          {/* Elegant Line Indicators */}
-          {packages.length > packagesPerView && (
+          )}
+
+          {/* Mobile: Show one card at a time */}
+          {packagesPerView === 1 && (
             <div style={{
               display: "flex",
               justifyContent: "center",
-              gap: "6px",
-              marginTop: "32px"
+              width: "100%",
+              padding: "0 20px",
+              transition: "all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)"
             }}>
-              {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setCarouselIndex(idx)}
-                  style={{
-                    width: idx === carouselIndex ? "24px" : "8px",
-                    height: "3px",
-                    borderRadius: "2px",
-                    border: "none",
-                    background: idx === carouselIndex 
-                      ? "rgba(255, 255, 255, 0.9)" 
-                      : "rgba(255, 255, 255, 0.3)",
-                    cursor: "pointer",
-                    transition: "all 0.4s ease"
-                  }}
-                  onMouseEnter={(e) => {
-                    if (idx !== carouselIndex) {
-                      e.currentTarget.style.background = "rgba(255, 255, 255, 0.6)";
-                      e.currentTarget.style.width = "16px";
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (idx !== carouselIndex) {
-                      e.currentTarget.style.background = "rgba(255, 255, 255, 0.3)";
-                      e.currentTarget.style.width = "8px";
-                    }
-                  }}
-                />
-              ))}
+              <div
+                key={packages[carouselIndex].id}
+                onClick={() => !packages[carouselIndex].inactive && setSelectedPackage(carouselIndex)}
+                style={{
+                  background: packages[carouselIndex].inactive 
+                    ? "rgba(255, 255, 255, 0.02)"
+                    : selectedPackage === carouselIndex 
+                      ? "rgba(255, 255, 255, 0.1)" 
+                      : "rgba(255, 255, 255, 0.05)",
+                  borderRadius: "16px",
+                  padding: "32px",
+                  cursor: packages[carouselIndex].inactive ? "not-allowed" : "pointer",
+                  border: "1px solid",
+                  borderColor: packages[carouselIndex].inactive
+                    ? "rgba(255, 255, 255, 0.05)"
+                    : selectedPackage === carouselIndex 
+                      ? "rgba(255, 255, 255, 0.3)" 
+                      : "rgba(255, 255, 255, 0.1)",
+                  transition: "all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                  transform: "translateY(0px) scale(1)",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "12px",
+                  opacity: packages[carouselIndex].inactive ? 0.4 : 1,
+                  maxWidth: "400px",
+                  width: "100%"
+                }}
+              >
+                <h3 style={{
+                  fontSize: "1.5rem",
+                  fontWeight: "400",
+                  color: "#fff",
+                  margin: 0,
+                  fontFamily: "'Poppins', sans-serif"
+                }}>
+                  {packages[carouselIndex].title}
+                </h3>
+                <p style={{
+                  fontSize: "0.9rem",
+                  color: "rgba(255, 255, 255, 0.6)",
+                  margin: 0,
+                  fontFamily: "'Poppins', sans-serif",
+                  fontWeight: "300"
+                }}>
+                  {packages[carouselIndex].subtitle}
+                </p>
+                
+                {!packages[carouselIndex].inactive && (
+                  <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: ['@zkthings/proof-membership-evm', '@zkthings/range-proof-evm', '@zkthings/e2e-encryption-secp256k1', '@zkthings/e2e-encryption-ed25519', 'zkmerkle'].includes(packages[carouselIndex].npm) ? "space-between" : "flex-end",
+                    marginTop: "4px"
+                  }}>
+                    {['@zkthings/proof-membership-evm', '@zkthings/range-proof-evm', '@zkthings/e2e-encryption-secp256k1', '@zkthings/e2e-encryption-ed25519', 'zkmerkle'].includes(packages[carouselIndex].npm) && (
+                      <div style={{
+                        fontSize: "0.75rem",
+                        color: "rgba(255, 255, 255, 0.5)",
+                        fontFamily: "SF Mono, monospace",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "4px"
+                      }}>
+                        <span>📊</span>
+                        <span>
+                          {packageDownloads[packages[carouselIndex].npm] !== undefined
+                            ? packageDownloads[packages[carouselIndex].npm] === 0 
+                              ? 'NEW'
+                              : `${packageDownloads[packages[carouselIndex].npm].toLocaleString()} installs`
+                            : '... installs'}
+                        </span>
+                      </div>
+                    )}
+                    
+                    <Link
+                      to={packages[carouselIndex].docUrl}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "4px",
+                        padding: "4px 8px",
+                        background: "rgba(255, 255, 255, 0.05)",
+                        border: "1px solid rgba(255, 255, 255, 0.1)",
+                        borderRadius: "4px",
+                        color: "rgba(255, 255, 255, 0.7)",
+                        textDecoration: "none",
+                        fontSize: "0.7rem",
+                        fontFamily: "'Poppins', sans-serif",
+                        fontWeight: "300",
+                        transition: "all 0.2s ease"
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = "rgba(255, 255, 255, 0.08)";
+                        e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.15)";
+                        e.currentTarget.style.color = "rgba(255, 255, 255, 0.9)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
+                        e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
+                        e.currentTarget.style.color = "rgba(255, 255, 255, 0.7)";
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <span style={{ fontSize: "0.6rem" }}>📖</span>
+                      <span>docs</span>
+                    </Link>
+                  </div>
+                )}
+                
+                <code style={{
+                  fontSize: "0.8rem",
+                  color: "rgba(255, 255, 255, 0.4)",
+                  fontFamily: "SF Mono, monospace",
+                  background: "rgba(0, 0, 0, 0.3)",
+                  padding: "4px 8px",
+                  borderRadius: "4px",
+                  width: "fit-content",
+                  marginTop: "8px"
+                }}>
+                  npm i {packages[carouselIndex].npm}
+                </code>
+              </div>
+            </div>
+          )}
+
+          {/* Navigation Hints */}
+          {(packages.length > packagesPerView || (packagesPerView === 1 && packages.length > 1)) && (
+            <div style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "16px",
+              marginTop: "24px"
+            }}>
+              {/* Left Arrow */}
+              <button
+                onClick={prevSlide}
+                style={{
+                  background: "transparent",
+                  border: "1px solid rgba(255, 255, 255, 0.2)",
+                  borderRadius: "50%",
+                  width: "32px",
+                  height: "32px",
+                  color: "rgba(255, 255, 255, 0.6)",
+                  fontSize: "0.9rem",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "all 0.4s ease",
+                  opacity: "0.7"
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.opacity = "1";
+                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.4)";
+                  e.currentTarget.style.color = "rgba(255, 255, 255, 0.9)";
+                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.opacity = "0.7";
+                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.2)";
+                  e.currentTarget.style.color = "rgba(255, 255, 255, 0.6)";
+                  e.currentTarget.style.background = "transparent";
+                }}
+              >
+                ←
+              </button>
+
+              {/* Dots */}
+              <div style={{
+                display: "flex",
+                gap: "8px"
+              }}>
+                {(packagesPerView === 1 ? packages : Array.from({ length: maxIndex + 1 })).map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCarouselIndex(idx)}
+                    style={{
+                      width: "10px",
+                      height: "10px",
+                      borderRadius: "50%",
+                      border: "none",
+                      background: idx === carouselIndex 
+                        ? "rgba(255, 255, 255, 0.9)" 
+                        : "rgba(255, 255, 255, 0.3)",
+                      cursor: "pointer",
+                      transition: "all 0.4s ease"
+                    }}
+                  />
+                ))}
+              </div>
+
+              {/* Right Arrow */}
+              <button
+                onClick={nextSlide}
+                style={{
+                  background: "transparent",
+                  border: "1px solid rgba(255, 255, 255, 0.2)",
+                  borderRadius: "50%",
+                  width: "32px",
+                  height: "32px",
+                  color: "rgba(255, 255, 255, 0.6)",
+                  fontSize: "0.9rem",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "all 0.4s ease",
+                  opacity: "0.7"
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.opacity = "1";
+                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.4)";
+                  e.currentTarget.style.color = "rgba(255, 255, 255, 0.9)";
+                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.opacity = "0.7";
+                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.2)";
+                  e.currentTarget.style.color = "rgba(255, 255, 255, 0.6)";
+                  e.currentTarget.style.background = "transparent";
+                }}
+              >
+                →
+              </button>
             </div>
           )}
         </div>
