@@ -10,7 +10,7 @@ function HomepageHeader() {
     {
       id: 'evm-membership',
       title: 'Membership Proofs',
-      subtitle: 'EVM Compatible • JavaScript Library • Smart Contracts',
+      subtitle: 'EVM Compatible • Prove Set Membership • Without Revealing Identity',
       npm: '@zkthings/proof-membership-evm',
       code: `import { ZkMerkle, makeProof, verifyOffchain } from '@zkthings/proof-membership-evm';
     
@@ -36,9 +36,33 @@ const isValidOffChain = await zkMerkle.verifyProofOffChain(
 const verifierContract = await zkMerkle.exportVerifierContract()`
     },
     {
+      id: 'range-proof',
+      title: 'Range Proofs',
+      subtitle: 'EVM Compatible • Prove Values in Ranges • Without Revealing Exact Amounts',
+      npm: '@zkthings/range-proof-evm',
+      code: `import { RangeProof } from '@zkthings/range-proof-evm';
+
+// Prove you're 18+ without revealing exact age
+const rangeProof = new RangeProof();
+
+const ageProof = await rangeProof.prove(
+  25,   // Your actual age (SECRET!)
+  18,   // Minimum age required (public)
+  255   // Maximum possible age (public)
+  // Auto-detects 8-bit circuit since max value is 255
+);
+
+// Verify the proof
+const isValid = await rangeProof.verify(ageProof);
+console.log('Valid adult:', isValid); // true
+
+// Export Solidity Verifier
+const verifierContract = await rangeProof.exportSolidityVerifier(ageProof);`
+    },
+    {
       id: 'e2e-encryption',
       title: 'E2E Encryption',
-      subtitle: 'Private Messaging • Wallet-to-Wallet • JavaScript SDK',
+      subtitle: 'EVM Compatible • Private Messaging • Wallet-to-Wallet',
       npm: '@zkthings/e2e-encryption-secp256k1',
       code: `const { Secp256k1E2E } = require('@zkthings/e2e-encryption-secp256k1');
 const { Wallet } = require('ethers');
@@ -64,38 +88,6 @@ const decrypted = await e2e.decrypt({
 });
 
 console.log(decrypted); // "Private message content"`
-    },
-    {
-      id: 'mina-membership',
-      title: 'Membership Proofs (Mina)',
-      subtitle: 'Coming Soon ',
-      npm: '@zkthings/proof-membership-mina',
-      inactive: true,
-      code: `import { ZkMerkle } from '@zkthings/proof-membership-mina'
-
-// Initialize ZK Merkle Tree
-const zkMerkle = new ZkMerkle()
-
-// Add data and generate proof
-const values = ['user1', 'user2', 'user3']
-
-const { proof, publicSignals } = await zkMerkle.generateMerkleProof(
-  values,
-  'user1'
-)
-
-// Verify off-chain
-const isValidOffChain = await zkMerkle.verifyProofOffChain(
-  proof, 
-  publicSignals
-)
-
-// Verify On-chain 
-const isValidOnChain = await zkMerkle.verifyProofOnChain(
-  deployment.contract,
-  proof,
-  publicSignals
-)`
     }
   ];
 
@@ -109,8 +101,8 @@ const isValidOnChain = await zkMerkle.verifyProofOnChain(
       try {
         const packages = [
           '@zkthings/proof-membership-evm',
+          '@zkthings/range-proof-evm',
           '@zkthings/e2e-encryption-secp256k1',
-          '@zkthings/proof-membership-mina',
           'zkmerkle'
         ];
         
