@@ -8,7 +8,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'zksdk.dev',
+  title: 'zksdk',
   tagline: '',
   favicon: 'img/zkimage.png',
 
@@ -70,7 +70,7 @@ const config = {
       ],
       image: 'img/zkimage.png',
       navbar: {
-        title: 'zksdk.dev',
+        title: 'zk',
         items: [
           {
             type: 'doc',
