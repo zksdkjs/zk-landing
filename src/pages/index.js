@@ -100,24 +100,143 @@ function HomepageHeader() {
     return () => clearInterval(interval);
   }, [totalDownloads]);
 
+  // All 5 libraries with full code examples
   const zkthingsLibraries = [
     {
       name: 'proof-membership-evm',
       description: 'Prove set membership without revealing identity',
       npm: '@zkthings/proof-membership-evm',
-      installs: packageDownloads['@zkthings/proof-membership-evm'] || 336
+      installs: packageDownloads['@zkthings/proof-membership-evm'] || 336,
+      code: `import { ZkMerkle, makeProof, verifyOffchain } from '@zkthings/proof-membership-evm';
+
+// Initialize ZK Merkle Tree
+const zkMerkle = new ZkMerkle()
+
+// Add data and generate proof
+const values = ['alice', 'bob', 'charlie']
+
+const { proof, publicSignals } = await zkMerkle.generateMerkleProof(
+  values,
+  'alice'
+)
+
+// Verify off-chain 
+const isValidOffChain = await zkMerkle.verifyProofOffChain(
+  proof, 
+  publicSignals
+)
+
+// Export and deploy verifier contract
+const verifierContract = await zkMerkle.exportVerifierContract()`
     },
     {
       name: 'range-proof-evm',
       description: 'Prove values in ranges without exact amounts',
       npm: '@zkthings/range-proof-evm',
-      installs: packageDownloads['@zkthings/range-proof-evm'] || 151
+      installs: packageDownloads['@zkthings/range-proof-evm'] || 151,
+      code: `import { RangeProof } from '@zkthings/range-proof-evm';
+
+// Prove you're 18+ without revealing exact age
+const rangeProof = new RangeProof();
+
+const ageProof = await rangeProof.prove(
+  25,   // Your actual age (SECRET!)
+  18,   // Minimum age required (public)
+  255   // Maximum possible age (public)
+  // Auto-detects 8-bit circuit since max value is 255
+);
+
+// Verify the proof
+const isValid = await rangeProof.verify(ageProof);
+console.log('Valid adult:', isValid); // true
+
+// Export Solidity Verifier
+const verifierContract = await rangeProof.exportSolidityVerifier(ageProof);`
     },
     {
       name: 'e2e-encryption-secp256k1',
       description: 'End-to-end encryption for EVM wallets',
       npm: '@zkthings/e2e-encryption-secp256k1',
-      installs: packageDownloads['@zkthings/e2e-encryption-secp256k1'] || 259
+      installs: packageDownloads['@zkthings/e2e-encryption-secp256k1'] || 259,
+      code: `const { Secp256k1E2E } = require('@zkthings/e2e-encryption-secp256k1');
+const { Wallet } = require('ethers');
+
+// Initialize E2E encryption
+const e2e = new Secp256k1E2E();
+
+// Create sample wallets
+const alice = Wallet.createRandom();
+const bob = Wallet.createRandom();
+
+// Encrypt a message for Bob
+const encrypted = await e2e.encryptFor(
+  "Private message content",
+  bob.address,
+  Buffer.from(bob.publicKey.slice(2), 'hex')
+);
+
+// Bob decrypts the message
+const decrypted = await e2e.decrypt({
+  publicSignals: encrypted.publicSignals,
+  privateKey: bob.privateKey
+});
+
+console.log(decrypted); // "Private message content"`
+    },
+    {
+      name: 'e2e-encryption-ed25519',
+      description: 'Private messaging for Solana & StarkNet wallets',
+      npm: '@zkthings/e2e-encryption-ed25519',
+      installs: packageDownloads['@zkthings/e2e-encryption-ed25519'] || 0,
+      code: `import { Ed25519E2E } from '@zkthings/e2e-encryption-ed25519';
+
+// Initialize E2E encryption for Ed25519 wallets
+const e2e = new Ed25519E2E();
+
+// Encrypt data for Solana wallet
+const encrypted = await e2e.encryptFor(
+  'Secret transaction details',
+  'DQyrAcCrDXQ7NeoqGgDCZwBvkDDyF7piNC4bRoMvQSLE', // Solana address
+  publicKey // Ed25519 public key
+);
+
+// Decrypt data with private key
+const decrypted = await e2e.decrypt(encrypted, privateKey);
+console.log(decrypted); // "Secret transaction details"
+
+// Works with any Ed25519-compatible chain
+// Solana, StarkNet, Cardano, etc.`
+    },
+    {
+      name: 'zkmerkle',
+      description: 'Simple zero-knowledge merkle tree proofs',
+      npm: 'zkmerkle',
+      installs: packageDownloads['zkmerkle'] || 530,
+      code: `import { MerkleTree, generateProof, verifyProof } from 'zkmerkle';
+
+// Create a merkle tree with private data
+const privateData = [
+  'user123',
+  'user456', 
+  'user789'
+];
+
+const tree = new MerkleTree(privateData);
+
+// Generate proof for membership
+const proof = generateProof(tree, 'user456');
+
+// Verify without revealing the data
+const isValid = verifyProof(
+  proof,
+  tree.getRoot(),
+  'user456'
+);
+
+console.log('Membership verified:', isValid); // true
+
+// Export for on-chain verification
+const solidityProof = proof.toSolidity();`
     }
   ];
 
@@ -159,17 +278,20 @@ function HomepageHeader() {
         </p>
       </div>
 
-      {/* Product Toggle */}
+      {/* Product Toggle with Better UI */}
       <div style={{
         display: "flex",
-        justifyContent: "center",
-        marginBottom: "60px"
+        flexDirection: "column",
+        alignItems: "center",
+        marginBottom: "60px",
+        gap: "20px"
       }}>
         <div style={{
           display: "inline-flex",
           background: "rgba(255, 255, 255, 0.05)",
           borderRadius: "8px",
-          padding: "4px"
+          padding: "4px",
+          position: "relative"
         }}>
           <button
             onClick={() => setActiveProduct('zkthings')}
@@ -200,20 +322,47 @@ function HomepageHeader() {
               fontWeight: "500",
               cursor: "pointer",
               transition: "all 0.2s ease",
-              outline: "none"
+              outline: "none",
+              position: "relative"
             }}
           >
             zkSDKjs
+            {activeProduct !== 'zksdkjs' && (
+              <span style={{
+                position: "absolute",
+                top: "-8px",
+                right: "-8px",
+                background: "#4ade80",
+                color: "#000",
+                fontSize: "10px",
+                padding: "2px 6px",
+                borderRadius: "10px",
+                fontWeight: "600"
+              }}>
+                NEW
+              </span>
+            )}
           </button>
         </div>
+        
+        {/* Add description under toggle for zkSDKjs */}
+        {activeProduct !== 'zksdkjs' && (
+          <p style={{
+            fontSize: "13px",
+            color: "rgba(255, 255, 255, 0.4)",
+            margin: 0,
+            textAlign: "center"
+          }}>
+            zkSDKjs - AI agents building universal privacy SDK for all blockchains
+          </p>
+        )}
       </div>
 
       {/* Content Area */}
       <div style={{
-        maxWidth: "900px",
+        maxWidth: "1100px",
         margin: "0 auto",
-        padding: "0 20px 80px",
-        minHeight: "60vh"
+        padding: "0 20px 80px"
       }}>
         {/* zkthings Content */}
         {activeProduct === 'zkthings' && (
@@ -229,7 +378,7 @@ function HomepageHeader() {
                 fontWeight: "300",
                 margin: "0 0 16px 0"
               }}>
-                Experimental Privacy Libraries
+                Zero-Knowledge Proof Libraries
               </h2>
               <p style={{
                 fontSize: "16px",
@@ -242,131 +391,187 @@ function HomepageHeader() {
                 fontSize: "14px",
                 color: "rgba(255, 255, 255, 0.4)"
               }}>
-                Zero-knowledge proof libraries for EVM and Solana
+                Privacy primitives for EVM, Solana, and StarkNet
               </p>
             </div>
 
-            {/* Libraries List */}
+            {/* Two Column Layout */}
             <div style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "2px",
-              marginBottom: "60px"
+              display: "grid",
+              gridTemplateColumns: "1fr 1.5fr",
+              gap: "40px",
+              alignItems: "start"
             }}>
-              {zkthingsLibraries.map((lib, index) => (
-                <div
-                  key={lib.name}
-                  onClick={() => setSelectedPackage(index)}
-                  style={{
-                    padding: "24px",
-                    background: selectedPackage === index ? "rgba(255, 255, 255, 0.05)" : "transparent",
-                    borderLeft: selectedPackage === index ? "2px solid #fff" : "2px solid transparent",
-                    cursor: "pointer",
-                    transition: "all 0.15s ease"
-                  }}
-                  onMouseEnter={(e) => {
-                    if (selectedPackage !== index) {
-                      e.currentTarget.style.background = "rgba(255, 255, 255, 0.02)";
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (selectedPackage !== index) {
-                      e.currentTarget.style.background = "transparent";
-                    }
-                  }}
-                >
-                  <div style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center"
-                  }}>
-                    <div>
+              {/* Libraries List - Scrollable */}
+              <div>
+                <div style={{
+                  fontSize: "12px",
+                  color: "rgba(255, 255, 255, 0.4)",
+                  marginBottom: "16px",
+                  textTransform: "uppercase",
+                  letterSpacing: "1px"
+                }}>
+                  Libraries • Click to view example
+                </div>
+                <div style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "8px",
+                  maxHeight: "500px",
+                  overflowY: "auto",
+                  paddingRight: "8px"
+                }}>
+                  {zkthingsLibraries.map((lib, index) => (
+                    <div
+                      key={lib.name}
+                      onClick={() => setSelectedPackage(index)}
+                      style={{
+                        padding: "16px",
+                        background: selectedPackage === index 
+                          ? "rgba(255, 255, 255, 0.08)" 
+                          : "rgba(255, 255, 255, 0.03)",
+                        border: "1px solid",
+                        borderColor: selectedPackage === index 
+                          ? "rgba(255, 255, 255, 0.3)" 
+                          : "rgba(255, 255, 255, 0.1)",
+                        borderRadius: "8px",
+                        cursor: "pointer",
+                        transition: "all 0.15s ease"
+                      }}
+                      onMouseEnter={(e) => {
+                        if (selectedPackage !== index) {
+                          e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.2)";
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (selectedPackage !== index) {
+                          e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
+                        }
+                      }}
+                    >
                       <h3 style={{
-                        fontSize: "16px",
+                        fontSize: "14px",
                         fontWeight: "500",
-                        margin: "0 0 4px 0"
+                        margin: "0 0 4px 0",
+                        color: selectedPackage === index ? "#fff" : "rgba(255, 255, 255, 0.9)"
                       }}>
                         {lib.name}
                       </h3>
                       <p style={{
-                        fontSize: "14px",
+                        fontSize: "12px",
                         color: "rgba(255, 255, 255, 0.5)",
-                        margin: 0
+                        margin: "0 0 8px 0"
                       }}>
                         {lib.description}
                       </p>
-                    </div>
-                    <div style={{
-                      textAlign: "right"
-                    }}>
                       <div style={{
-                        fontSize: "12px",
-                        color: "rgba(255, 255, 255, 0.4)",
-                        marginBottom: "4px"
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center"
                       }}>
-                        {lib.installs.toLocaleString()} installs
+                        <code style={{
+                          fontSize: "10px",
+                          color: "rgba(255, 255, 255, 0.3)",
+                          fontFamily: "SF Mono, monospace"
+                        }}>
+                          {lib.npm}
+                        </code>
+                        <span style={{
+                          fontSize: "11px",
+                          color: "rgba(255, 255, 255, 0.4)"
+                        }}>
+                          {lib.installs.toLocaleString()} installs
+                        </span>
                       </div>
-                      <code style={{
-                        fontSize: "11px",
-                        color: "rgba(255, 255, 255, 0.3)",
-                        fontFamily: "SF Mono, monospace"
-                      }}>
-                        npm i {lib.npm}
-                      </code>
                     </div>
-                  </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-
-            {/* Code Example */}
-            <div style={{
-              marginBottom: "40px"
-            }}>
-              <div style={{
-                fontSize: "12px",
-                color: "rgba(255, 255, 255, 0.4)",
-                marginBottom: "16px",
-                textTransform: "uppercase",
-                letterSpacing: "1px"
-              }}>
-                Example
               </div>
-              <div style={{
-                background: "rgba(255, 255, 255, 0.03)",
-                border: "1px solid rgba(255, 255, 255, 0.1)",
-                borderRadius: "8px",
-                padding: "24px",
-                overflow: "auto"
-              }}>
-                <pre style={{ margin: 0 }}>
+
+              {/* Code Example - Shows selected library */}
+              <div>
+                <div style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: "16px"
+                }}>
+                  <div style={{
+                    fontSize: "12px",
+                    color: "rgba(255, 255, 255, 0.4)",
+                    textTransform: "uppercase",
+                    letterSpacing: "1px"
+                  }}>
+                    {zkthingsLibraries[selectedPackage].name} Example
+                  </div>
+                  <button
+                    onClick={() => navigator.clipboard.writeText(zkthingsLibraries[selectedPackage].code)}
+                    style={{
+                      background: "transparent",
+                      border: "1px solid rgba(255, 255, 255, 0.2)",
+                      borderRadius: "4px",
+                      padding: "4px 12px",
+                      color: "rgba(255, 255, 255, 0.6)",
+                      fontSize: "11px",
+                      cursor: "pointer",
+                      fontFamily: "SF Mono, monospace",
+                      transition: "all 0.2s ease"
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.borderColor = "rgba(255, 255, 255, 0.4)";
+                      e.target.style.color = "rgba(255, 255, 255, 0.8)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
+                      e.target.style.color = "rgba(255, 255, 255, 0.6)";
+                    }}
+                  >
+                    Copy
+                  </button>
+                </div>
+                <div style={{
+                  background: "rgba(255, 255, 255, 0.03)",
+                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                  borderRadius: "8px",
+                  padding: "24px",
+                  overflow: "auto",
+                  maxHeight: "450px"
+                }}>
+                  <pre style={{ margin: 0 }}>
+                    <code style={{
+                      fontSize: "12px",
+                      lineHeight: "1.6",
+                      color: "rgba(255, 255, 255, 0.9)",
+                      fontFamily: "SF Mono, monospace"
+                    }}>
+                      {zkthingsLibraries[selectedPackage].code}
+                    </code>
+                  </pre>
+                </div>
+                
+                {/* Install command */}
+                <div style={{
+                  marginTop: "16px",
+                  padding: "12px",
+                  background: "rgba(255, 255, 255, 0.02)",
+                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                  borderRadius: "6px"
+                }}>
                   <code style={{
-                    fontSize: "13px",
-                    lineHeight: "1.6",
-                    color: "rgba(255, 255, 255, 0.8)",
+                    fontSize: "12px",
+                    color: "rgba(255, 255, 255, 0.7)",
                     fontFamily: "SF Mono, monospace"
                   }}>
-{`import { ZkMerkle } from '${zkthingsLibraries[selectedPackage].npm}';
-
-const zkMerkle = new ZkMerkle();
-const values = ['alice', 'bob', 'charlie'];
-
-// Generate proof
-const { proof, publicSignals } = await zkMerkle.generateMerkleProof(
-  values,
-  'alice'
-);
-
-// Verify off-chain
-const isValid = await zkMerkle.verifyProofOffChain(proof, publicSignals);`}
+                    npm install {zkthingsLibraries[selectedPackage].npm}
                   </code>
-                </pre>
+                </div>
               </div>
             </div>
 
             {/* CTA */}
             <div style={{
-              textAlign: "center"
+              textAlign: "center",
+              marginTop: "60px"
             }}>
               <Link
                 to="/docs/intro"
@@ -404,31 +609,32 @@ const isValid = await zkMerkle.verifyProofOffChain(proof, publicSignals);`}
               marginBottom: "60px"
             }}>
               <h2 style={{
-                fontSize: "32px",
+                fontSize: "36px",
                 fontWeight: "300",
                 margin: "0 0 16px 0"
               }}>
-                Universal Privacy SDK
+                One SDK for Privacy Everywhere
               </h2>
               <p style={{
-                fontSize: "16px",
-                color: "rgba(255, 255, 255, 0.5)",
-                margin: "0 0 8px 0"
+                fontSize: "18px",
+                color: "rgba(255, 255, 255, 0.7)",
+                margin: "0 0 12px 0",
+                lineHeight: "1.5"
               }}>
-                Coming Q2 2025
+                7 AI agents building the universal privacy SDK for Bitcoin, Ethereum, Solana, and every blockchain
               </p>
               <p style={{
                 fontSize: "14px",
                 color: "rgba(255, 255, 255, 0.4)"
               }}>
-                7 autonomous AI agents building universal privacy for Web3
+                Coming Q2 2025 • Powered by Goose
               </p>
             </div>
 
             {/* Live Status */}
             <div style={{
-              background: "rgba(255, 255, 255, 0.03)",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
+              background: "rgba(74, 222, 128, 0.05)",
+              border: "1px solid rgba(74, 222, 128, 0.2)",
               borderRadius: "8px",
               padding: "24px",
               marginBottom: "40px"
@@ -448,14 +654,15 @@ const isValid = await zkMerkle.verifyProofOffChain(proof, publicSignals);`}
                 }} />
                 <span style={{
                   fontSize: "14px",
-                  color: "rgba(255, 255, 255, 0.8)"
+                  color: "rgba(255, 255, 255, 0.8)",
+                  fontWeight: "500"
                 }}>
                   AI Agents Building Live 24/7
                 </span>
               </div>
               <p style={{
                 fontSize: "13px",
-                color: "rgba(255, 255, 255, 0.5)",
+                color: "rgba(255, 255, 255, 0.6)",
                 margin: 0,
                 fontFamily: "SF Mono, monospace"
               }}>
@@ -463,28 +670,64 @@ const isValid = await zkMerkle.verifyProofOffChain(proof, publicSignals);`}
               </p>
             </div>
 
-            {/* Vision */}
+            {/* The Problem & Solution */}
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "32px",
+              marginBottom: "40px"
+            }}>
+              <div>
+                <h3 style={{
+                  fontSize: "18px",
+                  fontWeight: "500",
+                  margin: "0 0 12px 0",
+                  color: "rgba(255, 100, 100, 0.9)"
+                }}>
+                  The Problem
+                </h3>
+                <p style={{
+                  fontSize: "14px",
+                  color: "rgba(255, 255, 255, 0.6)",
+                  lineHeight: "1.6"
+                }}>
+                  Every blockchain has different privacy protocols. Developers need to learn Railgun for Ethereum, 
+                  CoinJoin for Bitcoin, Light Protocol for Solana. Weeks of integration for each chain.
+                </p>
+              </div>
+              <div>
+                <h3 style={{
+                  fontSize: "18px",
+                  fontWeight: "500",
+                  margin: "0 0 12px 0",
+                  color: "rgba(100, 255, 100, 0.9)"
+                }}>
+                  The Solution
+                </h3>
+                <p style={{
+                  fontSize: "14px",
+                  color: "rgba(255, 255, 255, 0.6)",
+                  lineHeight: "1.6"
+                }}>
+                  One simple API that works everywhere. Our AI agents continuously integrate every privacy protocol
+                  across every blockchain. You write once, deploy everywhere with privacy.
+                </p>
+              </div>
+            </div>
+
+            {/* Code Example */}
             <div style={{
               marginBottom: "40px"
             }}>
-              <h3 style={{
-                fontSize: "20px",
-                fontWeight: "400",
-                margin: "0 0 16px 0"
+              <div style={{
+                fontSize: "12px",
+                color: "rgba(255, 255, 255, 0.4)",
+                marginBottom: "16px",
+                textTransform: "uppercase",
+                letterSpacing: "1px"
               }}>
-                One API for Every Blockchain
-              </h3>
-              <p style={{
-                fontSize: "14px",
-                color: "rgba(255, 255, 255, 0.6)",
-                lineHeight: "1.6",
-                marginBottom: "24px"
-              }}>
-                Privacy protocols are complex and fragmented. Each blockchain has different implementations.
-                Our AI agents continuously integrate every privacy protocol - Railgun, Aztec, Light Protocol,
-                CoinJoin - into one simple API.
-              </p>
-              
+                Universal Privacy API
+              </div>
               <div style={{
                 background: "rgba(255, 255, 255, 0.03)",
                 border: "1px solid rgba(255, 255, 255, 0.1)",
@@ -496,12 +739,12 @@ const isValid = await zkMerkle.verifyProofOffChain(proof, publicSignals);`}
                   <code style={{
                     fontSize: "13px",
                     lineHeight: "1.6",
-                    color: "rgba(255, 255, 255, 0.8)",
+                    color: "rgba(255, 255, 255, 0.9)",
                     fontFamily: "SF Mono, monospace"
                   }}>
 {`import { zkSDK } from '@zksdkjs/core';
 
-// Bitcoin privacy
+// Bitcoin privacy - uses CoinJoin under the hood
 await zkSDK.transfer({
   chain: "bitcoin",
   amount: "0.1 BTC",
@@ -509,12 +752,20 @@ await zkSDK.transfer({
   privacy: "maximum"
 });
 
-// Ethereum privacy  
+// Ethereum privacy - uses Railgun/Aztec  
 await zkSDK.transfer({
   chain: "ethereum",
   amount: "1.0 ETH",
   to: "0x742d35Cc6634C0532925a3b844Bc9e79B7423094",
-  privacy: "aztec"
+  privacy: "shielded"
+});
+
+// Solana privacy - uses Light Protocol
+await zkSDK.transfer({
+  chain: "solana",
+  amount: "100 SOL",
+  to: "DQyrAcCrDXQ7NeoqGgDCZwBvkDDyF7piNC4bRoMvQSLE",
+  privacy: "anonymous"
 });
 
 // Cross-chain privacy bridge
@@ -529,7 +780,7 @@ await zkSDK.bridge({
               </div>
             </div>
 
-            {/* Agents */}
+            {/* AI Agents */}
             <div style={{
               marginBottom: "40px"
             }}>
@@ -538,17 +789,57 @@ await zkSDK.bridge({
                 fontWeight: "400",
                 margin: "0 0 16px 0"
               }}>
-                Powered by Goose
+                Autonomous Development with Goose
               </h3>
               <p style={{
                 fontSize: "14px",
                 color: "rgba(255, 255, 255, 0.6)",
-                lineHeight: "1.6"
+                lineHeight: "1.6",
+                marginBottom: "20px"
               }}>
-                7 specialized AI agents work autonomously using Goose to research, develop, test,
-                and maintain the SDK. They integrate new protocols daily, write documentation,
-                and ensure compatibility across all chains.
+                7 specialized AI agents work 24/7 using Goose to research, develop, test, and maintain the SDK.
+                They analyze new privacy protocols daily, write integration code, create documentation, and ensure
+                compatibility across all chains. No human bottlenecks, just continuous improvement.
               </p>
+              
+              {/* Agent Grid */}
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(3, 1fr)",
+                gap: "16px"
+              }}>
+                {[
+                  { name: "Research Agent", task: "Analyzes new privacy protocols" },
+                  { name: "Developer Agent", task: "Writes integration code" },
+                  { name: "Tester Agent", task: "Ensures compatibility" },
+                  { name: "Security Agent", task: "Audits implementations" },
+                  { name: "Docs Agent", task: "Creates documentation" },
+                  { name: "DevOps Agent", task: "Manages deployments" },
+                  { name: "Chief Agent", task: "Coordinates all agents" }
+                ].slice(0, 6).map((agent, i) => (
+                  <div key={i} style={{
+                    padding: "12px",
+                    background: "rgba(255, 255, 255, 0.02)",
+                    border: "1px solid rgba(255, 255, 255, 0.1)",
+                    borderRadius: "6px"
+                  }}>
+                    <div style={{
+                      fontSize: "12px",
+                      fontWeight: "500",
+                      color: "rgba(255, 255, 255, 0.8)",
+                      marginBottom: "4px"
+                    }}>
+                      {agent.name}
+                    </div>
+                    <div style={{
+                      fontSize: "11px",
+                      color: "rgba(255, 255, 255, 0.5)"
+                    }}>
+                      {agent.task}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* CTAs */}
@@ -562,22 +853,24 @@ await zkSDK.bridge({
                 style={{
                   display: "inline-block",
                   padding: "12px 32px",
-                  background: "#fff",
+                  background: "#4ade80",
                   color: "#000",
                   borderRadius: "6px",
                   fontSize: "14px",
-                  fontWeight: "500",
+                  fontWeight: "600",
                   textDecoration: "none",
-                  transition: "transform 0.15s ease"
+                  transition: "all 0.15s ease"
                 }}
                 onMouseEnter={(e) => {
                   e.target.style.transform = "translateY(-1px)";
+                  e.target.style.background = "#5be88a";
                 }}
                 onMouseLeave={(e) => {
                   e.target.style.transform = "translateY(0)";
+                  e.target.style.background = "#4ade80";
                 }}
               >
-                Learn More →
+                Learn About the Mission →
               </Link>
               <a
                 href="https://github.com/zkthings/zkSDKjs"
@@ -602,7 +895,7 @@ await zkSDK.bridge({
                   e.target.style.transform = "translateY(0)";
                 }}
               >
-                GitHub
+                Watch Progress on GitHub
               </a>
             </div>
           </div>
@@ -632,6 +925,25 @@ await zkSDK.bridge({
           100% {
             box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
           }
+        }
+        
+        /* Custom scrollbar for libraries list */
+        div::-webkit-scrollbar {
+          width: 6px;
+        }
+        
+        div::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.05);
+          border-radius: 3px;
+        }
+        
+        div::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.2);
+          border-radius: 3px;
+        }
+        
+        div::-webkit-scrollbar-thumb:hover {
+          background: rgba(255, 255, 255, 0.3);
         }
       `}</style>
     </div>
