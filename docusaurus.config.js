@@ -80,9 +80,9 @@ const config = {
           },
           {
             type: 'doc',
-            docId: 'Open_Source_Open_for_All',
+            docId: 'zkSDK-Mission',
             position: 'left',
-            label: 'Open Source Open for all',
+            label: 'zkSDKjs Mission',
           },
           {
             href: 'https://github.com/zkthings/zksdk',
@@ -95,11 +95,28 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Docs',
+            title: 'zkthings',
             items: [
               {
                 label: 'Documentation',
                 to: '/docs/intro',
+              },
+              {
+                label: 'NPM Packages',
+                href: 'https://www.npmjs.com/org/zkthings',
+              },
+            ],
+          },
+          {
+            title: 'zkSDKjs',
+            items: [
+              {
+                label: 'Mission & Vision',
+                to: '/docs/zkSDK-Mission',
+              },
+              {
+                label: 'Development (Coming Q2 2025)',
+                href: 'https://github.com/zkthings/zkSDKjs',
               },
             ],
           },
@@ -107,30 +124,17 @@ const config = {
             title: 'Community',
             items: [
               {
-                label: 'Twitter',
-                href: 'https://twitter.com/zkthings_labs',
-              },
-              {
                 label: 'GitHub',
                 href: 'https://github.com/zkthings',
               },
-            ],
-          },
-          {
-            title: 'More',
-            items: [
               {
-                label: 'Main Website',
-                href: 'https://zksdk.dev',
-              },
-              {
-                label: 'Legacy: zkmerkle',
-                href: 'https://www.npmjs.com/package/zkmerkle',
+                label: 'Twitter',
+                href: 'https://twitter.com/zkthings_labs',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} zkThings labs.`,
+        copyright: `Copyright © ${new Date().getFullYear()} zkThings labs. • Powered by Goose`,
       },
       prism: {
         theme: prismThemes.github,
