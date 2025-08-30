@@ -107,6 +107,7 @@ const config = {
               {
                 label: 'Development (Coming Q2 2025)',
                 href: 'https://github.com/zksdkjs/agent',
+
               },
             ],
           },
