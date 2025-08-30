@@ -11,7 +11,7 @@ Building privacy integrations across multiple blockchains is a perfect task for 
 1. **Pattern Recognition**: Privacy protocols share common patterns - AI excels at identifying and implementing these patterns across different chains
 2. **Documentation Processing**: AI agents can rapidly parse and understand protocol documentation, turning specs into working code
 3. **Continuous Integration**: As protocols evolve, AI agents can automatically update integrations without human intervention
-4. **24/7 Development**: Our 7 AI agents work continuously, accelerating development beyond human capacity
+4. **24/7 Development**: Our AI agents work continuously, accelerating development beyond human capacity
 
 ## The Agent System
 
@@ -74,7 +74,7 @@ await zkSDK.transfer({
 We're pioneering the use of Goose for autonomous SDK development. Here's how you can contribute:
 
 ### Agent Recipe Optimization
-- Review and improve our agent recipes at [github.com/zkthings/zkSDKjs](https://github.com/zkthings/zkSDKjs)
+- Review and improve our agent recipes at [github.com/zksdkjs/zkSDKjs](https://github.com/zksdkjs/zkSDKjs)
 - Suggest new agent capabilities and workflows
 - Help optimize agent collaboration patterns
 
@@ -122,7 +122,7 @@ zkSDKjs represents a new model for sustainable open-source development:
 ### For Developers
 ```bash
 # Clone the agent recipes
-git clone https://github.com/zkthings/zkSDKjs
+git clone https://github.com/zksdkjs/zkSDKjs
 
 # Watch development progress
 npm run watch-agents

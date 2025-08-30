@@ -10,6 +10,18 @@ function HomepageHeader() {
   const [packageDownloads, setPackageDownloads] = useState({});
   const [selectedPackage, setSelectedPackage] = useState(0);
   const [agentAnimation, setAgentAnimation] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [expandedCode, setExpandedCode] = useState({});
+
+  // Detect mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Animate agent text
   useEffect(() => {
@@ -208,7 +220,7 @@ console.log(decrypted); // "Secret transaction details"
 // Solana, StarkNet, Cardano, etc.`
     },
     {
-      name: 'zkmerkle',
+      name: 'zkmerkle (deprecated)',
       description: 'Simple zero-knowledge merkle tree proofs',
       npm: 'zkmerkle',
       installs: packageDownloads['zkmerkle'] || 530,
@@ -258,11 +270,11 @@ const solidityProof = proof.toSolidity();`
     }}>
       {/* Ultra Minimal Header */}
       <div style={{
-        padding: "60px 20px 40px",
+        padding: isMobile ? "40px 20px 30px" : "60px 20px 40px",
         textAlign: "center"
       }}>
         <h1 style={{
-          fontSize: "48px",
+          fontSize: isMobile ? "32px" : "48px",
           fontWeight: "300",
           margin: "0 0 8px 0",
           letterSpacing: "-1px"
@@ -270,7 +282,7 @@ const solidityProof = proof.toSolidity();`
           {siteConfig.title}
         </h1>
         <p style={{
-          fontSize: "16px",
+          fontSize: isMobile ? "14px" : "16px",
           color: "rgba(255, 255, 255, 0.4)",
           margin: 0
         }}>
@@ -283,8 +295,9 @@ const solidityProof = proof.toSolidity();`
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        marginBottom: "60px",
-        gap: "20px"
+        marginBottom: isMobile ? "40px" : "60px",
+        gap: isMobile ? "16px" : "20px",
+        padding: isMobile ? "0 20px" : "0"
       }}>
         <div style={{
           display: "inline-flex",
@@ -296,7 +309,7 @@ const solidityProof = proof.toSolidity();`
           <button
             onClick={() => setActiveProduct('zkthings')}
             style={{
-              padding: "10px 24px",
+              padding: isMobile ? "8px 20px" : "10px 24px",
               background: activeProduct === 'zkthings' ? "#fff" : "transparent",
               color: activeProduct === 'zkthings' ? "#000" : "rgba(255, 255, 255, 0.6)",
               border: "none",
@@ -313,7 +326,7 @@ const solidityProof = proof.toSolidity();`
           <button
             onClick={() => setActiveProduct('zksdkjs')}
             style={{
-              padding: "10px 24px",
+              padding: isMobile ? "8px 20px" : "10px 24px",
               background: activeProduct === 'zksdkjs' ? "#fff" : "transparent",
               color: activeProduct === 'zksdkjs' ? "#000" : "rgba(255, 255, 255, 0.6)",
               border: "none",
@@ -334,8 +347,8 @@ const solidityProof = proof.toSolidity();`
                 right: "-8px",
                 background: "#4ade80",
                 color: "#000",
-                fontSize: "10px",
-                padding: "2px 6px",
+                                    fontSize: isMobile ? "9px" : "10px",
+                    padding: isMobile ? "1px 4px" : "2px 6px",
                 borderRadius: "10px",
                 fontWeight: "600"
               }}>
@@ -362,7 +375,7 @@ const solidityProof = proof.toSolidity();`
       <div style={{
         maxWidth: "1100px",
         margin: "0 auto",
-        padding: "0 20px 80px"
+        padding: isMobile ? "0 20px 60px" : "0 20px 80px"
       }}>
         {/* zkthings Content */}
         {activeProduct === 'zkthings' && (
@@ -374,7 +387,7 @@ const solidityProof = proof.toSolidity();`
               marginBottom: "60px"
             }}>
               <h2 style={{
-                fontSize: "32px",
+                fontSize: isMobile ? "24px" : "32px",
                 fontWeight: "300",
                 margin: "0 0 16px 0"
               }}>
@@ -395,29 +408,32 @@ const solidityProof = proof.toSolidity();`
               </p>
             </div>
 
-            {/* Two Column Layout */}
+            {/* Responsive Layout - Stack on mobile */}
             <div style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1.5fr",
-              gap: "40px",
-              alignItems: "start"
+              display: "flex",
+              flexDirection: isMobile ? "column" : "row",
+              gap: isMobile ? "24px" : "40px",
+              alignItems: "stretch"
             }}>
               {/* Libraries List - Scrollable */}
-              <div>
+              <div style={{
+                flex: isMobile ? "1" : "0 0 400px",
+                minWidth: 0
+              }}>
                 <div style={{
-                  fontSize: "12px",
+                  fontSize: isMobile ? "11px" : "12px",
                   color: "rgba(255, 255, 255, 0.4)",
                   marginBottom: "16px",
                   textTransform: "uppercase",
                   letterSpacing: "1px"
                 }}>
-                  Libraries • Click to view example
+                  Libraries • {isMobile ? "Tap" : "Click"} to view example
                 </div>
                 <div style={{
                   display: "flex",
                   flexDirection: "column",
                   gap: "8px",
-                  maxHeight: "500px",
+                  maxHeight: isMobile ? "300px" : "500px",
                   overflowY: "auto",
                   paddingRight: "8px"
                 }}>
@@ -489,7 +505,10 @@ const solidityProof = proof.toSolidity();`
               </div>
 
               {/* Code Example - Shows selected library */}
-              <div>
+              <div style={{
+                flex: "1",
+                minWidth: 0
+              }}>
                 <div style={{
                   display: "flex",
                   justifyContent: "space-between",
@@ -530,23 +549,82 @@ const solidityProof = proof.toSolidity();`
                   </button>
                 </div>
                 <div style={{
+                  position: "relative",
                   background: "rgba(255, 255, 255, 0.03)",
                   border: "1px solid rgba(255, 255, 255, 0.1)",
                   borderRadius: "8px",
-                  padding: "24px",
-                  overflow: "auto",
-                  maxHeight: "450px"
+                  padding: 0,
+                  overflow: "hidden",
+                  maxWidth: "100%"
                 }}>
-                  <pre style={{ margin: 0 }}>
-                    <code style={{
-                      fontSize: "12px",
-                      lineHeight: "1.6",
-                      color: "rgba(255, 255, 255, 0.9)",
-                      fontFamily: "SF Mono, monospace"
+                  {isMobile && (
+                    <button
+                      onClick={() => setExpandedCode({
+                        ...expandedCode,
+                        [`zkthings-${selectedPackage}`]: !expandedCode[`zkthings-${selectedPackage}`]
+                      })}
+                      style={{
+                        position: "absolute",
+                        top: "8px",
+                        right: "8px",
+                        background: "rgba(74, 222, 128, 0.1)",
+                        color: "#4ade80",
+                        fontSize: "11px",
+                        padding: "6px 12px",
+                        borderRadius: "4px",
+                        border: "1px solid rgba(74, 222, 128, 0.3)",
+                        zIndex: 10,
+                        fontFamily: "SF Mono, monospace",
+                        cursor: "pointer",
+                        fontWeight: "500",
+                        transition: "all 0.2s ease"
+                      }}
+                      onMouseEnter={(e) => {
+                        e.target.style.background = "rgba(74, 222, 128, 0.2)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.background = "rgba(74, 222, 128, 0.1)";
+                      }}
+                    >
+                      {expandedCode[`zkthings-${selectedPackage}`] ? "Collapse" : "View Full Code"}
+                    </button>
+                  )}
+                  <div style={{
+                    overflowX: "auto",
+                    overflowY: isMobile && !expandedCode[`zkthings-${selectedPackage}`] ? "hidden" : "auto",
+                    padding: isMobile ? "12px" : "24px",
+                    maxHeight: isMobile && !expandedCode[`zkthings-${selectedPackage}`] ? "150px" : "450px",
+                    transition: "max-height 0.3s ease",
+                    WebkitOverflowScrolling: "touch"
+                  }}>
+                    <pre style={{ 
+                      margin: 0,
+                      overflow: "visible"
                     }}>
-                      {zkthingsLibraries[selectedPackage].code}
-                    </code>
-                  </pre>
+                      <code style={{
+                        fontSize: isMobile ? "11px" : "12px",
+                        lineHeight: "1.6",
+                        color: "rgba(255, 255, 255, 0.9)",
+                        fontFamily: "SF Mono, monospace",
+                        whiteSpace: "pre",
+                        wordBreak: "normal",
+                        display: "block"
+                      }}>
+                        {zkthingsLibraries[selectedPackage].code}
+                      </code>
+                    </pre>
+                    {isMobile && !expandedCode[`zkthings-${selectedPackage}`] && (
+                      <div style={{
+                        position: "absolute",
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        height: "60px",
+                        background: "linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.9))",
+                        pointerEvents: "none"
+                      }} />
+                    )}
+                  </div>
                 </div>
                 
                 {/* Install command */}
@@ -555,12 +633,14 @@ const solidityProof = proof.toSolidity();`
                   padding: "12px",
                   background: "rgba(255, 255, 255, 0.02)",
                   border: "1px solid rgba(255, 255, 255, 0.1)",
-                  borderRadius: "6px"
+                  borderRadius: "6px",
+                  overflow: "auto"
                 }}>
                   <code style={{
-                    fontSize: "12px",
+                    fontSize: isMobile ? "11px" : "12px",
                     color: "rgba(255, 255, 255, 0.7)",
-                    fontFamily: "SF Mono, monospace"
+                    fontFamily: "SF Mono, monospace",
+                    whiteSpace: "nowrap"
                   }}>
                     npm install {zkthingsLibraries[selectedPackage].npm}
                   </code>
@@ -609,25 +689,25 @@ const solidityProof = proof.toSolidity();`
               marginBottom: "60px"
             }}>
               <h2 style={{
-                fontSize: "36px",
+                fontSize: isMobile ? "28px" : "36px",
                 fontWeight: "300",
                 margin: "0 0 16px 0"
               }}>
                 One SDK for Privacy Everywhere
               </h2>
               <p style={{
-                fontSize: "18px",
+                fontSize: isMobile ? "16px" : "18px",
                 color: "rgba(255, 255, 255, 0.7)",
                 margin: "0 0 12px 0",
                 lineHeight: "1.5"
               }}>
-                7 AI agents building the universal privacy SDK for Bitcoin, Ethereum, Solana, and every blockchain
+                AI agents building the universal privacy SDK for Bitcoin, Ethereum, Solana, and every blockchain
               </p>
               <p style={{
                 fontSize: "14px",
                 color: "rgba(255, 255, 255, 0.4)"
               }}>
-                Coming Q2 2025 • Powered by Goose
+                Coming Q4 2025 • Powered by Goose
               </p>
             </div>
 
@@ -636,8 +716,8 @@ const solidityProof = proof.toSolidity();`
               background: "rgba(74, 222, 128, 0.05)",
               border: "1px solid rgba(74, 222, 128, 0.2)",
               borderRadius: "8px",
-              padding: "24px",
-              marginBottom: "40px"
+              padding: isMobile ? "16px" : "24px",
+              marginBottom: isMobile ? "30px" : "40px"
             }}>
               <div style={{
                 display: "flex",
@@ -661,10 +741,11 @@ const solidityProof = proof.toSolidity();`
                 </span>
               </div>
               <p style={{
-                fontSize: "13px",
+                fontSize: isMobile ? "12px" : "13px",
                 color: "rgba(255, 255, 255, 0.6)",
                 margin: 0,
-                fontFamily: "SF Mono, monospace"
+                fontFamily: "SF Mono, monospace",
+                wordBreak: "break-word"
               }}>
                 {agentTasks[agentAnimation]}
               </p>
@@ -673,8 +754,8 @@ const solidityProof = proof.toSolidity();`
             {/* The Problem & Solution */}
             <div style={{
               display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "32px",
+              gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+              gap: isMobile ? "24px" : "32px",
               marginBottom: "40px"
             }}>
               <div>
@@ -729,19 +810,67 @@ const solidityProof = proof.toSolidity();`
                 Universal Privacy API
               </div>
               <div style={{
+                position: "relative",
                 background: "rgba(255, 255, 255, 0.03)",
                 border: "1px solid rgba(255, 255, 255, 0.1)",
                 borderRadius: "8px",
-                padding: "24px",
-                overflow: "auto"
+                padding: 0,
+                overflow: "hidden",
+                maxWidth: "100%"
               }}>
-                <pre style={{ margin: 0 }}>
-                  <code style={{
-                    fontSize: "13px",
-                    lineHeight: "1.6",
-                    color: "rgba(255, 255, 255, 0.9)",
-                    fontFamily: "SF Mono, monospace"
+                {isMobile && (
+                  <button
+                    onClick={() => setExpandedCode({
+                      ...expandedCode,
+                      'zksdkjs': !expandedCode['zksdkjs']
+                    })}
+                    style={{
+                      position: "absolute",
+                      top: "8px",
+                      right: "8px",
+                      background: "rgba(74, 222, 128, 0.1)",
+                      color: "#4ade80",
+                      fontSize: "11px",
+                      padding: "6px 12px",
+                      borderRadius: "4px",
+                      border: "1px solid rgba(74, 222, 128, 0.3)",
+                      zIndex: 10,
+                      fontFamily: "SF Mono, monospace",
+                      cursor: "pointer",
+                      fontWeight: "500",
+                      transition: "all 0.2s ease"
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.background = "rgba(74, 222, 128, 0.2)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.background = "rgba(74, 222, 128, 0.1)";
+                    }}
+                  >
+                    {expandedCode['zksdkjs'] ? "Collapse" : "View Full Code"}
+                  </button>
+                )}
+                <div style={{
+                  overflowX: "auto",
+                  overflowY: isMobile && !expandedCode['zksdkjs'] ? "hidden" : "auto",
+                  padding: isMobile ? "12px" : "24px",
+                  maxHeight: isMobile && !expandedCode['zksdkjs'] ? "200px" : "none",
+                  transition: "max-height 0.3s ease",
+                  WebkitOverflowScrolling: "touch"
+                }}>
+                  <pre style={{ 
+                    margin: 0,
+                    overflow: "visible"
                   }}>
+                    <code style={{
+                      fontSize: isMobile ? "11px" : "13px",
+                      lineHeight: "1.6",
+                      color: "rgba(255, 255, 255, 0.9)",
+                      fontFamily: "SF Mono, monospace",
+                      whiteSpace: "pre",
+                      wordBreak: "normal",
+                      display: "block"
+                    }}>
 {`import { zkSDK } from '@zksdkjs/core';
 
 // Bitcoin privacy - uses CoinJoin under the hood
@@ -775,8 +904,20 @@ await zkSDK.bridge({
   amount: "1.0 BTC",
   privacy: true
 });`}
-                  </code>
-                </pre>
+                    </code>
+                  </pre>
+                  {isMobile && !expandedCode['zksdkjs'] && (
+                    <div style={{
+                      position: "absolute",
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      height: "60px",
+                      background: "linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.9))",
+                      pointerEvents: "none"
+                    }} />
+                  )}
+                </div>
               </div>
             </div>
 
@@ -797,7 +938,7 @@ await zkSDK.bridge({
                 lineHeight: "1.6",
                 marginBottom: "20px"
               }}>
-                7 specialized AI agents work 24/7 using Goose to research, develop, test, and maintain the SDK.
+                Specialized AI agents work 24/7 using Goose to research, develop, test, and maintain the SDK.
                 They analyze new privacy protocols daily, write integration code, create documentation, and ensure
                 compatibility across all chains. No human bottlenecks, just continuous improvement.
               </p>
@@ -805,18 +946,17 @@ await zkSDK.bridge({
               {/* Agent Grid */}
               <div style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(3, 1fr)",
-                gap: "16px"
+                gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
+                gap: isMobile ? "12px" : "16px"
               }}>
                 {[
-                  { name: "Research Agent", task: "Analyzes new privacy protocols" },
-                  { name: "Developer Agent", task: "Writes integration code" },
-                  { name: "Tester Agent", task: "Ensures compatibility" },
-                  { name: "Security Agent", task: "Audits implementations" },
-                  { name: "Docs Agent", task: "Creates documentation" },
-                  { name: "DevOps Agent", task: "Manages deployments" },
-                  { name: "Chief Agent", task: "Coordinates all agents" }
-                ].slice(0, 6).map((agent, i) => (
+                  { name: "Chief Strategy Officer", task: "Strategic planning & coordination" },
+                  { name: "Developer Agent", task: "Core SDK implementation" },
+                  { name: "Research Intelligence", task: "Protocol analysis & market research" },
+                  { name: "Marketing & Growth", task: "Developer adoption & content" },
+                  { name: "Protocol Specialists", task: "Railgun, Aztec, Solana expertise" },
+                  { name: "Release Operations", task: "Deployment & quality assurance" }
+                ].map((agent, i) => (
                   <div key={i} style={{
                     padding: "12px",
                     background: "rgba(255, 255, 255, 0.02)",
@@ -845,8 +985,10 @@ await zkSDK.bridge({
             {/* CTAs */}
             <div style={{
               display: "flex",
+              flexDirection: isMobile ? "column" : "row",
               gap: "16px",
-              justifyContent: "center"
+              justifyContent: "center",
+              alignItems: isMobile ? "stretch" : "center"
             }}>
               <Link
                 to="/docs/zkSDK-Mission"
@@ -873,7 +1015,7 @@ await zkSDK.bridge({
                 Learn About the Mission →
               </Link>
               <a
-                href="https://github.com/zkthings/zkSDKjs"
+                href="https://github.com/zksdkjs/agent"
                 style={{
                   display: "inline-block",
                   padding: "12px 32px",

@@ -45,7 +45,7 @@ const config = {
       ({
         docs: {
           sidebarPath: './sidebars.js',
-          editUrl: 'https://github.com/zkthings/zksdk/tree/main/',
+          editUrl: 'https://github.com/zksdkjs/zksdk/tree/main/',
         },
         blog: false, // Disable the blog feature
         sitemap: {
@@ -79,13 +79,7 @@ const config = {
             label: 'Documentation',
           },
           {
-            type: 'doc',
-            docId: 'zkSDK-Mission',
-            position: 'left',
-            label: 'zkSDKjs Mission',
-          },
-          {
-            href: 'https://github.com/zkthings/zksdk',
+            href: 'https://github.com/zksdkjs',
             label: 'GitHub',
             position: 'right',
           },
@@ -111,12 +105,8 @@ const config = {
             title: 'zkSDKjs',
             items: [
               {
-                label: 'Mission & Vision',
-                to: '/docs/zkSDK-Mission',
-              },
-              {
                 label: 'Development (Coming Q2 2025)',
-                href: 'https://github.com/zkthings/zkSDKjs',
+                href: 'https://github.com/zksdkjs/agent',
               },
             ],
           },
@@ -125,11 +115,11 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/zkthings',
+                href: 'https://github.com/zksdkjs',
               },
               {
-                label: 'Twitter',
-                href: 'https://twitter.com/zkthings_labs',
+                label: 'x',
+                href: 'https://x.com/zksdk_dev',
               },
             ],
           },

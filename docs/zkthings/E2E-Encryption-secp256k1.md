@@ -149,8 +149,8 @@ The browser version (`Secp256k1E2EBrowser`) is specifically designed for browser
 
 Want to contribute? Join our community and help us build the future of private data!
 
-- GitHub: https://github.com/zkThings/e2e-encryption-secp256k1
-- Twitter: https://twitter.com/zkthings_labs
+- GitHub: https://github.com/zksdkjs/e2e-encryption-secp256k1
+- Twitter: https://x.com/zksdk_dev
 
 ## License
 
