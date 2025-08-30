@@ -20,4 +20,4 @@ This isn't just another SDK - it's a community-driven effort to make ZK technolo
 ## Join Us
 Whether you want to contribute to existing packages or bring your own ideas, we'd love to have you on board! Together, we're building the future of privacy-preserving applications.
 
-Visit [github.com/zkthings](https://github.com/zkthings) to start contributing.
+Visit [github.com/zksdkjs](https://github.com/zksdkjs) to start contributing.

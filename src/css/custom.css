@@ -208,3 +208,31 @@ pre, code {
 
 /* Optional: Add font imports if needed */
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap');
+
+/* Mobile-specific improvements */
+@media (max-width: 768px) {
+  /* Better code block handling on mobile */
+  pre {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  
+  /* Prevent horizontal page overflow */
+  body {
+    overflow-x: hidden !important;
+  }
+  
+  /* Ensure all containers respect viewport width */
+  .container, 
+  [class*="container"] {
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+  
+  /* Better touch targets for mobile */
+  button, 
+  a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}

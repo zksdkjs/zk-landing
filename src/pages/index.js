@@ -5,212 +5,33 @@ import Layout from '@theme/Layout';
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
-  
-  const packages = [
-    {
-      id: 'evm-membership',
-      title: 'Membership Proofs',
-      subtitle: 'EVM Compatible • Prove Set Membership • Without Revealing Identity',
-      npm: '@zkthings/proof-membership-evm',
-      docUrl: '/docs/sdk-guides/Membership-Proofs-evm',
-      code: `import { ZkMerkle, makeProof, verifyOffchain } from '@zkthings/proof-membership-evm';
-    
-
-// Initialize ZK Merkle Tree
-const zkMerkle = new ZkMerkle()
-
-// Add data and generate proof
-const values = ['alice', 'bob', 'charlie']
-
-const { proof, publicSignals } = await zkMerkle.generateMerkleProof(
-  values,
-  'alice'
-)
-
-// Verify off-chain 
-const isValidOffChain = await zkMerkle.verifyProofOffChain(
-  proof, 
-  publicSignals
-)
-
-// Export and deploy verifier contract
-const verifierContract = await zkMerkle.exportVerifierContract()`
-    },
-    {
-      id: 'range-proof',
-      title: 'Range Proofs',
-      subtitle: 'EVM Compatible • Prove Values in Ranges • Without Revealing Exact Amounts',
-      npm: '@zkthings/range-proof-evm',
-      docUrl: '/docs/sdk-guides/Range-Proofs-evm',
-      code: `import { RangeProof } from '@zkthings/range-proof-evm';
-
-// Prove you're 18+ without revealing exact age
-const rangeProof = new RangeProof();
-
-const ageProof = await rangeProof.prove(
-  25,   // Your actual age (SECRET!)
-  18,   // Minimum age required (public)
-  255   // Maximum possible age (public)
-  // Auto-detects 8-bit circuit since max value is 255
-);
-
-// Verify the proof
-const isValid = await rangeProof.verify(ageProof);
-console.log('Valid adult:', isValid); // true
-
-// Export Solidity Verifier
-const verifierContract = await rangeProof.exportSolidityVerifier(ageProof);`
-    },
-    {
-      id: 'e2e-encryption',
-      title: 'E2E Encryption EVM',
-      subtitle: 'EVM and secp256k1 Wallets Compatible • Private Messaging • Wallet-to-Wallet',
-      npm: '@zkthings/e2e-encryption-secp256k1',
-      docUrl: '/docs/sdk-guides/E2E-Encryption-secp256k1',
-      code: `const { Secp256k1E2E } = require('@zkthings/e2e-encryption-secp256k1');
-const { Wallet } = require('ethers');
-
-// Initialize E2E encryption
-const e2e = new Secp256k1E2E();
-
-// Create sample wallets
-const alice = Wallet.createRandom();
-const bob = Wallet.createRandom();
-
-// Encrypt a message for Bob
-const encrypted = await e2e.encryptFor(
-  "Private message content",
-  bob.address,
-  Buffer.from(bob.publicKey.slice(2), 'hex')
-);
-
-// Bob decrypts the message
-const decrypted = await e2e.decrypt({
-  publicSignals: encrypted.publicSignals,
-  privateKey: bob.privateKey
-});
-
-console.log(decrypted); // "Private message content"`
-    },
-    {
-      id: 'ed25519-encryption',
-      title: 'E2E Encryption Solona',
-      subtitle: `Solona & StarkNet & ed25519 wallets  Compatible • Private Messaging • Wallet-to-Wallet`,
-      npm: '@zkthings/e2e-encryption-ed25519',
-      docUrl: '/docs/sdk-guides/E2E-Encryption-ed25519',
-      code: `import { Ed25519E2E } from '@zkthings/e2e-encryption-ed25519';
-
-// Initialize E2E encryption
-const e2e = new Ed25519E2E();
-
-// Encrypt data for recipient
-const encrypted = await e2e.encryptFor(
-  'Hello, World!',
-  '0x1234...', // recipient address
-  publicKey    // recipient's Ed25519 public key
-);
-
-// Decrypt data
-const decrypted = await e2e.decrypt(encrypted, privateKey);
-console.log(decrypted); // "Hello, World!"
-
-// Works with any Ed25519-compatible wallet
-// Solana, StarkNet, etc.`
-    }
-  ];
-
-  const [selectedPackage, setSelectedPackage] = useState(0);
+  const [activeProduct, setActiveProduct] = useState('zkthings');
   const [totalDownloads, setTotalDownloads] = useState('...');
   const [packageDownloads, setPackageDownloads] = useState({});
-  const [carouselIndex, setCarouselIndex] = useState(0);
-  const [packagesPerView, setPackagesPerView] = useState(3);
-  const [isHovered, setIsHovered] = useState(false);
-  const [touchStart, setTouchStart] = useState(0);
-  const [touchEnd, setTouchEnd] = useState(0);
-  
-  // Responsive packages per view
+  const [selectedPackage, setSelectedPackage] = useState(0);
+  const [agentAnimation, setAgentAnimation] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [expandedCode, setExpandedCode] = useState({});
+
+  // Detect mobile
   useEffect(() => {
-    const updatePackagesPerView = () => {
-      if (window.innerWidth <= 768) {
-        setPackagesPerView(1); // Mobile: 1 item
-      } else if (window.innerWidth <= 1024) {
-        setPackagesPerView(2); // Tablet: 2 items
-      } else {
-        setPackagesPerView(3); // Desktop: 3 items
-      }
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
     };
-    
-    updatePackagesPerView();
-    window.addEventListener('resize', updatePackagesPerView);
-    return () => window.removeEventListener('resize', updatePackagesPerView);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Reset carousel when packagesPerView changes
+  // Animate agent text
   useEffect(() => {
-    setCarouselIndex(0);
-  }, [packagesPerView]);
-
-  // Auto-advance carousel
-  useEffect(() => {
-    if (isHovered || packages.length <= 1) return;
-    
-    const interval = setInterval(() => {
-      setCarouselIndex(prev => {
-        const maxIdx = packagesPerView === 1 ? packages.length - 1 : Math.max(0, packages.length - packagesPerView);
-        return prev >= maxIdx ? 0 : prev + 1;
-      });
-    }, packagesPerView === 1 ? 4000 : 7000); // Mobile: 4s, Desktop: 7s
-    
-    return () => clearInterval(interval);
-  }, [isHovered, packages.length, packagesPerView]);
-  
-  const maxIndex = packagesPerView === 1 
-    ? packages.length - 1 
-    : Math.max(0, packages.length - packagesPerView);
-  
-  const nextSlide = () => {
-    setCarouselIndex(prev => prev >= maxIndex ? 0 : prev + 1);
-  };
-  
-  const prevSlide = () => {
-    setCarouselIndex(prev => prev <= 0 ? maxIndex : prev - 1);
-  };
-
-  // Touch/Swipe handlers
-  const handleTouchStart = (e) => {
-    setTouchEnd(0);
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchMove = (e) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
-
-    if (isLeftSwipe) {
-      nextSlide();
-    } else if (isRightSwipe) {
-      prevSlide();
+    if (activeProduct === 'zksdkjs') {
+      const interval = setInterval(() => {
+        setAgentAnimation(prev => (prev + 1) % 6);
+      }, 3000);
+      return () => clearInterval(interval);
     }
-  };
-
-  // Mouse wheel handler for desktop
-  const handleWheel = (e) => {
-    if (packagesPerView === 1) return; // Only on desktop
-    
-    e.preventDefault();
-    if (e.deltaY > 0) {
-      nextSlide();
-    } else {
-      prevSlide();
-    }
-  };
+  }, [activeProduct]);
 
   // Fetch download stats from NPM
   useEffect(() => {
@@ -237,7 +58,6 @@ console.log(decrypted); // "Hello, World!"
         const results = await Promise.all(downloadPromises);
         const total = results.reduce((sum, result) => sum + (result.downloads || 0), 0);
         
-        // Store individual package downloads
         const packageStats = {};
         results.forEach(result => {
           packageStats[result.package] = result.downloads;
@@ -247,19 +67,20 @@ console.log(decrypted); // "Hello, World!"
         if (total > 0) {
           setTotalDownloads(total.toLocaleString());
         } else {
-          setTotalDownloads('10,000+'); // Fallback if API fails
+          setTotalDownloads('1,276');
         }
       } catch (error) {
-        setTotalDownloads('10,000+'); // Fallback
+        setTotalDownloads('1,276');
       }
     };
 
     fetchDownloads();
+    const interval = setInterval(fetchDownloads, 30000);
+    return () => clearInterval(interval);
   }, []);
 
-  // Inject download stats AND FORCE BLACK FOOTER
+  // Force black footer and inject stats
   useEffect(() => {
-    // FORCE BLACK FOOTER WITH JAVASCRIPT
     const forceBlackFooter = () => {
       const footers = document.querySelectorAll('footer, .footer, [class*="footer"]');
       footers.forEach(footer => {
@@ -269,7 +90,6 @@ console.log(decrypted); // "Hello, World!"
       });
     };
     
-    // Force immediately and on interval
     forceBlackFooter();
     const interval = setInterval(forceBlackFooter, 100);
     
@@ -279,599 +99,995 @@ console.log(decrypted); // "Hello, World!"
         footerCopyright.innerHTML = `
           <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
             <div style="font-family: var(--ifm-font-family-monospace); color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">
-              📦 ${totalDownloads} total downloads
+              zkthings libraries: ${totalDownloads} downloads
             </div>
             <div style="color: rgba(255, 255, 255, 0.6); font-size: 0.8rem;">
-              Copyright © ${new Date().getFullYear()} zkThings labs. • Privacy-First Zero-Knowledge SDKs
+              Copyright © ${new Date().getFullYear()} zkThings labs. • Powered by Goose
             </div>
           </div>
         `;
       }
     }
     
-    // Clean up interval
     return () => clearInterval(interval);
   }, [totalDownloads]);
 
+  // All 5 libraries with full code examples
+  const zkthingsLibraries = [
+    {
+      name: 'proof-membership-evm',
+      description: 'Prove set membership without revealing identity',
+      npm: '@zkthings/proof-membership-evm',
+      installs: packageDownloads['@zkthings/proof-membership-evm'] || 336,
+      code: `import { ZkMerkle, makeProof, verifyOffchain } from '@zkthings/proof-membership-evm';
+
+// Initialize ZK Merkle Tree
+const zkMerkle = new ZkMerkle()
+
+// Add data and generate proof
+const values = ['alice', 'bob', 'charlie']
+
+const { proof, publicSignals } = await zkMerkle.generateMerkleProof(
+  values,
+  'alice'
+)
+
+// Verify off-chain 
+const isValidOffChain = await zkMerkle.verifyProofOffChain(
+  proof, 
+  publicSignals
+)
+
+// Export and deploy verifier contract
+const verifierContract = await zkMerkle.exportVerifierContract()`
+    },
+    {
+      name: 'range-proof-evm',
+      description: 'Prove values in ranges without exact amounts',
+      npm: '@zkthings/range-proof-evm',
+      installs: packageDownloads['@zkthings/range-proof-evm'] || 151,
+      code: `import { RangeProof } from '@zkthings/range-proof-evm';
+
+// Prove you're 18+ without revealing exact age
+const rangeProof = new RangeProof();
+
+const ageProof = await rangeProof.prove(
+  25,   // Your actual age (SECRET!)
+  18,   // Minimum age required (public)
+  255   // Maximum possible age (public)
+  // Auto-detects 8-bit circuit since max value is 255
+);
+
+// Verify the proof
+const isValid = await rangeProof.verify(ageProof);
+console.log('Valid adult:', isValid); // true
+
+// Export Solidity Verifier
+const verifierContract = await rangeProof.exportSolidityVerifier(ageProof);`
+    },
+    {
+      name: 'e2e-encryption-secp256k1',
+      description: 'End-to-end encryption for EVM wallets',
+      npm: '@zkthings/e2e-encryption-secp256k1',
+      installs: packageDownloads['@zkthings/e2e-encryption-secp256k1'] || 259,
+      code: `const { Secp256k1E2E } = require('@zkthings/e2e-encryption-secp256k1');
+const { Wallet } = require('ethers');
+
+// Initialize E2E encryption
+const e2e = new Secp256k1E2E();
+
+// Create sample wallets
+const alice = Wallet.createRandom();
+const bob = Wallet.createRandom();
+
+// Encrypt a message for Bob
+const encrypted = await e2e.encryptFor(
+  "Private message content",
+  bob.address,
+  Buffer.from(bob.publicKey.slice(2), 'hex')
+);
+
+// Bob decrypts the message
+const decrypted = await e2e.decrypt({
+  publicSignals: encrypted.publicSignals,
+  privateKey: bob.privateKey
+});
+
+console.log(decrypted); // "Private message content"`
+    },
+    {
+      name: 'e2e-encryption-ed25519',
+      description: 'Private messaging for Solana & StarkNet wallets',
+      npm: '@zkthings/e2e-encryption-ed25519',
+      installs: packageDownloads['@zkthings/e2e-encryption-ed25519'] || 0,
+      code: `import { Ed25519E2E } from '@zkthings/e2e-encryption-ed25519';
+
+// Initialize E2E encryption for Ed25519 wallets
+const e2e = new Ed25519E2E();
+
+// Encrypt data for Solana wallet
+const encrypted = await e2e.encryptFor(
+  'Secret transaction details',
+  'DQyrAcCrDXQ7NeoqGgDCZwBvkDDyF7piNC4bRoMvQSLE', // Solana address
+  publicKey // Ed25519 public key
+);
+
+// Decrypt data with private key
+const decrypted = await e2e.decrypt(encrypted, privateKey);
+console.log(decrypted); // "Secret transaction details"
+
+// Works with any Ed25519-compatible chain
+// Solana, StarkNet, Cardano, etc.`
+    },
+    {
+      name: 'zkmerkle (deprecated)',
+      description: 'Simple zero-knowledge merkle tree proofs',
+      npm: 'zkmerkle',
+      installs: packageDownloads['zkmerkle'] || 530,
+      code: `import { MerkleTree, generateProof, verifyProof } from 'zkmerkle';
+
+// Create a merkle tree with private data
+const privateData = [
+  'user123',
+  'user456', 
+  'user789'
+];
+
+const tree = new MerkleTree(privateData);
+
+// Generate proof for membership
+const proof = generateProof(tree, 'user456');
+
+// Verify without revealing the data
+const isValid = verifyProof(
+  proof,
+  tree.getRoot(),
+  'user456'
+);
+
+console.log('Membership verified:', isValid); // true
+
+// Export for on-chain verification
+const solidityProof = proof.toSolidity();`
+    }
+  ];
+
+  const agentTasks = [
+    "Integrating Bitcoin Lightning privacy layers",
+    "Building Aztec Protocol for Ethereum",
+    "Implementing Solana Light Protocol",
+    "Testing privacy proofs on Polygon zkEVM",
+    "Optimizing Bitcoin CoinJoin implementations",
+    "Analyzing Railgun for cross-chain privacy"
+  ];
+
   return (
     <div style={{
-      background: 'linear-gradient(to bottom, #0a0a0a, #1a1a1a)',
+      background: '#000',
       minHeight: "100vh",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: "40px 20px"
+      color: "#fff",
+      fontFamily: "-apple-system, BlinkMacSystemFont, 'Inter', sans-serif"
     }}>
+      {/* Ultra Minimal Header */}
       <div style={{
-        maxWidth: "1200px",
-        width: "100%",
+        padding: isMobile ? "40px 20px 30px" : "60px 20px 40px",
+        textAlign: "center"
+      }}>
+        <h1 style={{
+          fontSize: isMobile ? "32px" : "48px",
+          fontWeight: "300",
+          margin: "0 0 8px 0",
+          letterSpacing: "-1px"
+        }}>
+          {siteConfig.title}
+        </h1>
+        <p style={{
+          fontSize: isMobile ? "14px" : "16px",
+          color: "rgba(255, 255, 255, 0.4)",
+          margin: 0
+        }}>
+          Privacy dev tools
+        </p>
+      </div>
+
+      {/* Product Toggle with Better UI */}
+      <div style={{
         display: "flex",
         flexDirection: "column",
-        gap: "80px",
-        alignItems: "center"
+        alignItems: "center",
+        marginBottom: isMobile ? "40px" : "60px",
+        gap: isMobile ? "16px" : "20px",
+        padding: isMobile ? "0 20px" : "0"
       }}>
-        {/* Header */}
         <div style={{
-          textAlign: "center",
-          display: "flex",
-          flexDirection: "column",
-          gap: "16px"
+          display: "inline-flex",
+          background: "rgba(255, 255, 255, 0.05)",
+          borderRadius: "8px",
+          padding: "4px",
+          position: "relative"
         }}>
-          <h1 style={{
-            fontSize: "4rem",
-            fontWeight: "200",
-            color: "#fff",
-            margin: 0,
-            letterSpacing: "-0.02em",
-            fontFamily: "'Poppins', -apple-system, BlinkMacSystemFont, sans-serif"
-          }}>
-            {siteConfig.title}
-          </h1>
-          <div style={{
-            fontSize: "1.2rem",
-            color: "rgba(255,255,255,0.5)",
-            fontFamily: "'Poppins', sans-serif",
-            fontWeight: "300"
-          }}>
-       Privacy dev tools
-          </div>
+          <button
+            onClick={() => setActiveProduct('zkthings')}
+            style={{
+              padding: isMobile ? "8px 20px" : "10px 24px",
+              background: activeProduct === 'zkthings' ? "#fff" : "transparent",
+              color: activeProduct === 'zkthings' ? "#000" : "rgba(255, 255, 255, 0.6)",
+              border: "none",
+              borderRadius: "6px",
+              fontSize: "14px",
+              fontWeight: "500",
+              cursor: "pointer",
+              transition: "all 0.2s ease",
+              outline: "none"
+            }}
+          >
+            zkthings
+          </button>
+          <button
+            onClick={() => setActiveProduct('zksdkjs')}
+            style={{
+              padding: isMobile ? "8px 20px" : "10px 24px",
+              background: activeProduct === 'zksdkjs' ? "#fff" : "transparent",
+              color: activeProduct === 'zksdkjs' ? "#000" : "rgba(255, 255, 255, 0.6)",
+              border: "none",
+              borderRadius: "6px",
+              fontSize: "14px",
+              fontWeight: "500",
+              cursor: "pointer",
+              transition: "all 0.2s ease",
+              outline: "none",
+              position: "relative"
+            }}
+          >
+            zkSDKjs
+            {activeProduct !== 'zksdkjs' && (
+              <span style={{
+                position: "absolute",
+                top: "-8px",
+                right: "-8px",
+                background: "#4ade80",
+                color: "#000",
+                                    fontSize: isMobile ? "9px" : "10px",
+                    padding: isMobile ? "1px 4px" : "2px 6px",
+                borderRadius: "10px",
+                fontWeight: "600"
+              }}>
+                NEW
+              </span>
+            )}
+          </button>
         </div>
+        
+        {/* Add description under toggle for zkSDKjs */}
+        {activeProduct !== 'zksdkjs' && (
+          <p style={{
+            fontSize: "13px",
+            color: "rgba(255, 255, 255, 0.4)",
+            margin: 0,
+            textAlign: "center"
+          }}>
+            zkSDKjs - AI agents building universal privacy SDK for all blockchains
+          </p>
+        )}
+      </div>
 
-        {/* Simple Carousel */}
-        <div 
-          style={{
-            width: "100%",
-            maxWidth: "1200px", 
-            margin: "0 auto",
-            position: "relative"
-          }}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-          onWheel={handleWheel}
-        >
-          
-          {/* Desktop: Show all cards in a grid */}
-          {packagesPerView > 1 && (
+      {/* Content Area */}
+      <div style={{
+        maxWidth: "1100px",
+        margin: "0 auto",
+        padding: isMobile ? "0 20px 60px" : "0 20px 80px"
+      }}>
+        {/* zkthings Content */}
+        {activeProduct === 'zkthings' && (
+          <div style={{
+            animation: "fadeIn 0.3s ease"
+          }}>
             <div style={{
-              display: "grid",
-              gridTemplateColumns: `repeat(${packagesPerView}, 1fr)`,
-              gap: "24px",
-              width: "100%",
-              transition: "all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+              textAlign: "center",
+              marginBottom: "60px"
             }}>
-              {packages.slice(carouselIndex, carouselIndex + packagesPerView).map((pkg, index) => {
-                const originalIndex = carouselIndex + index;
-                return (
-                <div
-                  key={pkg.id}
-                  onClick={() => !pkg.inactive && setSelectedPackage(originalIndex)}
-                  style={{
-                    background: pkg.inactive 
-                      ? "rgba(255, 255, 255, 0.02)"
-                      : selectedPackage === originalIndex 
-                        ? "rgba(255, 255, 255, 0.1)" 
-                        : "rgba(255, 255, 255, 0.05)",
-                    borderRadius: "16px",
-                    padding: "32px",
-                    cursor: pkg.inactive ? "not-allowed" : "pointer",
-                    border: "1px solid",
-                    borderColor: pkg.inactive
-                      ? "rgba(255, 255, 255, 0.05)"
-                      : selectedPackage === originalIndex 
-                        ? "rgba(255, 255, 255, 0.3)" 
-                        : "rgba(255, 255, 255, 0.1)",
-                    transition: "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-                    transform: "translateY(0px)",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "12px",
-                    opacity: pkg.inactive ? 0.4 : 1
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!pkg.inactive && selectedPackage !== originalIndex) {
-                      e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.2)";
-                      e.currentTarget.style.background = "rgba(255, 255, 255, 0.08)";
-                      e.currentTarget.style.transform = "translateY(-2px)";
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!pkg.inactive && selectedPackage !== originalIndex) {
-                      e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
-                      e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
-                      e.currentTarget.style.transform = "translateY(0px)";
-                    }
-                  }}
-                >
-              <h3 style={{
-                fontSize: "1.5rem",
-                fontWeight: "400",
-                color: "#fff",
-                margin: 0,
-                fontFamily: "'Poppins', sans-serif"
+              <h2 style={{
+                fontSize: isMobile ? "24px" : "32px",
+                fontWeight: "300",
+                margin: "0 0 16px 0"
               }}>
-                {pkg.title}
-              </h3>
+                Zero-Knowledge Proof Libraries
+              </h2>
               <p style={{
-                fontSize: "0.9rem",
-                color: "rgba(255, 255, 255, 0.6)",
-                margin: 0,
-                fontFamily: "'Poppins', sans-serif",
-                fontWeight: "300"
+                fontSize: "16px",
+                color: "rgba(255, 255, 255, 0.5)",
+                margin: "0 0 8px 0"
               }}>
-                {pkg.subtitle}
+                Available now • {totalDownloads} downloads
               </p>
-              
-              {/* Package Download Count & Guide Button */}
-              {!pkg.inactive && (
+              <p style={{
+                fontSize: "14px",
+                color: "rgba(255, 255, 255, 0.4)"
+              }}>
+                Privacy primitives for EVM, Solana, and StarkNet
+              </p>
+            </div>
+
+            {/* Responsive Layout - Stack on mobile */}
+            <div style={{
+              display: "flex",
+              flexDirection: isMobile ? "column" : "row",
+              gap: isMobile ? "24px" : "40px",
+              alignItems: "stretch"
+            }}>
+              {/* Libraries List - Scrollable */}
+              <div style={{
+                flex: isMobile ? "1" : "0 0 400px",
+                minWidth: 0
+              }}>
+                <div style={{
+                  fontSize: isMobile ? "11px" : "12px",
+                  color: "rgba(255, 255, 255, 0.4)",
+                  marginBottom: "16px",
+                  textTransform: "uppercase",
+                  letterSpacing: "1px"
+                }}>
+                  Libraries • {isMobile ? "Tap" : "Click"} to view example
+                </div>
                 <div style={{
                   display: "flex",
-                  alignItems: "center",
-                  justifyContent: ['@zkthings/proof-membership-evm', '@zkthings/range-proof-evm', '@zkthings/e2e-encryption-secp256k1', '@zkthings/e2e-encryption-ed25519', 'zkmerkle'].includes(pkg.npm) ? "space-between" : "flex-end",
-                  marginTop: "4px"
+                  flexDirection: "column",
+                  gap: "8px",
+                  maxHeight: isMobile ? "300px" : "500px",
+                  overflowY: "auto",
+                  paddingRight: "8px"
                 }}>
-                  {/* Only show download stats for packages that exist on NPM */}
-                  {['@zkthings/proof-membership-evm', '@zkthings/range-proof-evm', '@zkthings/e2e-encryption-secp256k1', '@zkthings/e2e-encryption-ed25519', 'zkmerkle'].includes(pkg.npm) && (
-                    <div style={{
-                      fontSize: "0.75rem",
-                      color: "rgba(255, 255, 255, 0.5)",
-                      fontFamily: "SF Mono, monospace",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "4px"
-                    }}>
-                      <span>📊</span>
-                      <span>
-                        {packageDownloads[pkg.npm] !== undefined
-                          ? packageDownloads[pkg.npm] === 0 
-                            ? 'NEW'
-                            : `${packageDownloads[pkg.npm].toLocaleString()} installs`
-                          : '... installs'}
-                      </span>
+                  {zkthingsLibraries.map((lib, index) => (
+                    <div
+                      key={lib.name}
+                      onClick={() => setSelectedPackage(index)}
+                      style={{
+                        padding: "16px",
+                        background: selectedPackage === index 
+                          ? "rgba(255, 255, 255, 0.08)" 
+                          : "rgba(255, 255, 255, 0.03)",
+                        border: "1px solid",
+                        borderColor: selectedPackage === index 
+                          ? "rgba(255, 255, 255, 0.3)" 
+                          : "rgba(255, 255, 255, 0.1)",
+                        borderRadius: "8px",
+                        cursor: "pointer",
+                        transition: "all 0.15s ease"
+                      }}
+                      onMouseEnter={(e) => {
+                        if (selectedPackage !== index) {
+                          e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.2)";
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (selectedPackage !== index) {
+                          e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
+                        }
+                      }}
+                    >
+                      <h3 style={{
+                        fontSize: "14px",
+                        fontWeight: "500",
+                        margin: "0 0 4px 0",
+                        color: selectedPackage === index ? "#fff" : "rgba(255, 255, 255, 0.9)"
+                      }}>
+                        {lib.name}
+                      </h3>
+                      <p style={{
+                        fontSize: "12px",
+                        color: "rgba(255, 255, 255, 0.5)",
+                        margin: "0 0 8px 0"
+                      }}>
+                        {lib.description}
+                      </p>
+                      <div style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center"
+                      }}>
+                        <code style={{
+                          fontSize: "10px",
+                          color: "rgba(255, 255, 255, 0.3)",
+                          fontFamily: "SF Mono, monospace"
+                        }}>
+                          {lib.npm}
+                        </code>
+                        <span style={{
+                          fontSize: "11px",
+                          color: "rgba(255, 255, 255, 0.4)"
+                        }}>
+                          {lib.installs.toLocaleString()} installs
+                        </span>
+                      </div>
                     </div>
-                  )}
-                  
-                  <Link
-                    to={pkg.docUrl}
+                  ))}
+                </div>
+              </div>
+
+              {/* Code Example - Shows selected library */}
+              <div style={{
+                flex: "1",
+                minWidth: 0
+              }}>
+                <div style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: "16px"
+                }}>
+                  <div style={{
+                    fontSize: "12px",
+                    color: "rgba(255, 255, 255, 0.4)",
+                    textTransform: "uppercase",
+                    letterSpacing: "1px"
+                  }}>
+                    {zkthingsLibraries[selectedPackage].name} Example
+                  </div>
+                  <button
+                    onClick={() => navigator.clipboard.writeText(zkthingsLibraries[selectedPackage].code)}
                     style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "4px",
-                      padding: "4px 8px",
-                      background: "rgba(255, 255, 255, 0.05)",
-                      border: "1px solid rgba(255, 255, 255, 0.1)",
+                      background: "transparent",
+                      border: "1px solid rgba(255, 255, 255, 0.2)",
                       borderRadius: "4px",
-                      color: "rgba(255, 255, 255, 0.7)",
-                      textDecoration: "none",
-                      fontSize: "0.7rem",
-                      fontFamily: "'Poppins', sans-serif",
-                      fontWeight: "300",
+                      padding: "4px 12px",
+                      color: "rgba(255, 255, 255, 0.6)",
+                      fontSize: "11px",
+                      cursor: "pointer",
+                      fontFamily: "SF Mono, monospace",
                       transition: "all 0.2s ease"
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = "rgba(255, 255, 255, 0.08)";
-                      e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.15)";
-                      e.currentTarget.style.color = "rgba(255, 255, 255, 0.9)";
+                      e.target.style.borderColor = "rgba(255, 255, 255, 0.4)";
+                      e.target.style.color = "rgba(255, 255, 255, 0.8)";
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
-                      e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
-                      e.currentTarget.style.color = "rgba(255, 255, 255, 0.7)";
+                      e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
+                      e.target.style.color = "rgba(255, 255, 255, 0.6)";
                     }}
-                    onClick={(e) => e.stopPropagation()}
                   >
-                    <span style={{ fontSize: "0.6rem" }}>📖</span>
-                    <span>docs</span>
-                  </Link>
+                    Copy
+                  </button>
                 </div>
-              )}
-              
-              <code style={{
-                fontSize: "0.8rem",
-                color: "rgba(255, 255, 255, 0.4)",
-                fontFamily: "SF Mono, monospace",
-                background: "rgba(0, 0, 0, 0.3)",
-                padding: "4px 8px",
-                borderRadius: "4px",
-                width: "fit-content",
-                marginTop: "8px"
-              }}>
-                npm i {pkg.npm}
-                  </code>
-                </div>
-                );
-              })}
-            </div>
-          )}
-
-          {/* Mobile: Show one card at a time */}
-          {packagesPerView === 1 && (
-            <div style={{
-              display: "flex",
-              justifyContent: "center",
-              width: "100%",
-              padding: "0 20px",
-              transition: "all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)"
-            }}>
-              <div
-                key={packages[carouselIndex].id}
-                onClick={() => !packages[carouselIndex].inactive && setSelectedPackage(carouselIndex)}
-                style={{
-                  background: packages[carouselIndex].inactive 
-                    ? "rgba(255, 255, 255, 0.02)"
-                    : selectedPackage === carouselIndex 
-                      ? "rgba(255, 255, 255, 0.1)" 
-                      : "rgba(255, 255, 255, 0.05)",
-                  borderRadius: "16px",
-                  padding: "32px",
-                  cursor: packages[carouselIndex].inactive ? "not-allowed" : "pointer",
-                  border: "1px solid",
-                  borderColor: packages[carouselIndex].inactive
-                    ? "rgba(255, 255, 255, 0.05)"
-                    : selectedPackage === carouselIndex 
-                      ? "rgba(255, 255, 255, 0.3)" 
-                      : "rgba(255, 255, 255, 0.1)",
-                  transition: "all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-                  transform: "translateY(0px) scale(1)",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "12px",
-                  opacity: packages[carouselIndex].inactive ? 0.4 : 1,
-                  maxWidth: "400px",
-                  width: "100%"
-                }}
-              >
-                <h3 style={{
-                  fontSize: "1.5rem",
-                  fontWeight: "400",
-                  color: "#fff",
-                  margin: 0,
-                  fontFamily: "'Poppins', sans-serif"
+                <div style={{
+                  position: "relative",
+                  background: "rgba(255, 255, 255, 0.03)",
+                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                  borderRadius: "8px",
+                  padding: 0,
+                  overflow: "hidden",
+                  maxWidth: "100%"
                 }}>
-                  {packages[carouselIndex].title}
-                </h3>
-                <p style={{
-                  fontSize: "0.9rem",
-                  color: "rgba(255, 255, 255, 0.6)",
-                  margin: 0,
-                  fontFamily: "'Poppins', sans-serif",
-                  fontWeight: "300"
-                }}>
-                  {packages[carouselIndex].subtitle}
-                </p>
-                
-                {!packages[carouselIndex].inactive && (
-                  <div style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: ['@zkthings/proof-membership-evm', '@zkthings/range-proof-evm', '@zkthings/e2e-encryption-secp256k1', '@zkthings/e2e-encryption-ed25519', 'zkmerkle'].includes(packages[carouselIndex].npm) ? "space-between" : "flex-end",
-                    marginTop: "4px"
-                  }}>
-                    {['@zkthings/proof-membership-evm', '@zkthings/range-proof-evm', '@zkthings/e2e-encryption-secp256k1', '@zkthings/e2e-encryption-ed25519', 'zkmerkle'].includes(packages[carouselIndex].npm) && (
-                      <div style={{
-                        fontSize: "0.75rem",
-                        color: "rgba(255, 255, 255, 0.5)",
-                        fontFamily: "SF Mono, monospace",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "4px"
-                      }}>
-                        <span>📊</span>
-                        <span>
-                          {packageDownloads[packages[carouselIndex].npm] !== undefined
-                            ? packageDownloads[packages[carouselIndex].npm] === 0 
-                              ? 'NEW'
-                              : `${packageDownloads[packages[carouselIndex].npm].toLocaleString()} installs`
-                            : '... installs'}
-                        </span>
-                      </div>
-                    )}
-                    
-                    <Link
-                      to={packages[carouselIndex].docUrl}
+                  {isMobile && (
+                    <button
+                      onClick={() => setExpandedCode({
+                        ...expandedCode,
+                        [`zkthings-${selectedPackage}`]: !expandedCode[`zkthings-${selectedPackage}`]
+                      })}
                       style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "4px",
-                        padding: "4px 8px",
-                        background: "rgba(255, 255, 255, 0.05)",
-                        border: "1px solid rgba(255, 255, 255, 0.1)",
+                        position: "absolute",
+                        top: "8px",
+                        right: "8px",
+                        background: "rgba(74, 222, 128, 0.1)",
+                        color: "#4ade80",
+                        fontSize: "11px",
+                        padding: "6px 12px",
                         borderRadius: "4px",
-                        color: "rgba(255, 255, 255, 0.7)",
-                        textDecoration: "none",
-                        fontSize: "0.7rem",
-                        fontFamily: "'Poppins', sans-serif",
-                        fontWeight: "300",
+                        border: "1px solid rgba(74, 222, 128, 0.3)",
+                        zIndex: 10,
+                        fontFamily: "SF Mono, monospace",
+                        cursor: "pointer",
+                        fontWeight: "500",
                         transition: "all 0.2s ease"
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.background = "rgba(255, 255, 255, 0.08)";
-                        e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.15)";
-                        e.currentTarget.style.color = "rgba(255, 255, 255, 0.9)";
+                        e.target.style.background = "rgba(74, 222, 128, 0.2)";
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
-                        e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
-                        e.currentTarget.style.color = "rgba(255, 255, 255, 0.7)";
+                        e.target.style.background = "rgba(74, 222, 128, 0.1)";
                       }}
-                      onClick={(e) => e.stopPropagation()}
                     >
-                      <span style={{ fontSize: "0.6rem" }}>📖</span>
-                      <span>docs</span>
-                    </Link>
+                      {expandedCode[`zkthings-${selectedPackage}`] ? "Collapse" : "View Full Code"}
+                    </button>
+                  )}
+                  <div style={{
+                    overflowX: "auto",
+                    overflowY: isMobile && !expandedCode[`zkthings-${selectedPackage}`] ? "hidden" : "auto",
+                    padding: isMobile ? "12px" : "24px",
+                    maxHeight: isMobile && !expandedCode[`zkthings-${selectedPackage}`] ? "150px" : "450px",
+                    transition: "max-height 0.3s ease",
+                    WebkitOverflowScrolling: "touch"
+                  }}>
+                    <pre style={{ 
+                      margin: 0,
+                      overflow: "visible"
+                    }}>
+                      <code style={{
+                        fontSize: isMobile ? "11px" : "12px",
+                        lineHeight: "1.6",
+                        color: "rgba(255, 255, 255, 0.9)",
+                        fontFamily: "SF Mono, monospace",
+                        whiteSpace: "pre",
+                        wordBreak: "normal",
+                        display: "block"
+                      }}>
+                        {zkthingsLibraries[selectedPackage].code}
+                      </code>
+                    </pre>
+                    {isMobile && !expandedCode[`zkthings-${selectedPackage}`] && (
+                      <div style={{
+                        position: "absolute",
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        height: "60px",
+                        background: "linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.9))",
+                        pointerEvents: "none"
+                      }} />
+                    )}
                   </div>
-                )}
+                </div>
                 
-                <code style={{
-                  fontSize: "0.8rem",
-                  color: "rgba(255, 255, 255, 0.4)",
-                  fontFamily: "SF Mono, monospace",
-                  background: "rgba(0, 0, 0, 0.3)",
-                  padding: "4px 8px",
-                  borderRadius: "4px",
-                  width: "fit-content",
-                  marginTop: "8px"
+                {/* Install command */}
+                <div style={{
+                  marginTop: "16px",
+                  padding: "12px",
+                  background: "rgba(255, 255, 255, 0.02)",
+                  border: "1px solid rgba(255, 255, 255, 0.1)",
+                  borderRadius: "6px",
+                  overflow: "auto"
                 }}>
-                  npm i {packages[carouselIndex].npm}
-                </code>
+                  <code style={{
+                    fontSize: isMobile ? "11px" : "12px",
+                    color: "rgba(255, 255, 255, 0.7)",
+                    fontFamily: "SF Mono, monospace",
+                    whiteSpace: "nowrap"
+                  }}>
+                    npm install {zkthingsLibraries[selectedPackage].npm}
+                  </code>
+                </div>
               </div>
             </div>
-          )}
 
-          {/* Navigation Hints */}
-          {(packages.length > packagesPerView || (packagesPerView === 1 && packages.length > 1)) && (
+            {/* CTA */}
             <div style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "16px",
-              marginTop: "24px"
+              textAlign: "center",
+              marginTop: "60px"
             }}>
-              {/* Left Arrow */}
-              <button
-                onClick={prevSlide}
+              <Link
+                to="/docs/intro"
                 style={{
-                  background: "transparent",
-                  border: "1px solid rgba(255, 255, 255, 0.2)",
-                  borderRadius: "50%",
-                  width: "32px",
-                  height: "32px",
-                  color: "rgba(255, 255, 255, 0.6)",
-                  fontSize: "0.9rem",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  transition: "all 0.4s ease",
-                  opacity: "0.7"
+                  display: "inline-block",
+                  padding: "12px 32px",
+                  background: "#fff",
+                  color: "#000",
+                  borderRadius: "6px",
+                  fontSize: "14px",
+                  fontWeight: "500",
+                  textDecoration: "none",
+                  transition: "transform 0.15s ease"
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.opacity = "1";
-                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.4)";
-                  e.currentTarget.style.color = "rgba(255, 255, 255, 0.9)";
-                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
+                  e.target.style.transform = "translateY(-1px)";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.opacity = "0.7";
-                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.2)";
-                  e.currentTarget.style.color = "rgba(255, 255, 255, 0.6)";
-                  e.currentTarget.style.background = "transparent";
+                  e.target.style.transform = "translateY(0)";
                 }}
               >
-                ←
-              </button>
+                Get Started →
+              </Link>
+            </div>
+          </div>
+        )}
 
-              {/* Dots */}
+        {/* zkSDKjs Content */}
+        {activeProduct === 'zksdkjs' && (
+          <div style={{
+            animation: "fadeIn 0.3s ease"
+          }}>
+            <div style={{
+              textAlign: "center",
+              marginBottom: "60px"
+            }}>
+              <h2 style={{
+                fontSize: isMobile ? "28px" : "36px",
+                fontWeight: "300",
+                margin: "0 0 16px 0"
+              }}>
+                One SDK for Privacy Everywhere
+              </h2>
+              <p style={{
+                fontSize: isMobile ? "16px" : "18px",
+                color: "rgba(255, 255, 255, 0.7)",
+                margin: "0 0 12px 0",
+                lineHeight: "1.5"
+              }}>
+                AI agents building the universal privacy SDK for Bitcoin, Ethereum, Solana, and every blockchain
+              </p>
+              <p style={{
+                fontSize: "14px",
+                color: "rgba(255, 255, 255, 0.4)"
+              }}>
+                Coming Q4 2025 • Powered by Goose
+              </p>
+            </div>
+
+            {/* Live Status */}
+            <div style={{
+              background: "rgba(74, 222, 128, 0.05)",
+              border: "1px solid rgba(74, 222, 128, 0.2)",
+              borderRadius: "8px",
+              padding: isMobile ? "16px" : "24px",
+              marginBottom: isMobile ? "30px" : "40px"
+            }}>
               <div style={{
                 display: "flex",
-                gap: "8px"
+                alignItems: "center",
+                gap: "12px",
+                marginBottom: "16px"
               }}>
-                {(packagesPerView === 1 ? packages : Array.from({ length: maxIndex + 1 })).map((_, idx) => (
+                <div style={{
+                  width: "8px",
+                  height: "8px",
+                  borderRadius: "50%",
+                  background: "#4ade80",
+                  animation: "pulse 2s infinite"
+                }} />
+                <span style={{
+                  fontSize: "14px",
+                  color: "rgba(255, 255, 255, 0.8)",
+                  fontWeight: "500"
+                }}>
+                  AI Agents Building Live 24/7
+                </span>
+              </div>
+              <p style={{
+                fontSize: isMobile ? "12px" : "13px",
+                color: "rgba(255, 255, 255, 0.6)",
+                margin: 0,
+                fontFamily: "SF Mono, monospace",
+                wordBreak: "break-word"
+              }}>
+                {agentTasks[agentAnimation]}
+              </p>
+            </div>
+
+            {/* The Problem & Solution */}
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+              gap: isMobile ? "24px" : "32px",
+              marginBottom: "40px"
+            }}>
+              <div>
+                <h3 style={{
+                  fontSize: "18px",
+                  fontWeight: "500",
+                  margin: "0 0 12px 0",
+                  color: "rgba(255, 100, 100, 0.9)"
+                }}>
+                  The Problem
+                </h3>
+                <p style={{
+                  fontSize: "14px",
+                  color: "rgba(255, 255, 255, 0.6)",
+                  lineHeight: "1.6"
+                }}>
+                  Every blockchain has different privacy protocols. Developers need to learn Railgun for Ethereum, 
+                  CoinJoin for Bitcoin, Light Protocol for Solana. Weeks of integration for each chain.
+                </p>
+              </div>
+              <div>
+                <h3 style={{
+                  fontSize: "18px",
+                  fontWeight: "500",
+                  margin: "0 0 12px 0",
+                  color: "rgba(100, 255, 100, 0.9)"
+                }}>
+                  The Solution
+                </h3>
+                <p style={{
+                  fontSize: "14px",
+                  color: "rgba(255, 255, 255, 0.6)",
+                  lineHeight: "1.6"
+                }}>
+                  One simple API that works everywhere. Our AI agents continuously integrate every privacy protocol
+                  across every blockchain. You write once, deploy everywhere with privacy.
+                </p>
+              </div>
+            </div>
+
+            {/* Code Example */}
+            <div style={{
+              marginBottom: "40px"
+            }}>
+              <div style={{
+                fontSize: "12px",
+                color: "rgba(255, 255, 255, 0.4)",
+                marginBottom: "16px",
+                textTransform: "uppercase",
+                letterSpacing: "1px"
+              }}>
+                Universal Privacy API
+              </div>
+              <div style={{
+                position: "relative",
+                background: "rgba(255, 255, 255, 0.03)",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+                borderRadius: "8px",
+                padding: 0,
+                overflow: "hidden",
+                maxWidth: "100%"
+              }}>
+                {isMobile && (
                   <button
-                    key={idx}
-                    onClick={() => setCarouselIndex(idx)}
+                    onClick={() => setExpandedCode({
+                      ...expandedCode,
+                      'zksdkjs': !expandedCode['zksdkjs']
+                    })}
                     style={{
-                      width: "10px",
-                      height: "10px",
-                      borderRadius: "50%",
-                      border: "none",
-                      background: idx === carouselIndex 
-                        ? "rgba(255, 255, 255, 0.9)" 
-                        : "rgba(255, 255, 255, 0.3)",
+                      position: "absolute",
+                      top: "8px",
+                      right: "8px",
+                      background: "rgba(74, 222, 128, 0.1)",
+                      color: "#4ade80",
+                      fontSize: "11px",
+                      padding: "6px 12px",
+                      borderRadius: "4px",
+                      border: "1px solid rgba(74, 222, 128, 0.3)",
+                      zIndex: 10,
+                      fontFamily: "SF Mono, monospace",
                       cursor: "pointer",
-                      transition: "all 0.4s ease"
+                      fontWeight: "500",
+                      transition: "all 0.2s ease"
                     }}
-                  />
+                    onMouseEnter={(e) => {
+                      e.target.style.background = "rgba(74, 222, 128, 0.2)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.background = "rgba(74, 222, 128, 0.1)";
+                    }}
+                  >
+                    {expandedCode['zksdkjs'] ? "Collapse" : "View Full Code"}
+                  </button>
+                )}
+                <div style={{
+                  overflowX: "auto",
+                  overflowY: isMobile && !expandedCode['zksdkjs'] ? "hidden" : "auto",
+                  padding: isMobile ? "12px" : "24px",
+                  maxHeight: isMobile && !expandedCode['zksdkjs'] ? "200px" : "none",
+                  transition: "max-height 0.3s ease",
+                  WebkitOverflowScrolling: "touch"
+                }}>
+                  <pre style={{ 
+                    margin: 0,
+                    overflow: "visible"
+                  }}>
+                    <code style={{
+                      fontSize: isMobile ? "11px" : "13px",
+                      lineHeight: "1.6",
+                      color: "rgba(255, 255, 255, 0.9)",
+                      fontFamily: "SF Mono, monospace",
+                      whiteSpace: "pre",
+                      wordBreak: "normal",
+                      display: "block"
+                    }}>
+{`import { zkSDK } from '@zksdkjs/core';
+
+// Bitcoin privacy - uses CoinJoin under the hood
+await zkSDK.transfer({
+  chain: "bitcoin",
+  amount: "0.1 BTC",
+  to: "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
+  privacy: "maximum"
+});
+
+// Ethereum privacy - uses Railgun/Aztec  
+await zkSDK.transfer({
+  chain: "ethereum",
+  amount: "1.0 ETH",
+  to: "0x742d35Cc6634C0532925a3b844Bc9e79B7423094",
+  privacy: "shielded"
+});
+
+// Solana privacy - uses Light Protocol
+await zkSDK.transfer({
+  chain: "solana",
+  amount: "100 SOL",
+  to: "DQyrAcCrDXQ7NeoqGgDCZwBvkDDyF7piNC4bRoMvQSLE",
+  privacy: "anonymous"
+});
+
+// Cross-chain privacy bridge
+await zkSDK.bridge({
+  from: "bitcoin",
+  to: "ethereum",
+  amount: "1.0 BTC",
+  privacy: true
+});`}
+                    </code>
+                  </pre>
+                  {isMobile && !expandedCode['zksdkjs'] && (
+                    <div style={{
+                      position: "absolute",
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      height: "60px",
+                      background: "linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.9))",
+                      pointerEvents: "none"
+                    }} />
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* AI Agents */}
+            <div style={{
+              marginBottom: "40px"
+            }}>
+              <h3 style={{
+                fontSize: "20px",
+                fontWeight: "400",
+                margin: "0 0 16px 0"
+              }}>
+                Autonomous Development with Goose
+              </h3>
+              <p style={{
+                fontSize: "14px",
+                color: "rgba(255, 255, 255, 0.6)",
+                lineHeight: "1.6",
+                marginBottom: "20px"
+              }}>
+                Specialized AI agents work 24/7 using Goose to research, develop, test, and maintain the SDK.
+                They analyze new privacy protocols daily, write integration code, create documentation, and ensure
+                compatibility across all chains. No human bottlenecks, just continuous improvement.
+              </p>
+              
+              {/* Agent Grid */}
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
+                gap: isMobile ? "12px" : "16px"
+              }}>
+                {[
+                  { name: "Chief Strategy Officer", task: "Strategic planning & coordination" },
+                  { name: "Developer Agent", task: "Core SDK implementation" },
+                  { name: "Research Intelligence", task: "Protocol analysis & market research" },
+                  { name: "Marketing & Growth", task: "Developer adoption & content" },
+                  { name: "Protocol Specialists", task: "Railgun, Aztec, Solana expertise" },
+                  { name: "Release Operations", task: "Deployment & quality assurance" }
+                ].map((agent, i) => (
+                  <div key={i} style={{
+                    padding: "12px",
+                    background: "rgba(255, 255, 255, 0.02)",
+                    border: "1px solid rgba(255, 255, 255, 0.1)",
+                    borderRadius: "6px"
+                  }}>
+                    <div style={{
+                      fontSize: "12px",
+                      fontWeight: "500",
+                      color: "rgba(255, 255, 255, 0.8)",
+                      marginBottom: "4px"
+                    }}>
+                      {agent.name}
+                    </div>
+                    <div style={{
+                      fontSize: "11px",
+                      color: "rgba(255, 255, 255, 0.5)"
+                    }}>
+                      {agent.task}
+                    </div>
+                  </div>
                 ))}
               </div>
+            </div>
 
-              {/* Right Arrow */}
-              <button
-                onClick={nextSlide}
+            {/* CTAs */}
+            <div style={{
+              display: "flex",
+              flexDirection: isMobile ? "column" : "row",
+              gap: "16px",
+              justifyContent: "center",
+              alignItems: isMobile ? "stretch" : "center"
+            }}>
+              <Link
+                to="/docs/zkSDK-Mission"
                 style={{
-                  background: "transparent",
-                  border: "1px solid rgba(255, 255, 255, 0.2)",
-                  borderRadius: "50%",
-                  width: "32px",
-                  height: "32px",
-                  color: "rgba(255, 255, 255, 0.6)",
-                  fontSize: "0.9rem",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  transition: "all 0.4s ease",
-                  opacity: "0.7"
+                  display: "inline-block",
+                  padding: "12px 32px",
+                  background: "#4ade80",
+                  color: "#000",
+                  borderRadius: "6px",
+                  fontSize: "14px",
+                  fontWeight: "600",
+                  textDecoration: "none",
+                  transition: "all 0.15s ease"
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.opacity = "1";
-                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.4)";
-                  e.currentTarget.style.color = "rgba(255, 255, 255, 0.9)";
-                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
+                  e.target.style.transform = "translateY(-1px)";
+                  e.target.style.background = "#5be88a";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.opacity = "0.7";
-                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.2)";
-                  e.currentTarget.style.color = "rgba(255, 255, 255, 0.6)";
-                  e.currentTarget.style.background = "transparent";
+                  e.target.style.transform = "translateY(0)";
+                  e.target.style.background = "#4ade80";
                 }}
               >
-                →
-              </button>
+                Learn About the Mission →
+              </Link>
+              <a
+                href="https://github.com/zksdkjs/agent"
+                style={{
+                  display: "inline-block",
+                  padding: "12px 32px",
+                  background: "transparent",
+                  color: "#fff",
+                  border: "1px solid rgba(255, 255, 255, 0.2)",
+                  borderRadius: "6px",
+                  fontSize: "14px",
+                  fontWeight: "500",
+                  textDecoration: "none",
+                  transition: "all 0.15s ease"
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.borderColor = "rgba(255, 255, 255, 0.4)";
+                  e.target.style.transform = "translateY(-1px)";
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
+                  e.target.style.transform = "translateY(0)";
+                }}
+              >
+                Watch Progress on GitHub
+              </a>
             </div>
-          )}
-        </div>
-
-        {/* Code Display */}
-        <div style={{
-          width: "100%",
-          background: "rgba(0, 0, 0, 0.5)",
-          borderRadius: "16px",
-          overflow: "hidden",
-          border: "1px solid rgba(255, 255, 255, 0.1)"
-        }}>
-          {/* Tab Header */}
-          <div style={{
-            background: "rgba(0, 0, 0, 0.3)",
-            padding: "16px 24px",
-            borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between"
-          }}>
-            <span style={{
-              color: "rgba(255, 255, 255, 0.7)",
-              fontSize: "0.9rem",
-              fontFamily: "SF Mono, monospace"
-            }}>
-              {packages[selectedPackage].title} Example
-            </span>
-            <button
-              onClick={() => navigator.clipboard.writeText(packages[selectedPackage].code)}
-              style={{
-                background: "transparent",
-                border: "1px solid rgba(255, 255, 255, 0.2)",
-                borderRadius: "6px",
-                padding: "4px 12px",
-                color: "rgba(255, 255, 255, 0.6)",
-                fontSize: "0.8rem",
-                cursor: "pointer",
-                fontFamily: "SF Mono, monospace",
-                transition: "all 0.2s ease"
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.borderColor = "rgba(255, 255, 255, 0.4)";
-                e.target.style.color = "rgba(255, 255, 255, 0.8)";
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.borderColor = "rgba(255, 255, 255, 0.2)";
-                e.target.style.color = "rgba(255, 255, 255, 0.6)";
-              }}
-            >
-              Copy
-            </button>
           </div>
-          
-          {/* Code Content */}
-          <pre style={{
-            margin: 0,
-            padding: "32px",
-            overflow: "auto",
-            maxHeight: "500px"
-          }}>
-            <code style={{
-              fontSize: "0.95rem",
-              lineHeight: "1.6",
-              fontFamily: "SF Mono, monospace",
-              color: "rgba(255, 255, 255, 0.9)",
-              whiteSpace: "pre",
-              display: "block"
-            }}>
-              {packages[selectedPackage].code}
-            </code>
-          </pre>
-        </div>
+        )}
+      </div>
 
-        {/* CTA Buttons */}
-        <div style={{
-          display: "flex",
-          gap: "24px",
-          alignItems: "center"
-        }}>
-          <Link
-            to="/docs/intro"
-            style={{
-              padding: "14px 32px",
-              background: "#fff",
-              color: "#000",
-              borderRadius: "8px",
-              fontSize: "1rem",
-              fontFamily: "'Poppins', sans-serif",
-              textDecoration: "none",
-              fontWeight: "500",
-              transition: "transform 0.2s ease",
-              display: "inline-block"
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.transform = "translateY(-2px)";
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.transform = "translateY(0)";
-            }}
-          >
-            Get Started →
-          </Link>
-          
-          <a
-            href="https://github.com/zkthings"
-            style={{
-              padding: "14px 32px",
-              background: "transparent",
-              color: "#fff",
-              border: "1px solid rgba(255, 255, 255, 0.3)",
-              borderRadius: "8px",
-              fontSize: "1rem",
-              fontFamily: "'Poppins', sans-serif",
-              textDecoration: "none",
-              fontWeight: "500",
-              transition: "all 0.2s ease",
-              display: "inline-block"
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.borderColor = "rgba(255, 255, 255, 0.5)";
-              e.target.style.transform = "translateY(-2px)";
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.borderColor = "rgba(255, 255, 255, 0.3)";
-              e.target.style.transform = "translateY(0)";
-            }}
-          >
-            View on GitHub
-          </a>
-        </div>
-      </div>  
+      {/* CSS for animations */}
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes pulse {
+          0% {
+            box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7);
+          }
+          70% {
+            box-shadow: 0 0 0 10px rgba(74, 222, 128, 0);
+          }
+          100% {
+            box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
+          }
+        }
+        
+        /* Custom scrollbar for libraries list */
+        div::-webkit-scrollbar {
+          width: 6px;
+        }
+        
+        div::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.05);
+          border-radius: 3px;
+        }
+        
+        div::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.2);
+          border-radius: 3px;
+        }
+        
+        div::-webkit-scrollbar-thumb:hover {
+          background: rgba(255, 255, 255, 0.3);
+        }
+      `}</style>
     </div>
   );
 }

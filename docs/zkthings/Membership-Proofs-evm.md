@@ -200,13 +200,13 @@ const zkMerkle = new ZkMerkleTree({
 
 ## Contributing
 
-PRs welcome! Check our [Contributing Guide](https://github.com/zkthings/proofOfMembership-evm/blob/main/CONTRIBUTING.md).
+PRs welcome! Check our [Contributing Guide](https://github.com/zksdkjs/proofOfMembership-evm/blob/main/CONTRIBUTING.md).
 
 ## Support
 
 - [Documentation](https://zksdk.dev/docs/intro)
-- [GitHub Issues](https://github.com/zkthings/proofOfMembership-evm/issues)
+- [GitHub Issues](https://github.com/zksdkjs/proofOfMembership-evm/issues)
 
 ## License
 
-MIT © [zkThings](https://github.com/zkthings) 
+MIT © [zkThings](https://github.com/zksdkjs) 

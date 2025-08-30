@@ -45,7 +45,7 @@ const config = {
       ({
         docs: {
           sidebarPath: './sidebars.js',
-          editUrl: 'https://github.com/zkthings/zksdk/tree/main/',
+          editUrl: 'https://github.com/zksdkjs/zksdk/tree/main/',
         },
         blog: false, // Disable the blog feature
         sitemap: {
@@ -79,13 +79,7 @@ const config = {
             label: 'Documentation',
           },
           {
-            type: 'doc',
-            docId: 'Open_Source_Open_for_All',
-            position: 'left',
-            label: 'Open Source Open for all',
-          },
-          {
-            href: 'https://github.com/zkthings/zksdk',
+            href: 'https://github.com/zksdkjs',
             label: 'GitHub',
             position: 'right',
           },
@@ -95,11 +89,25 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Docs',
+            title: 'zkthings',
             items: [
               {
                 label: 'Documentation',
                 to: '/docs/intro',
+              },
+              {
+                label: 'NPM Packages',
+                href: 'https://www.npmjs.com/org/zkthings',
+              },
+            ],
+          },
+          {
+            title: 'zkSDKjs',
+            items: [
+              {
+                label: 'Development (Coming Q2 2025)',
+                href: 'https://github.com/zksdkjs/agent',
+
               },
             ],
           },
@@ -107,30 +115,17 @@ const config = {
             title: 'Community',
             items: [
               {
-                label: 'Twitter',
-                href: 'https://x.com/zksdk_dev',
-              },
-              {
                 label: 'GitHub',
-                href: 'https://github.com/zkthings',
-              },
-            ],
-          },
-          {
-            title: 'More',
-            items: [
-              {
-                label: 'Main Website',
-                href: 'https://zksdk.dev',
+                href: 'https://github.com/zksdkjs',
               },
               {
-                label: 'Legacy: zkmerkle',
-                href: 'https://www.npmjs.com/package/zkmerkle',
+                label: 'x',
+                href: 'https://x.com/zksdk_dev',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} zkThings labs.`,
+        copyright: `Copyright © ${new Date().getFullYear()} zkThings labs. • Powered by Goose`,
       },
       prism: {
         theme: prismThemes.github,
