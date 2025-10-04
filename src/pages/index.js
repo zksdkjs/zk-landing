@@ -359,16 +359,17 @@ const solidityProof = proof.toSolidity();`
         </div>
         
         {/* Add description under toggle for zkSDKjs */}
-        {activeProduct !== 'zksdkjs' && (
+        {/* {activeProduct !== 'zksdkjs' && (
           <p style={{
             fontSize: "13px",
             color: "rgba(255, 255, 255, 0.4)",
             margin: 0,
             textAlign: "center"
           }}>
-            zkSDKjs - AI agents building universal privacy SDK for all blockchains
+            zkThings - Privacy primitives for EVM, Solona , Bitcoin
+            and more.
           </p>
-        )}
+        )} */}
       </div>
 
       {/* Content Area */}
@@ -391,7 +392,8 @@ const solidityProof = proof.toSolidity();`
                 fontWeight: "300",
                 margin: "0 0 16px 0"
               }}>
-                Zero-Knowledge Proof Libraries
+    zkThings - Privacy primitives for EVM, Solona , Bitcoin
+    and more.
               </h2>
               <p style={{
                 fontSize: "16px",
@@ -404,7 +406,6 @@ const solidityProof = proof.toSolidity();`
                 fontSize: "14px",
                 color: "rgba(255, 255, 255, 0.4)"
               }}>
-                Privacy primitives for EVM, Solana, and StarkNet
               </p>
             </div>
 
