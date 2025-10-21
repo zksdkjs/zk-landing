@@ -99,7 +99,7 @@ function HomepageHeader() {
         footerCopyright.innerHTML = `
           <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
             <div style="font-family: var(--ifm-font-family-monospace); color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">
-              zkthings libraries: ${totalDownloads} downloads
+          
             </div>
             <div style="color: rgba(255, 255, 255, 0.6); font-size: 0.8rem;">
               Copyright © ${new Date().getFullYear()} zkThings labs. • Powered by Goose
@@ -253,12 +253,12 @@ const solidityProof = proof.toSolidity();`
   ];
 
   const agentTasks = [
-    "Integrating Bitcoin Lightning privacy layers",
-    "Building Aztec Protocol for Ethereum",
-    "Implementing Solana Light Protocol",
-    "Testing privacy proofs on Polygon zkEVM",
-    "Optimizing Bitcoin CoinJoin implementations",
-    "Analyzing Railgun for cross-chain privacy"
+    "Developer agent extending @zksdkjs/railgun-provider proofs (recipe-developer.yaml)",
+    "fhEVM specialist refreshing encrypted transfer mocks (recipe-zama-fhe-specialist.yaml)",
+    "Strategy chief updating plans/zkSDK-development-plan.md with new milestones",
+    "Tester agent wiring Jest suites inside sdk/packages/core via recipe-tester.yaml",
+    "Social agent publishing outputs/social/dev_summary_*.md from the latest run",
+    "launch-strategic-system.sh rotating providers based on memory/build_progress.json"
   ];
 
   return (
@@ -702,7 +702,7 @@ const solidityProof = proof.toSolidity();`
                 margin: "0 0 12px 0",
                 lineHeight: "1.5"
               }}>
-                AI agents building the universal privacy SDK for Bitcoin, Ethereum, Solana, and every blockchain
+                Goose agents in github.com/zksdkjs/agent are shipping the real @zksdkjs/core runtime, provider packages, and docs in public.
               </p>
               <p style={{
                 fontSize: "14px",
@@ -791,8 +791,8 @@ const solidityProof = proof.toSolidity();`
                   color: "rgba(255, 255, 255, 0.6)",
                   lineHeight: "1.6"
                 }}>
-                  One simple API that works everywhere. Our AI agents continuously integrate every privacy protocol
-                  across every blockchain. You write once, deploy everywhere with privacy.
+                  A single TypeScript runtime (`@zksdkjs/core`) routes calls to provider packages like Railgun, Aztec, and Zama&apos;s fhEVM.
+                  Goose keeps recipes, scripts, and docs current so the same `sdk.transfer` call works across every chain.
                 </p>
               </div>
             </div>
@@ -872,39 +872,52 @@ const solidityProof = proof.toSolidity();`
                       wordBreak: "normal",
                       display: "block"
                     }}>
-{`import { zkSDK } from '@zksdkjs/core';
+{`import { ZkSDK } from '@zksdkjs/core';
+import { RailgunProvider } from '@zksdkjs/railgun-provider';
+import { FHEVMProvider } from '@zksdkjs/provider-fhevm';
 
-// Bitcoin privacy - uses CoinJoin under the hood
-await zkSDK.transfer({
-  chain: "bitcoin",
-  amount: "0.1 BTC",
-  to: "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
-  privacy: "maximum"
+const sdk = new ZkSDK({
+  providers: {
+    railgun: new RailgunProvider({
+      rpcEndpoints: { ethereum: 'https://mainnet.infura.io/v3/<key>' },
+      engineDbPath: './railgun-db',
+      walletMnemonic: process.env.RAILGUN_MNEMONIC
+    })
+  },
+  defaultProvider: 'railgun'
 });
 
-// Ethereum privacy - uses Railgun/Aztec  
-await zkSDK.transfer({
-  chain: "ethereum",
-  amount: "1.0 ETH",
-  to: "0x742d35Cc6634C0532925a3b844Bc9e79B7423094",
-  privacy: "shielded"
-});
+// Providers can be registered later as the Goose agents ship new packages
+sdk.addProvider(
+  'fhevm',
+  new FHEVMProvider({
+    rpcUrl: 'https://fhevm.devnet.zama.ai',
+    gatewayUrl: 'https://gateway.zama.ai'
+  })
+);
 
-// Solana privacy - uses Light Protocol
-await zkSDK.transfer({
-  chain: "solana",
-  amount: "100 SOL",
-  to: "DQyrAcCrDXQ7NeoqGgDCZwBvkDDyF7piNC4bRoMvQSLE",
-  privacy: "anonymous"
-});
+await sdk.transfer(
+  {
+    chain: 'ethereum',
+    token: 'USDC',
+    amount: '1000000',
+    to: '0xRecipient',
+    privacy: 'shielded'
+  },
+  'railgun'
+);
 
-// Cross-chain privacy bridge
-await zkSDK.bridge({
-  from: "bitcoin",
-  to: "ethereum",
-  amount: "1.0 BTC",
-  privacy: true
-});`}
+// Switch providers with the same API surface
+await sdk.transfer(
+  {
+    chain: 'ethereum',
+    token: 'USDC',
+    amount: '500000',
+    to: '0xConfidential',
+    privacy: 'anonymous'
+  },
+  'fhevm'
+);`}
                     </code>
                   </pre>
                   {isMobile && !expandedCode['zksdkjs'] && (
@@ -951,12 +964,12 @@ await zkSDK.bridge({
                 gap: isMobile ? "12px" : "16px"
               }}>
                 {[
-                  { name: "Chief Strategy Officer", task: "Strategic planning & coordination" },
-                  { name: "Developer Agent", task: "Core SDK implementation" },
-                  { name: "Research Intelligence", task: "Protocol analysis & market research" },
-                  { name: "Marketing & Growth", task: "Developer adoption & content" },
-                  { name: "Protocol Specialists", task: "Railgun, Aztec, Solana expertise" },
-                  { name: "Release Operations", task: "Deployment & quality assurance" }
+                  { name: "Chief Strategy Officer", task: "Runs recipe-strategy-chief.yaml to update roadmaps & risks" },
+                  { name: "Developer Agent", task: "Extends sdk/packages/providers via recipe-developer.yaml" },
+                  { name: "Research & Intelligence", task: "Scans new privacy tech, logs findings in outputs/strategic/" },
+                  { name: "Marketing & Growth", task: "Builds go-to-market plans and community updates" },
+                  { name: "Specialist Recipes", task: "Railgun, Aztec, fhEVM deep dives triggered by orchestration" },
+                  { name: "Release & Operations", task: "Preps launch checklists, SLAs, and health checks" }
                 ].map((agent, i) => (
                   <div key={i} style={{
                     padding: "12px",
@@ -992,7 +1005,7 @@ await zkSDK.bridge({
               alignItems: isMobile ? "stretch" : "center"
             }}>
               <Link
-                to="/docs/zkSDK-Mission"
+                to="/docs/zksdkjs/overview"
                 style={{
                   display: "inline-block",
                   padding: "12px 32px",
@@ -1013,7 +1026,7 @@ await zkSDK.bridge({
                   e.target.style.background = "#4ade80";
                 }}
               >
-                Learn About the Mission →
+                Read the Overview →
               </Link>
               <a
                 href="https://github.com/zksdkjs/agent"
@@ -1096,7 +1109,7 @@ await zkSDK.bridge({
 export default function Home() {
   return (
     <Layout
-      description="Build privacy-first applications with zero-knowledge proofs">
+      description="Goose agents building the universal privacy SDK for every blockchain">
       <HomepageHeader />
     </Layout>
   );

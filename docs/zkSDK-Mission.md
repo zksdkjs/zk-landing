@@ -181,4 +181,4 @@ Be part of the first AI-built privacy SDK. Whether you're a developer, Goose exp
 ---
 
 *zkSDKjs - Where AI meets Privacy*  
-*Coming Q2 2025*
+  Q4 2025*
