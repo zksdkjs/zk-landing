@@ -92,7 +92,7 @@ const config = {
             title: 'zkthings',
             items: [
               {
-                label: 'Documentation',
+                label: 'zkthings Documentation',
                 to: '/docs/intro',
               },
               {
@@ -105,9 +105,12 @@ const config = {
             title: 'zkSDKjs',
             items: [
               {
-                label: 'Development (Coming Q2 2025)',
+                label: 'zkSDKjs Documentation',
+                to: '/docs/zksdkjs/whitepaper',
+              },
+              {
+                label: 'GitHub',
                 href: 'https://github.com/zksdkjs/agent',
-
               },
             ],
           },
