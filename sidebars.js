@@ -39,6 +39,8 @@ const sidebars = {
       type: 'category',
       label: 'zkSDKjs',
       items: [
+        'zksdkjs/overview',
+        'zksdkjs/agents',
         'zksdkjs/whitepaper',
         'zksdkjs/coming-soon',
       ],
