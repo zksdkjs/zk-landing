@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # zkSDK Overview
 
-zkSDK is the universal privacy SDK - "The LangChain of Privacy" - built autonomously by AI agents in the public `zksdkjs/privacy-agent` repository. It provides a unified TypeScript interface for Railgun, Aztec, Zama's fhEVM, Bitcoin privacy tools, Solana's Light Protocol, and future privacy stacks, eliminating the need to rewrite code for each chain.
+zkSDK is the universal privacy SDK - "The LangChain of Privacy" - built autonomously by AI agents in the public `zksdkjs/privacy-agent` repository. It provides a unified TypeScript interface for Railgun, Aztec, Zama's fhEVM, Bitcoin privacy tools, Solana's Privacy Cash, and future privacy stacks, eliminating the need to rewrite code for each chain.
 
 ## 🎯 Core Philosophy
 
@@ -20,7 +20,6 @@ Write once, deploy anywhere. zkSDK abstracts away protocol-specific complexity w
 @zksdk/
 ├── core              # Runtime, types, SDK class
 ├── wallet-connect    # Unified wallet connection (NEW Oct 2025)
-├── recipes           # Recipe→Step→ComboMeal workflow system
 └── providers/
     ├── railgun       # Railgun EVM privacy
     ├── aztec         # Aztec zkEVM
@@ -103,7 +102,6 @@ const balances = await sdk.getBalances('railgun', userAddress);
 |---------|---------|----------|--------|
 | `@zksdk/core` | 0.1.0 | 100% | ✅ Stable |
 | `@zksdk/wallet-connect` | 0.1.0 | - | ✅ Beta (Oct 2025) |
-| `@zksdk/recipes` | 0.1.0 | - | ✅ Beta |
 | `@zksdk/providers-railgun` | 0.1.0 | 48% | 🚧 Active Development |
 | `@zksdk/providers-aztec` | 0.1.0 | 30% | 🚧 Active Development |
 | `@zksdk/providers-fhevm` | 0.1.0 | 41% | 🧪 Experimental |
@@ -112,45 +110,6 @@ const balances = await sdk.getBalances('railgun', userAddress);
 
 **Overall Test Coverage:** 43.7% (Target: 90%)
 **Total Tests:** 72 passing
-
-## 🔬 Recipe System
-
-zkSDK includes a powerful workflow system inspired by cooking recipes:
-
-### Recipe → Step → ComboMeal Pattern
-
-```typescript
-import { RailgunPrivateTransferRecipe } from '@zksdk/recipes';
-
-// Recipe: High-level workflow
-const recipe = new RailgunPrivateTransferRecipe(railgunProvider);
-
-// Execute complete workflow
-const result = await recipe.execute({
-  token: 'USDC',
-  amount: '1000',
-  recipient: '0x...'
-});
-
-// Or use individual Steps for custom workflows
-import { RailgunPrivateTransferStep } from '@zksdk/recipes';
-const step = new RailgunPrivateTransferStep(provider);
-await step.execute(params);
-
-// ComboMeal: Chain multiple recipes
-import { RailgunPrivacyOperationsComboMeal } from '@zksdk/recipes';
-const combo = new RailgunPrivacyOperationsComboMeal(provider);
-await combo.execute([
-  { type: 'shield', amount: '1000' },
-  { type: 'transfer', to: '0x...', amount: '500' },
-  { type: 'unshield', amount: '500' }
-]);
-```
-
-**Available Recipes:**
-- `RailgunPrivateTransferRecipe` - Single private transfer
-- `RailgunBatchTransferRecipe` - Multiple transfers in one proof
-- More coming for Aztec, Bitcoin, FHEVM...
 
 ## 🤖 AI-Powered Development
 
