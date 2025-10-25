@@ -6,6 +6,8 @@ sidebar_position: 1
 
 zkSDK is the universal privacy SDK - "The LangChain of Privacy" - built autonomously by AI agents in the public `zksdkjs/privacy-agent` repository. It provides a unified TypeScript interface for Railgun, Aztec, Zama's fhEVM, Bitcoin privacy tools, Solana's Privacy Cash, and future privacy stacks, eliminating the need to rewrite code for each chain.
 
+visit https://github.com/zksdkjs/agent 
+
 ## 🎯 Core Philosophy
 
 **One interface. Every blockchain. Continuous privacy.**
