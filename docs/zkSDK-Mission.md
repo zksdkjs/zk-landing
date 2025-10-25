@@ -38,7 +38,7 @@ Our development team consists of 7 specialized AI agents, each with distinct res
 ### Phase 2: Development (Q1-Q2 2025)
 - Bitcoin privacy integration (CoinJoin, Lightning)
 - Ethereum ecosystem (Tornado alternatives, Aztec, Railgun)
-- Solana privacy protocols (Elusiv successor, Light Protocol)
+- Solana privacy protocols (Elusiv successor, Privacy Cash)
 - Cross-chain privacy bridges
 
 ### Phase 3: Launch (Q2 2025)

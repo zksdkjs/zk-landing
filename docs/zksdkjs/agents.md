@@ -18,13 +18,13 @@ The zkSDK project is run by a persistent Goose workspace (`zksdkjs/agent/privacy
 | **Social / Content** | Claude Opus | `recipe-social.yaml` | Turns daily summaries into Twitter threads, blog posts, and tutorials. |
 | **Release & Operations** | Claude Sonnet | `recipe-release-operations.yaml` | Owns launch sequencing, enterprise readiness, and health checks. |
 
-Specialist boosters (Railgun, Aztec, fhEVM, Bitcoin, Light Protocol) live next to the core recipes and are launched as needed by the orchestration scripts.
+Specialist boosters (Railgun, Aztec, fhEVM, Bitcoin, Privacy Cash) live next to the core recipes and are launched as needed by the orchestration scripts.
 
 ## How the System Stays in Sync
 
 - `automation/scripts/launch-strategic-system.sh` bootstraps memory, rotates through providers based on `memory/build_progress.json`, and ensures every agent reads existing code before writing new lines.
 - `automation/scripts/goose-continue.sh`, `smart-continue-real-hour.sh`, and `run-forever.sh` keep long-lived sessions alive, restoring context from `~/.local/share/goose/sessions/`.
-- Progress snapshots (`memory/build_progress.json`) are refreshed before each work cycle. The updater counts TypeScript lines for each provider (`fhevm`, `railgun`, `light-protocol`, `aztec`, `bitcoin`) and tags them as `not_started`, `partial`, or `complete`.
+- Progress snapshots (`memory/build_progress.json`) are refreshed before each work cycle. The updater counts TypeScript lines for each provider (`fhevm`, `railgun`, `privacy-cash`, `aztec`, `bitcoin`) and tags them as `not_started`, `partial`, or `complete`.
 - Output directories are contractually defined:  
   - `outputs/social/` → Twitter threads, blog drafts, dev summaries  
   - `outputs/strategic/` → planning documents and OKRs  

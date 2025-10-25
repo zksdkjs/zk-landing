@@ -774,7 +774,7 @@ const solidityProof = proof.toSolidity();`
                   lineHeight: "1.6"
                 }}>
                   Every blockchain has different privacy protocols. Developers need to learn Railgun for Ethereum, 
-                  CoinJoin for Bitcoin, Light Protocol for Solana. Weeks of integration for each chain.
+                  CoinJoin for Bitcoin, Privacy Cash for Solana. Weeks of integration for each chain.
                 </p>
               </div>
               <div>

@@ -18,7 +18,7 @@ Each ecosystem ships its own tooling, APIs, and cryptographic primitives:
 
 - **Ethereum & L2s:** Railgun, Aztec, Nightfall, Scroll zkEVM, Taiko  
 - **Bitcoin:** CoinJoin variants, Silent Payments, Lightning privacy channels  
-- **Solana:** Light Protocol, Elusiv successors  
+- **Solana:** Privacy Cash, Elusiv successors  
 - **Confidential Compute:** Zama fhEVM, Fhenix, Inco Network  
 - **Other zk stacks:** Mina zkApps, StarkNet Cairo, Midnight Compact DSL
 
@@ -88,7 +88,7 @@ await sdk.transfer(
 
 `ZkSDK` keeps a provider registry behind the scenes, so registering `railgun` in the constructor and `fhevm` later results in two independent integrations that share the same method signatures.
 
-The same call can be routed to Aztec, Light Protocol, or future Bitcoin providers by switching the provider key. Providers encapsulate their own proof systems, gas estimation, and compliance hooks.
+The same call can be routed to Aztec, Privacy Cash, or future Bitcoin providers by switching the provider key. Providers encapsulate their own proof systems, gas estimation, and compliance hooks.
 
 ### 2.3 SDK Overview
 
@@ -101,7 +101,7 @@ privacy-agent/sdk
 │   │   ├── railgun/            # @zksdkjs/railgun-provider (in progress)
 │   │   ├── provider-fhevm/     # @zksdkjs/provider-fhevm (prototype complete)
 │   │   ├── aztec/              # @zksdkjs/aztec-provider (PXE + Noir skeleton)
-│   │   ├── light-protocol/     # Research stubs
+│   │   ├── privacy-cash/       # Solana shielded intents + compliance pipelines
 │   │   └── bitcoin/            # Planned Silent Payments + CoinJoin
 │   ├── recipes/                # High-level privacy workflows
 │   └── examples/               # Demo applications and integration scripts
@@ -117,7 +117,7 @@ privacy-agent/sdk
 | Railgun | `sdk/packages/providers/railgun` | `@railgun-community/engine`, local DB, mnemonic support | Proof generation + submission wired; RPC orchestration & tests pending |
 | Zama fhEVM | `sdk/packages/providers/fhevm` | `ethers@6`, `fhevmjs` | Confidential transfers, encryption helpers, gateway stubs implemented |
 | Aztec Protocol | `sdk/packages/providers/aztec` | PXE client abstractions, Noir contract loader | Account controller + PXE service stubs; execution wiring next |
-| Light Protocol | `sdk/packages/providers/light-protocol` | Solana web3, compression primitives | Research outputs captured in plan; awaiting Solana updates |
+| Privacy Cash | `sdk/packages/providers/privacy-cash` | Solana privacy intents, compliance circuits | Implementation underway with staged mainnet roll-out |
 | Bitcoin Privacy | `sdk/packages/providers/bitcoin` | BitcoinJS, Silent Payments spec | Design captured in `plans/bitcoin-privacy-plan.md` |
 
 Providers register themselves with `@zksdkjs/core` through a consistent interface (`BasePrivacyProvider`), so the SDK can orchestrate transfers, balances, and transaction status checks uniformly.
@@ -147,7 +147,7 @@ zkSDK relies on a persistent, multi-model Goose workspace that mirrors a traditi
 
 - **Strategic Management Layer:** Planning, market intelligence, and launch sequencing.
 - **Execution Layer:** Implementation, testing, documentation, and developer relations.
-- **Specialist Pods:** Protocol-specific and infrastructure-focused agents (Railgun, Aztec, fhEVM, Light Protocol, Bitcoin, infrastructure hardening).
+- **Specialist Pods:** Protocol-specific and infrastructure-focused agents (Railgun, Aztec, fhEVM, Privacy Cash, Bitcoin, infrastructure hardening).
 
 Each pod is encoded as a Goose recipe, but the whitepaper focuses on the responsibilities and coordination model rather than the operational commands.
 

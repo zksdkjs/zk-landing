@@ -22,7 +22,7 @@ If you want to understand the live system, clone the agent repo and inspect thos
 | Core runtime | `@zksdkjs/core` | ✅ Implemented | Provides the `ZkSDK` class plus shared types like `TransferParams`, provider registration, and unified transfer orchestration. |
 | Zama fhEVM provider | `@zksdkjs/provider-fhevm` | ✅ Prototype shipped | End-to-end mockable encrypted transfers, balance queries, and gateway hooks for future production fhEVM networks. |
 | Railgun provider | `@zksdkjs/railgun-provider` | 🚧 Implementation in progress | Engine bootstrapping, mnemonic-based wallet creation, and proof scaffolding are in place. Needs production RPC layouts and test coverage. |
-| Light Protocol provider | `@zksdkjs/light-protocol-provider` | 🔬 Research | Recipes and plans exist; implementation will follow once Solana primitives are finalized. |
+| Privacy Cash provider | `@zksdkjs/privacy-cash-provider` | 🚧 Implementation in progress | Integrates Solana shielded transfers with built-in compliance guardrails and rollup-friendly settlement. |
 | Aztec provider | `@zksdkjs/aztec-provider` | 🧪 Skeleton + tests | Account abstraction layers, PXE service stubs, and Noir contract plumbing landed. Requires execution wiring. |
 | Bitcoin privacy provider | `@zksdkjs/bitcoin-provider` | 🗺️ Planned | Strategy doc covers Silent Payments and CoinJoin design; build queued behind Railgun and Aztec. |
 
@@ -102,6 +102,19 @@ The live `plans/zkSDK-development-plan.md` document governs delivery. Key checkp
 - Finish the Railgun provider (proof submission, gas estimation, integration tests) and document operational setup.
 - Wire the Aztec PXE client to Noir contracts, then land end-to-end sandbox tests.
 - Promote the fhEVM provider from mock mode once Zama's gateway stabilizes.
-- Start Light Protocol and Bitcoin workstreams after Railgun/Aztec hit “complete” in `memory/build_progress.json`.
+- Start Privacy Cash and Bitcoin workstreams after Railgun/Aztec hit “complete” in `memory/build_progress.json`.
 
 Track progress in the agent repo first; only update this doc after confirming the automated status reports.
+
+## Product Strategy Sources
+
+The public copy mirrors the internal strategy bundle that the Senior Product Manager agent regenerates. Review these canonical files in `privacy-agent/strategy/product/` before changing roadmap claims:
+
+- `user-personas.md` – primary developer segments and adoption triggers.
+- `market-analysis.md` – market size, competitive landscape, and risk notes.
+- `technical-architecture.md` – unified interface layers and execution design.
+- `product-requirements-v1.md` – phased requirements from MVP through v2.0.
+- `metrics-dashboard.md` – KPI definitions and alert thresholds.
+- `defi-integration-patterns.md` and `go-to-market.md` – integration examples and launch sequencing.
+
+Daily automation writes hand-offs into `privacy-agent/workspace/hubs/`, so sync this page after each pipeline run to keep external messaging aligned.
