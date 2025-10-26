@@ -1,0 +1,7 @@
+{
+  "label": "SDK Documentation",
+  "link": {
+    "type": "generated-index",
+    "description": "Select your zk program"
+  }
+}

@@ -97,7 +97,7 @@ graph TD
     STRATHUB --> DOCSAGENT[run-doc-site-writer.sh]
     DEVHUB --> DOCSAGENT
     DOCSAGENT --> DOCSHUB[workspace/hubs/docs-hand-off.md]
-    DOCSAGENT --> SITE[zk-landing/docs/zksdkjs (all sections)]
+    DOCSAGENT --> SITE["zk-landing/docs/zksdkjs (all sections)"]
     DOCSAGENT --> PIPELOG
 
     PIPELOG --> REVIEW[Humans monitor log]
