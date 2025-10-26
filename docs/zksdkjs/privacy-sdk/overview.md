@@ -1,5 +1,6 @@
 ---
 sidebar_position: 1
+slug: /zksdkjs/privacy-sdk/overview
 ---
 
 # zkSDK Overview
@@ -211,8 +212,8 @@ privacy-agent/
 - **GitHub:** https://github.com/zksdkjs/privacy-agent
 - **Documentation:** https://zksdkjs.com/docs
 - **Daily Updates:** `/docs/zksdkjs/updates/`
-- **Architecture:** `/docs/zksdkjs/architecture`
-- **Agent Pipeline:** `/docs/zksdkjs/agent-pipeline`
+- **Architecture:** `/docs/zksdkjs/building-sdk/architecture`
+- **Agent Pipeline:** `/docs/zksdkjs/ai-pipeline/agent-pipeline`
 
 ## 📈 Progress Tracking
 

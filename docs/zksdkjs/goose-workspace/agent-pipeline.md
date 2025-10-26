@@ -2,6 +2,7 @@
 id: agent-pipeline
 title: Agent Pipeline Overview
 sidebar_label: Agent Pipeline
+slug: /zksdkjs/ai-pipeline/agent-pipeline
 ---
 
 # Agent Pipeline Overview
@@ -53,7 +54,7 @@ This file is the single source of truth for how the folders, scripts, recipes, a
 | `automation/scripts/run-pm-research.sh` | `.goose/recipes/main/recipe-privacy-cash-researcher.yaml` | Research specialist | Context bundle, `strategy/product/` | `insights/research/pm-market-research-YYYY-MM-DD.md`, `workspace/hubs/research-latest.md`, `workspace/hubs/pipeline-log.md` |
 | `automation/scripts/run-product-manager.sh` | `.goose/recipes/main/recipe-product-manager.yaml` | Senior PM | Research outputs, context | `strategy/product/*.md`, `workspace/hubs/strategy-hand-off.md`, `workspace/hubs/pipeline-log.md` |
 | `automation/scripts/run-developer.sh` / `daily-run-dev.sh` | `.goose/recipes/main/recipe-developer.yaml` | SDK developer | Strategy hand-off, context | `sdk/**`, `workspace/sessions/YYYY-MM-DD/`, `workspace/hubs/dev-hand-off.md`, `workspace/hubs/pipeline-log.md` |
-| `automation/scripts/run-doc-site-writer.sh` | `.goose/recipes/main/recipe-doc-site-writer.yaml` | Docs & marketing writer | Strategy + dev hand-offs | `zk-landing/docs/zksdkjs/**`, `workspace/hubs/docs-hand-off.md`, `workspace/hubs/pipeline-log.md` |
+| `automation/scripts/run-doc-site-writer.sh` | `.goose/recipes/main/recipe-doc-site-writer.yaml` | Docs & marketing writer | Strategy + dev hand-offs | `zk-landing/docs/zksdkjs/{privacy-sdk,building-sdk,ai-pipeline,updates}/**`, `workspace/hubs/docs-hand-off.md`, `workspace/hubs/pipeline-log.md` |
 
 ## Operational Flow (Mermaid)
 
@@ -96,7 +97,7 @@ graph TD
     STRATHUB --> DOCSAGENT[run-doc-site-writer.sh]
     DEVHUB --> DOCSAGENT
     DOCSAGENT --> DOCSHUB[workspace/hubs/docs-hand-off.md]
-    DOCSAGENT --> SITE[zk-landing/docs/zksdkjs/**]
+    DOCSAGENT --> SITE[zk-landing/docs/zksdkjs (all sections)]
     DOCSAGENT --> PIPELOG
 
     PIPELOG --> REVIEW[Humans monitor log]
@@ -131,7 +132,7 @@ graph TD
 ## Stage 4 – Documentation & Marketing Agents
 
 - **Scripts:** `automation/scripts/run-doc-site-writer.sh`, `run-example-writer.sh`, `generate-daily-report.sh`.
-- **Outputs:** Updates to docs (`zk-landing/docs/zksdkjs/**`), insights/daily reports, docs hand-offs, social content.
+- **Outputs:** Updates to docs (`zk-landing/docs/zksdkjs/{privacy-sdk,building-sdk,ai-pipeline,updates}/**`), insights/daily reports, docs hand-offs, social content.
 
 ## Stage 5 – QA & Release
 

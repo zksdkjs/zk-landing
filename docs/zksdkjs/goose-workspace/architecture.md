@@ -2,6 +2,7 @@
 id: architecture
 title: zkSDK Architecture Overview
 sidebar_label: Architecture
+slug: /zksdkjs/building-sdk/architecture
 ---
 
 # zkSDK Architecture Overview

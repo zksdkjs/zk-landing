@@ -1,5 +1,6 @@
 ---
 sidebar_position: 2
+slug: /zksdkjs/ai-pipeline/agents
 ---
 
 # AI Agents Building zkSDK
@@ -154,8 +155,10 @@ graph TB
 - SEO optimization
 
 **Outputs:**
-- `../zk-landing/docs/zksdkjs/**`
-- Weekly updates in `updates/`
+- `../zk-landing/docs/zksdkjs/privacy-sdk/**`
+- `../zk-landing/docs/zksdkjs/building-sdk/**`
+- `../zk-landing/docs/zksdkjs/ai-pipeline/**`
+- `../zk-landing/docs/zksdkjs/updates/**`
 - Architecture docs
 - Integration guides
 
@@ -422,7 +425,7 @@ workspace/hubs/pipeline-log.md
 - **Qwen Coder:** https://huggingface.co/Qwen
 - **OpenRouter:** https://openrouter.ai/
 - **Agent Recipes:** `.goose/recipes/` in privacy-agent repo
-- **Pipeline Guide:** `/docs/zksdkjs/agent-pipeline`
+- **Pipeline Guide:** `/docs/zksdkjs/ai-pipeline/agent-pipeline`
 
 ---
 

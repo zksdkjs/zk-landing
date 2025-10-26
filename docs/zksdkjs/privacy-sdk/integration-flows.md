@@ -2,6 +2,7 @@
 id: integration-flows
 title: Integration Flows
 sidebar_label: Integration Flows
+slug: /zksdkjs/privacy-sdk/integration-flows
 ---
 
 # zkSDK Integration Flows

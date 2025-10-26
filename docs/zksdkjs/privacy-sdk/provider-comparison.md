@@ -2,6 +2,7 @@
 id: provider-comparison
 title: Provider Comparison & Selection Guide
 sidebar_label: Provider Comparison
+slug: /zksdkjs/privacy-sdk/provider-comparison
 ---
 
 # zkSDK Provider Comparison & Selection Guide

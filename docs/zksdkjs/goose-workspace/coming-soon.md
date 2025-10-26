@@ -1,5 +1,6 @@
 ---
 sidebar_position: 3
+slug: /zksdkjs/building-sdk/coming-soon
 ---
 
 # Coming Q4 2025

@@ -1,5 +1,6 @@
 ---
 sidebar_position: 5
+slug: /zksdkjs/privacy-sdk/recipe-catalog
 ---
 
 # Complete Recipe Catalog
@@ -161,7 +162,10 @@ These are the primary agents that run the development pipeline.
 - Tutorial content
 
 **Targets:**
-- `../zk-landing/docs/zksdkjs/**`
+- `../zk-landing/docs/zksdkjs/privacy-sdk/**`
+- `../zk-landing/docs/zksdkjs/building-sdk/**`
+- `../zk-landing/docs/zksdkjs/ai-pipeline/**`
+- `../zk-landing/docs/zksdkjs/updates/**`
 - Weekly updates
 - Architecture docs
 - Integration guides
@@ -703,8 +707,8 @@ goose run --recipe .goose/recipes/utilities/recipe-session-reporter.yaml
 
 - **Recipe Files:** `.goose/recipes/` in privacy-agent repo
 - **Automation Scripts:** `automation/scripts/`
-- **Agent Guide:** `/docs/zksdkjs/agents`
-- **Pipeline Guide:** `/docs/zksdkjs/agent-pipeline`
+- **Agent Guide:** `/docs/zksdkjs/ai-pipeline/agents`
+- **Pipeline Guide:** `/docs/zksdkjs/ai-pipeline/agent-pipeline`
 
 ---
 
