@@ -193,9 +193,65 @@ The runtime intentionally stays thin; all protocol-specific logic lives in provi
 
 Planned enhancements coming after Phase 1:
 
+- **Auditable & Traceable Privacy:** Selective disclosure mechanisms allowing users to prove transaction history or compliance to auditors without exposing private data publicly. Includes view keys, proof of solvency, and regulatory compliance tools.
 - **ZKML integrations:** Bring privacy-preserving machine learning workflows into the SDK so providers can tap into model-backed heuristics without leaking inputs or outputs.
 - **Zero-knowledge registry:** Maintain a zk-verified catalog of providers, recipes, and compliance attestations that agents can query without revealing sensitive configuration details.
 - **Expanded protocol support:** Continue adding first-class providers for new ZK, FHE, and MPC networks as they ship production-ready tooling.
+
+### 4.4 DeFi Integration Roadmap
+
+zkSDK's DeFi integration brings privacy to decentralized finance protocols. This roadmap milestone follows the initial swap implementation currently in development and builds on the core privacy provider foundation.
+
+**Core DeFi Patterns:**
+
+1. **Shielded DEX Swaps** - Private token swaps on Uniswap, SushiSwap, and Curve with route obfuscation and slippage protection. Users execute trades without revealing amounts, token pairs, or patterns.
+
+2. **Private Lending Positions** - Hidden collateral and debt on Aave, Compound, and MakerDAO. Supply, borrow, and manage positions without exposing sizes or health factors. Supports selective disclosure for compliance.
+
+3. **Anonymous Yield Farming** - Private staking on Curve, Convex, and Yearn. Participate in yield programs and earn rewards without revealing stake amounts or returns.
+
+4. **Private Liquidity Provision** - Hidden LP positions on Uniswap and SushiSwap. Deposit assets and earn fees without exposing position sizes.
+
+**Implementation Example:**
+
+```typescript
+// Future DeFi Integration (Post-Swap Implementation)
+import { ZkSDK } from '@zksdkjs/core';
+
+const sdk = new ZkSDK({
+  providers: { railgun: new RailgunProvider({...}) }
+});
+
+// Shielded swap on Uniswap
+await sdk.defi.swap({
+  protocol: 'uniswap',
+  tokenIn: 'ETH',
+  tokenOut: 'DAI',
+  amountIn: ethers.utils.parseEther('1.0'),
+  privacy: 'shielded'
+});
+
+// Private lending on Aave
+await sdk.defi.supply({
+  protocol: 'aave',
+  asset: 'USDC',
+  amount: ethers.utils.parseUnits('10000', 6)
+});
+```
+
+**Supported Protocols:**
+
+| Category | Protocols | Status |
+| --- | --- | --- |
+| DEX | Uniswap V2/V3, SushiSwap, Curve | Researched |
+| Lending | Aave V2/V3, Compound, MakerDAO | Researched |
+| Yield | Curve Gauges, Convex, Yearn | Researched |
+
+**Timeline:**
+- Phase 1 (Current): Core privacy providers and swap implementation
+- Phase 2 (Post-Q4 2025): DeFi integration rollout
+
+**Research:** Detailed DeFi integration patterns documented in `strategy/product/defi-integration-patterns.md` in the zkSDK repository.
 
 ## 5. Security Considerations
 
