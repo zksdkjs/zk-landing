@@ -356,6 +356,23 @@ const solidityProof = proof.toSolidity();`
               </span>
             )}
           </button>
+          <button
+            onClick={() => setActiveProduct('privacyoracle')}
+            style={{
+              padding: isMobile ? "8px 20px" : "10px 24px",
+              background: activeProduct === 'privacyoracle' ? "#fff" : "transparent",
+              color: activeProduct === 'privacyoracle' ? "#000" : "rgba(255, 255, 255, 0.6)",
+              border: "none",
+              borderRadius: "6px",
+              fontSize: "14px",
+              fontWeight: "500",
+              cursor: "pointer",
+              transition: "all 0.2s ease",
+              outline: "none"
+            }}
+          >
+            Privacy Oracle
+          </button>
         </div>
         
         {/* Add description under toggle for zkSDKjs */}
@@ -1053,6 +1070,93 @@ await sdk.transfer(
               >
                 Watch Progress on GitHub
               </a>
+            </div>
+          </div>
+        )}
+
+        {/* Privacy Oracle Content */}
+        {activeProduct === 'privacyoracle' && (
+          <div style={{
+            animation: "fadeIn 0.3s ease",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            minHeight: "400px",
+            textAlign: "center"
+          }}>
+            <div style={{
+              maxWidth: "600px",
+              margin: "0 auto"
+            }}>
+              <h2 style={{
+                fontSize: isMobile ? "32px" : "48px",
+                fontWeight: "300",
+                margin: "0 0 24px 0",
+                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                letterSpacing: "-1px"
+              }}>
+                Privacy Oracle
+              </h2>
+
+              <p style={{
+                fontSize: isMobile ? "18px" : "24px",
+                color: "rgba(255, 255, 255, 0.8)",
+                margin: "0 0 16px 0",
+                lineHeight: "1.5"
+              }}>
+                Where it all comes together...
+              </p>
+
+              <p style={{
+                fontSize: isMobile ? "16px" : "20px",
+                color: "rgba(255, 255, 255, 0.6)",
+                fontWeight: "300",
+                letterSpacing: "0.5px"
+              }}>
+                Stay tuned
+              </p>
+
+              <div style={{
+                marginTop: "40px",
+                padding: "20px",
+                background: "rgba(255, 255, 255, 0.03)",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+                borderRadius: "12px"
+              }}>
+                <div style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "12px",
+                  marginBottom: "12px"
+                }}>
+                  <div style={{
+                    width: "8px",
+                    height: "8px",
+                    borderRadius: "50%",
+                    background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                    animation: "pulse 2s infinite"
+                  }} />
+                  <span style={{
+                    fontSize: "14px",
+                    color: "rgba(255, 255, 255, 0.7)",
+                    fontWeight: "500"
+                  }}>
+                    Coming Soon
+                  </span>
+                </div>
+                <p style={{
+                  fontSize: "13px",
+                  color: "rgba(255, 255, 255, 0.5)",
+                  margin: 0,
+                  lineHeight: "1.6"
+                }}>
+                  The unified privacy infrastructure that connects all chains, protocols, and privacy solutions into one seamless experience.
+                </p>
+              </div>
             </div>
           </div>
         )}
