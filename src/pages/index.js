@@ -383,7 +383,7 @@ const solidityProof = proof.toSolidity();`
             margin: 0,
             textAlign: "center"
           }}>
-            zkThings - Privacy primitives for EVM, Solona , Bitcoin
+            zkThings - Privacy primitives for EVM, Solana , Bitcoin
             and more.
           </p>
         )} */}
