@@ -1,5 +1,6 @@
 ---
 sidebar_position: 2
+description: "Process encrypted data across any blockchain. Privacy infrastructure for payments, voting, compliance, and more."
 ---
 
 # Privacy Oracle
