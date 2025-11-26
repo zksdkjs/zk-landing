@@ -5,7 +5,7 @@ import Layout from '@theme/Layout';
 
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
-  const [activeProduct, setActiveProduct] = useState('zkthings');
+  const [activeProduct, setActiveProduct] = useState('privacyoracle');
   const [totalDownloads, setTotalDownloads] = useState('...');
   const [packageDownloads, setPackageDownloads] = useState({});
   const [selectedPackage, setSelectedPackage] = useState(0);
