@@ -9,7 +9,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'zksdk',
-  tagline: '',
+  tagline: 'Privacy infrastructure for any blockchain',
   favicon: 'img/zkimage.png',
 
   // Set the production url of your site here
@@ -73,10 +73,14 @@ const config = {
         title: 'zk',
         items: [
           {
-            type: 'doc',
-            docId: 'intro',
+            to: '/docs/privacy-oracle',
+            label: 'Privacy Oracle',
             position: 'left',
-            label: 'Documentation',
+          },
+          {
+            to: '/docs/zkthings/intro',
+            label: 'zkthings',
+            position: 'left',
           },
           {
             href: 'https://github.com/zksdkjs',
@@ -89,28 +93,28 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'zkthings',
+            title: 'Privacy Oracle',
             items: [
               {
-                label: 'zkthings Documentation',
-                to: '/docs/intro',
+                label: 'Documentation',
+                to: '/docs/privacy-oracle',
               },
               {
-                label: 'NPM Packages',
-                href: 'https://www.npmjs.com/org/zkthings',
+                label: 'GitHub',
+                href: 'https://github.com/zksdkjs/privacy-oracle',
               },
             ],
           },
           {
-            title: 'zkSDKjs',
+            title: 'zkthings',
             items: [
               {
-                label: 'zkSDKjs Documentation',
-                to: '/docs/zksdkjs/building-sdk/whitepaper',
+                label: 'Documentation',
+                to: '/docs/zkthings/intro',
               },
               {
-                label: 'GitHub',
-                href: 'https://github.com/zksdkjs/agent',
+                label: 'NPM Packages',
+                href: 'https://www.npmjs.com/org/zkthings',
               },
             ],
           },
@@ -122,13 +126,13 @@ const config = {
                 href: 'https://github.com/zksdkjs',
               },
               {
-                label: 'x',
+                label: 'X',
                 href: 'https://x.com/zksdk_dev',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} zkThings labs. • Powered by Goose`,
+        copyright: `Copyright © ${new Date().getFullYear()} zksdk • Coming Soon`,
       },
       prism: {
         theme: prismThemes.github,

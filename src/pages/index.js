@@ -9,7 +9,6 @@ function HomepageHeader() {
   const [totalDownloads, setTotalDownloads] = useState('...');
   const [packageDownloads, setPackageDownloads] = useState({});
   const [selectedPackage, setSelectedPackage] = useState(0);
-  const [agentAnimation, setAgentAnimation] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [expandedCode, setExpandedCode] = useState({});
 
@@ -23,15 +22,6 @@ function HomepageHeader() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Animate agent text
-  useEffect(() => {
-    if (activeProduct === 'zksdkjs') {
-      const interval = setInterval(() => {
-        setAgentAnimation(prev => (prev + 1) % 6);
-      }, 3000);
-      return () => clearInterval(interval);
-    }
-  }, [activeProduct]);
 
   // Fetch download stats from NPM
   useEffect(() => {
@@ -102,7 +92,7 @@ function HomepageHeader() {
           
             </div>
             <div style="color: rgba(255, 255, 255, 0.6); font-size: 0.8rem;">
-              Copyright © ${new Date().getFullYear()} zkThings labs. • Powered by Goose
+              Copyright © ${new Date().getFullYear()} zksdk • Coming Soon
             </div>
           </div>
         `;
@@ -252,14 +242,6 @@ const solidityProof = proof.toSolidity();`
     }
   ];
 
-  const agentTasks = [
-    "Developer agent extending @zksdkjs/railgun-provider proofs (recipe-developer.yaml)",
-    "fhEVM specialist refreshing encrypted transfer mocks (recipe-zama-fhe-specialist.yaml)",
-    "Strategy chief updating plans/zkSDK-development-plan.md with new milestones",
-    "Tester agent wiring Jest suites inside sdk/packages/core via recipe-tester.yaml",
-    "Social agent publishing outputs/social/dev_summary_*.md from the latest run",
-    "launch-strategic-system.sh rotating providers based on memory/build_progress.json"
-  ];
 
   return (
     <div style={{
@@ -286,7 +268,7 @@ const solidityProof = proof.toSolidity();`
           color: "rgba(255, 255, 255, 0.4)",
           margin: 0
         }}>
-          Privacy dev tools
+          Privacy dev tools • FHE • ZKP
         </p>
       </div>
 
@@ -322,39 +304,6 @@ const solidityProof = proof.toSolidity();`
             }}
           >
             zkthings
-          </button>
-          <button
-            onClick={() => setActiveProduct('zksdkjs')}
-            style={{
-              padding: isMobile ? "8px 20px" : "10px 24px",
-              background: activeProduct === 'zksdkjs' ? "#fff" : "transparent",
-              color: activeProduct === 'zksdkjs' ? "#000" : "rgba(255, 255, 255, 0.6)",
-              border: "none",
-              borderRadius: "6px",
-              fontSize: "14px",
-              fontWeight: "500",
-              cursor: "pointer",
-              transition: "all 0.2s ease",
-              outline: "none",
-              position: "relative"
-            }}
-          >
-            zkSDKjs
-            {activeProduct !== 'zksdkjs' && (
-              <span style={{
-                position: "absolute",
-                top: "-8px",
-                right: "-8px",
-                background: "#4ade80",
-                color: "#000",
-                                    fontSize: isMobile ? "9px" : "10px",
-                    padding: isMobile ? "1px 4px" : "2px 6px",
-                borderRadius: "10px",
-                fontWeight: "600"
-              }}>
-                NEW
-              </span>
-            )}
           </button>
           <button
             onClick={() => setActiveProduct('privacyoracle')}
@@ -697,324 +646,175 @@ const solidityProof = proof.toSolidity();`
           </div>
         )}
 
-        {/* zkSDKjs Content */}
-        {activeProduct === 'zksdkjs' && (
+        {/* Privacy Oracle Content */}
+        {activeProduct === 'privacyoracle' && (
           <div style={{
             animation: "fadeIn 0.3s ease"
           }}>
+            {/* Hero - Simple, no jargon */}
             <div style={{
               textAlign: "center",
-              marginBottom: "60px"
+              marginBottom: isMobile ? "50px" : "70px"
             }}>
               <h2 style={{
-                fontSize: isMobile ? "28px" : "36px",
+                fontSize: isMobile ? "32px" : "48px",
                 fontWeight: "300",
-                margin: "0 0 16px 0"
+                margin: "0 0 20px 0",
+                letterSpacing: "-1px"
               }}>
-                One SDK for Privacy Everywhere
+                Privacy Oracle
               </h2>
               <p style={{
-                fontSize: isMobile ? "16px" : "18px",
+                fontSize: isMobile ? "18px" : "22px",
                 color: "rgba(255, 255, 255, 0.7)",
-                margin: "0 0 12px 0",
-                lineHeight: "1.5"
+                margin: "0 0 8px 0",
+                fontWeight: "300"
               }}>
-                Goose agents in github.com/zksdkjs/agent are shipping the real @zksdkjs/core runtime, provider packages, and docs in public.
+                Process data without seeing it.
               </p>
               <p style={{
-                fontSize: "14px",
-                color: "rgba(255, 255, 255, 0.4)"
+                fontSize: isMobile ? "14px" : "16px",
+                color: "rgba(255, 255, 255, 0.4)",
+                margin: 0
               }}>
-                Coming Q4 2025 • Powered by Goose
+                Any blockchain. Any application.
               </p>
             </div>
 
-            {/* Live Status */}
-            <div style={{
-              background: "rgba(74, 222, 128, 0.05)",
-              border: "1px solid rgba(74, 222, 128, 0.2)",
-              borderRadius: "8px",
-              padding: isMobile ? "16px" : "24px",
-              marginBottom: isMobile ? "30px" : "40px"
-            }}>
-              <div style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "12px",
-                marginBottom: "16px"
-              }}>
-                <div style={{
-                  width: "8px",
-                  height: "8px",
-                  borderRadius: "50%",
-                  background: "#4ade80",
-                  animation: "pulse 2s infinite"
-                }} />
-                <span style={{
-                  fontSize: "14px",
-                  color: "rgba(255, 255, 255, 0.8)",
-                  fontWeight: "500"
-                }}>
-                  AI Agents Building Live 24/7
-                </span>
-              </div>
-              <p style={{
-                fontSize: isMobile ? "12px" : "13px",
-                color: "rgba(255, 255, 255, 0.6)",
-                margin: 0,
-                fontFamily: "SF Mono, monospace",
-                wordBreak: "break-word"
-              }}>
-                {agentTasks[agentAnimation]}
-              </p>
-            </div>
-
-            {/* The Problem & Solution */}
+            {/* Value Props - 3 cards, non-technical */}
             <div style={{
               display: "grid",
-              gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
-              gap: isMobile ? "24px" : "32px",
-              marginBottom: "40px"
+              gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
+              gap: isMobile ? "16px" : "24px",
+              marginBottom: isMobile ? "50px" : "70px"
             }}>
-              <div>
-                <h3 style={{
-                  fontSize: "18px",
-                  fontWeight: "500",
-                  margin: "0 0 12px 0",
-                  color: "rgba(255, 100, 100, 0.9)"
-                }}>
-                  The Problem
-                </h3>
-                <p style={{
-                  fontSize: "14px",
-                  color: "rgba(255, 255, 255, 0.6)",
-                  lineHeight: "1.6"
-                }}>
-                  Every blockchain has different privacy protocols. Developers need to learn Railgun for Ethereum, 
-                  CoinJoin for Bitcoin, Privacy Cash for Solana. Weeks of integration for each chain.
+              <div style={{
+                padding: "28px 24px",
+                background: "rgba(255, 255, 255, 0.03)",
+                border: "1px solid rgba(255, 255, 255, 0.08)",
+                borderRadius: "12px",
+                textAlign: "center"
+              }}>
+                <div style={{ fontSize: "16px", fontWeight: "500", marginBottom: "8px" }}>
+                  Truly Private
+                </div>
+                <p style={{ fontSize: "14px", color: "rgba(255, 255, 255, 0.5)", margin: 0, lineHeight: "1.5" }}>
+                  Your keys never leave your device
                 </p>
               </div>
-              <div>
-                <h3 style={{
-                  fontSize: "18px",
-                  fontWeight: "500",
-                  margin: "0 0 12px 0",
-                  color: "rgba(100, 255, 100, 0.9)"
-                }}>
-                  The Solution
-                </h3>
-                <p style={{
-                  fontSize: "14px",
-                  color: "rgba(255, 255, 255, 0.6)",
-                  lineHeight: "1.6"
-                }}>
-                  A single TypeScript runtime (`@zksdkjs/core`) routes calls to provider packages like Railgun, Aztec, and Zama&apos;s fhEVM.
-                  Goose keeps recipes, scripts, and docs current so the same `sdk.transfer` call works across every chain.
+              <div style={{
+                padding: "28px 24px",
+                background: "rgba(255, 255, 255, 0.03)",
+                border: "1px solid rgba(255, 255, 255, 0.08)",
+                borderRadius: "12px",
+                textAlign: "center"
+              }}>
+                <div style={{ fontSize: "16px", fontWeight: "500", marginBottom: "8px" }}>
+                  Any Chain
+                </div>
+                <p style={{ fontSize: "14px", color: "rgba(255, 255, 255, 0.5)", margin: 0, lineHeight: "1.5" }}>
+                  One solution works across all blockchains
+                </p>
+              </div>
+              <div style={{
+                padding: "28px 24px",
+                background: "rgba(255, 255, 255, 0.03)",
+                border: "1px solid rgba(255, 255, 255, 0.08)",
+                borderRadius: "12px",
+                textAlign: "center"
+              }}>
+                <div style={{ fontSize: "16px", fontWeight: "500", marginBottom: "8px" }}>
+                  Your Choice
+                </div>
+                <p style={{ fontSize: "14px", color: "rgba(255, 255, 255, 0.5)", margin: 0, lineHeight: "1.5" }}>
+                  Decentralized network or dedicated infrastructure
                 </p>
               </div>
             </div>
 
-            {/* Code Example */}
+            {/* Use Cases - Business language */}
             <div style={{
-              marginBottom: "40px"
+              marginBottom: isMobile ? "50px" : "70px"
             }}>
-              <div style={{
-                fontSize: "12px",
-                color: "rgba(255, 255, 255, 0.4)",
-                marginBottom: "16px",
+              <h3 style={{
+                fontSize: "14px",
+                fontWeight: "500",
+                margin: "0 0 20px 0",
+                textAlign: "center",
+                color: "rgba(255, 255, 255, 0.5)",
                 textTransform: "uppercase",
                 letterSpacing: "1px"
               }}>
-                Universal Privacy API
-              </div>
-              <div style={{
-                position: "relative",
-                background: "rgba(255, 255, 255, 0.03)",
-                border: "1px solid rgba(255, 255, 255, 0.1)",
-                borderRadius: "8px",
-                padding: 0,
-                overflow: "hidden",
-                maxWidth: "100%"
-              }}>
-                {isMobile && (
-                  <button
-                    onClick={() => setExpandedCode({
-                      ...expandedCode,
-                      'zksdkjs': !expandedCode['zksdkjs']
-                    })}
-                    style={{
-                      position: "absolute",
-                      top: "8px",
-                      right: "8px",
-                      background: "rgba(74, 222, 128, 0.1)",
-                      color: "#4ade80",
-                      fontSize: "11px",
-                      padding: "6px 12px",
-                      borderRadius: "4px",
-                      border: "1px solid rgba(74, 222, 128, 0.3)",
-                      zIndex: 10,
-                      fontFamily: "SF Mono, monospace",
-                      cursor: "pointer",
-                      fontWeight: "500",
-                      transition: "all 0.2s ease"
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.background = "rgba(74, 222, 128, 0.2)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.background = "rgba(74, 222, 128, 0.1)";
-                    }}
-                  >
-                    {expandedCode['zksdkjs'] ? "Collapse" : "View Full Code"}
-                  </button>
-                )}
-                <div style={{
-                  overflowX: "auto",
-                  overflowY: isMobile && !expandedCode['zksdkjs'] ? "hidden" : "auto",
-                  padding: isMobile ? "12px" : "24px",
-                  maxHeight: isMobile && !expandedCode['zksdkjs'] ? "200px" : "none",
-                  transition: "max-height 0.3s ease",
-                  WebkitOverflowScrolling: "touch"
-                }}>
-                  <pre style={{ 
-                    margin: 0,
-                    overflow: "visible"
-                  }}>
-                    <code style={{
-                      fontSize: isMobile ? "11px" : "13px",
-                      lineHeight: "1.6",
-                      color: "rgba(255, 255, 255, 0.9)",
-                      fontFamily: "SF Mono, monospace",
-                      whiteSpace: "pre",
-                      wordBreak: "normal",
-                      display: "block"
-                    }}>
-{`import { ZkSDK } from '@zksdkjs/core';
-import { RailgunProvider } from '@zksdkjs/railgun-provider';
-import { FHEVMProvider } from '@zksdkjs/provider-fhevm';
-
-const sdk = new ZkSDK({
-  providers: {
-    railgun: new RailgunProvider({
-      rpcEndpoints: { ethereum: 'https://mainnet.infura.io/v3/<key>' },
-      engineDbPath: './railgun-db',
-      walletMnemonic: process.env.RAILGUN_MNEMONIC
-    })
-  },
-  defaultProvider: 'railgun'
-});
-
-// Providers can be registered later as the Goose agents ship new packages
-sdk.addProvider(
-  'fhevm',
-  new FHEVMProvider({
-    rpcUrl: 'https://fhevm.devnet.zama.ai',
-    gatewayUrl: 'https://gateway.zama.ai'
-  })
-);
-
-await sdk.transfer(
-  {
-    chain: 'ethereum',
-    token: 'USDC',
-    amount: '1000000',
-    to: '0xRecipient',
-    privacy: 'shielded'
-  },
-  'railgun'
-);
-
-// Switch providers with the same API surface
-await sdk.transfer(
-  {
-    chain: 'ethereum',
-    token: 'USDC',
-    amount: '500000',
-    to: '0xConfidential',
-    privacy: 'anonymous'
-  },
-  'fhevm'
-);`}
-                    </code>
-                  </pre>
-                  {isMobile && !expandedCode['zksdkjs'] && (
-                    <div style={{
-                      position: "absolute",
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      height: "60px",
-                      background: "linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.9))",
-                      pointerEvents: "none"
-                    }} />
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* AI Agents */}
-            <div style={{
-              marginBottom: "40px"
-            }}>
-              <h3 style={{
-                fontSize: "20px",
-                fontWeight: "400",
-                margin: "0 0 16px 0"
-              }}>
-                Autonomous Development with Goose
+                What you can build
               </h3>
-              <p style={{
-                fontSize: "14px",
-                color: "rgba(255, 255, 255, 0.6)",
-                lineHeight: "1.6",
-                marginBottom: "20px"
-              }}>
-                Specialized AI agents work 24/7 using Goose to research, develop, test, and maintain the SDK.
-                They analyze new privacy protocols daily, write integration code, create documentation, and ensure
-                compatibility across all chains. No human bottlenecks, just continuous improvement.
-              </p>
-              
-              {/* Agent Grid */}
               <div style={{
                 display: "grid",
-                gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
-                gap: isMobile ? "12px" : "16px"
+                gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 1fr)",
+                gap: "12px",
+                maxWidth: "600px",
+                margin: "0 auto"
               }}>
                 {[
-                  { name: "Chief Strategy Officer", task: "Runs recipe-strategy-chief.yaml to update roadmaps & risks" },
-                  { name: "Developer Agent", task: "Extends sdk/packages/providers via recipe-developer.yaml" },
-                  { name: "Research & Intelligence", task: "Scans new privacy tech, logs findings in outputs/strategic/" },
-                  { name: "Marketing & Growth", task: "Builds go-to-market plans and community updates" },
-                  { name: "Specialist Recipes", task: "Railgun, Aztec, fhEVM deep dives triggered by orchestration" },
-                  { name: "Release & Operations", task: "Preps launch checklists, SLAs, and health checks" }
-                ].map((agent, i) => (
-                  <div key={i} style={{
-                    padding: "12px",
+                  { title: "Private payments", desc: "Transfer without revealing amounts" },
+                  { title: "Confidential voting", desc: "Count votes without seeing them" },
+                  { title: "Sealed bids", desc: "Find winners without exposing offers" },
+                  { title: "Selective disclosure", desc: "Compliance with controlled transparency" }
+                ].map((useCase) => (
+                  <div key={useCase.title} style={{
+                    padding: "16px 20px",
                     background: "rgba(255, 255, 255, 0.02)",
-                    border: "1px solid rgba(255, 255, 255, 0.1)",
-                    borderRadius: "6px"
+                    border: "1px solid rgba(255, 255, 255, 0.06)",
+                    borderRadius: "8px"
                   }}>
-                    <div style={{
-                      fontSize: "12px",
-                      fontWeight: "500",
-                      color: "rgba(255, 255, 255, 0.8)",
-                      marginBottom: "4px"
-                    }}>
-                      {agent.name}
+                    <div style={{ fontSize: "14px", fontWeight: "500", marginBottom: "4px" }}>
+                      {useCase.title}
                     </div>
-                    <div style={{
-                      fontSize: "11px",
-                      color: "rgba(255, 255, 255, 0.5)"
-                    }}>
-                      {agent.task}
+                    <div style={{ fontSize: "13px", color: "rgba(255, 255, 255, 0.4)" }}>
+                      {useCase.desc}
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* CTAs */}
+            {/* Chains - Just logos, minimal */}
             <div style={{
+              marginBottom: isMobile ? "50px" : "70px",
+              textAlign: "center"
+            }}>
+              <p style={{
+                fontSize: "13px",
+                color: "rgba(255, 255, 255, 0.4)",
+                marginBottom: "16px",
+                textTransform: "uppercase",
+                letterSpacing: "1px"
+              }}>
+                Works on
+              </p>
+              <div style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                gap: "12px"
+              }}>
+                {["Solana", "StarkNet", "XRPL", "Tron", "EVM"].map((chain) => (
+                  <span key={chain} style={{
+                    padding: "10px 20px",
+                    background: "rgba(255, 255, 255, 0.04)",
+                    border: "1px solid rgba(255, 255, 255, 0.08)",
+                    borderRadius: "24px",
+                    fontSize: "13px",
+                    color: "rgba(255, 255, 255, 0.6)"
+                  }}>
+                    {chain}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* CTA */}
+            <div style={{
+              textAlign: "center",
               display: "flex",
               flexDirection: isMobile ? "column" : "row",
               gap: "16px",
@@ -1022,34 +822,32 @@ await sdk.transfer(
               alignItems: isMobile ? "stretch" : "center"
             }}>
               <Link
-                to="/docs/zksdkjs/privacy-sdk/overview"
+                to="/docs/privacy-oracle"
                 style={{
                   display: "inline-block",
-                  padding: "12px 32px",
-                  background: "#4ade80",
+                  padding: "14px 36px",
+                  background: "#fff",
                   color: "#000",
                   borderRadius: "6px",
                   fontSize: "14px",
-                  fontWeight: "600",
+                  fontWeight: "500",
                   textDecoration: "none",
                   transition: "all 0.15s ease"
                 }}
                 onMouseEnter={(e) => {
                   e.target.style.transform = "translateY(-1px)";
-                  e.target.style.background = "#5be88a";
                 }}
                 onMouseLeave={(e) => {
                   e.target.style.transform = "translateY(0)";
-                  e.target.style.background = "#4ade80";
                 }}
               >
-                Read the Overview →
+                Learn More
               </Link>
-              <a
-                href="https://github.com/zksdkjs/agent"
+              <Link
+                to="/docs/Contact"
                 style={{
                   display: "inline-block",
-                  padding: "12px 32px",
+                  padding: "14px 36px",
                   background: "transparent",
                   color: "#fff",
                   border: "1px solid rgba(255, 255, 255, 0.2)",
@@ -1068,95 +866,8 @@ await sdk.transfer(
                   e.target.style.transform = "translateY(0)";
                 }}
               >
-                Watch Progress on GitHub
-              </a>
-            </div>
-          </div>
-        )}
-
-        {/* Privacy Oracle Content */}
-        {activeProduct === 'privacyoracle' && (
-          <div style={{
-            animation: "fadeIn 0.3s ease",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            minHeight: "400px",
-            textAlign: "center"
-          }}>
-            <div style={{
-              maxWidth: "600px",
-              margin: "0 auto"
-            }}>
-              <h2 style={{
-                fontSize: isMobile ? "32px" : "48px",
-                fontWeight: "300",
-                margin: "0 0 24px 0",
-                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                letterSpacing: "-1px"
-              }}>
-                Privacy Oracle
-              </h2>
-
-              <p style={{
-                fontSize: isMobile ? "18px" : "24px",
-                color: "rgba(255, 255, 255, 0.8)",
-                margin: "0 0 16px 0",
-                lineHeight: "1.5"
-              }}>
-                Where it all comes together...
-              </p>
-
-              <p style={{
-                fontSize: isMobile ? "16px" : "20px",
-                color: "rgba(255, 255, 255, 0.6)",
-                fontWeight: "300",
-                letterSpacing: "0.5px"
-              }}>
-                Stay tuned
-              </p>
-
-              <div style={{
-                marginTop: "40px",
-                padding: "20px",
-                background: "rgba(255, 255, 255, 0.03)",
-                border: "1px solid rgba(255, 255, 255, 0.1)",
-                borderRadius: "12px"
-              }}>
-                <div style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "12px",
-                  marginBottom: "12px"
-                }}>
-                  <div style={{
-                    width: "8px",
-                    height: "8px",
-                    borderRadius: "50%",
-                    background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                    animation: "pulse 2s infinite"
-                  }} />
-                  <span style={{
-                    fontSize: "14px",
-                    color: "rgba(255, 255, 255, 0.7)",
-                    fontWeight: "500"
-                  }}>
-                    Coming Soon
-                  </span>
-                </div>
-                <p style={{
-                  fontSize: "13px",
-                  color: "rgba(255, 255, 255, 0.5)",
-                  margin: 0,
-                  lineHeight: "1.6"
-                }}>
-                  The unified privacy infrastructure that connects all chains, protocols, and privacy solutions into one seamless experience.
-                </p>
-              </div>
+                Join Waitlist
+              </Link>
             </div>
           </div>
         )}
@@ -1213,7 +924,7 @@ await sdk.transfer(
 export default function Home() {
   return (
     <Layout
-      description="Goose agents building the universal privacy SDK for every blockchain">
+      description="Privacy infrastructure for any blockchain">
       <HomepageHeader />
     </Layout>
   );
