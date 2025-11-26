@@ -42,7 +42,6 @@ const sidebars = {
     },
 
     // General
-    'Open_Source_Open_for_All',
     'Contact',
   ],
 };
