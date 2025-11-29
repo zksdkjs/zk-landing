@@ -130,13 +130,13 @@ const deployment = await deployZkApp(MerkleProver, {
 
 ## Contributing
 
-PRs welcome! Check our [Contributing Guide](https://github.com/zksdkjs/merkle-mina/blob/main/CONTRIBUTING.md).
+PRs welcome! Check our [Contributing Guide](https://github.com/zksdk-labs/merkle-mina/blob/main/CONTRIBUTING.md).
 
 ## Support
 
 - [Documentation](https://zksdk.dev/docs/intro)
-- [GitHub Issues](https://github.com/zksdkjs/merkle-mina/issues)
+- [GitHub Issues](https://github.com/zksdk-labs/merkle-mina/issues)
 
 ## License
 
-MIT © [zkThings](https://github.com/zksdkjs)
+MIT © [zkThings](https://github.com/zksdk-labs)

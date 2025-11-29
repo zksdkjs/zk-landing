@@ -175,7 +175,7 @@ Same encrypted data works across all supported chains:
 ## Get Started
 
 - [Contact us to discuss your use case](/docs/Contact)
-- [GitHub](https://github.com/zksdkjs/privacy-oracle)
+- [GitHub](https://github.com/zksdk-labs/privacy-oracle)
 
 ---
 

@@ -20,8 +20,8 @@ const config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'zksdk-labs', // Usually your GitHub org/user name.
+  projectName: 'zk-landing', // Usually your repo name.
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -45,7 +45,7 @@ const config = {
       ({
         docs: {
           sidebarPath: './sidebars.js',
-          editUrl: 'https://github.com/zksdkjs/zksdk/tree/main/',
+          editUrl: 'https://github.com/zksdk-labs/zk-landing/tree/main/',
         },
         blog: false, // Disable the blog feature
         sitemap: {
@@ -83,7 +83,7 @@ const config = {
             position: 'left',
           },
           {
-            href: 'https://github.com/zksdkjs',
+            href: 'https://github.com/zksdk-labs',
             label: 'GitHub',
             position: 'right',
           },
@@ -101,7 +101,7 @@ const config = {
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/zksdkjs/privacy-oracle',
+                href: 'https://github.com/zksdk-labs/privacy-oracle',
               },
             ],
           },
@@ -123,7 +123,7 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/zksdkjs',
+                href: 'https://github.com/zksdk-labs',
               },
               {
                 label: 'X',

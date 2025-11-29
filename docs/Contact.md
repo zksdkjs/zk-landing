@@ -8,8 +8,8 @@ Feel free to reach out through any of these channels
 
 ## Get in Touch
 - Twitter: [@zksdk_dev](https://x.com/zksdk_dev)
-- GitHub: [zksdkjs](https://github.com/zksdkjs)
+- GitHub: [zksdk-labs](https://github.com/zksdk-labs)
 
 For technical discussions and feature requests, please use GitHub Issues - this helps build a public knowledge base for everyone in the community.
 
-Want to contribute? Check out our repositories on [GitHub](https://github.com/zksdkjs) to get started!
+Want to contribute? Check out our repositories on [GitHub](https://github.com/zksdk-labs) to get started!

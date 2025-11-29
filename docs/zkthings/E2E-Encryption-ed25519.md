@@ -304,13 +304,13 @@ console.assert(
 
 ## Contributing
 
-PRs welcome! Check our [Contributing Guide](https://github.com/zksdkjs/e2e-encryption-ed25519/blob/main/CONTRIBUTING.md).
+PRs welcome! Check our [Contributing Guide](https://github.com/zksdk-labs/e2e-encryption-ed25519/blob/main/CONTRIBUTING.md).
 
 ## Support
 
 - [Documentation](https://zksdk.dev/docs/intro)
-- [GitHub Issues](https://github.com/zksdkjs/e2e-encryption-ed25519/issues)
+- [GitHub Issues](https://github.com/zksdk-labs/e2e-encryption-ed25519/issues)
 
 ## License
 
-MIT © [zkThings](https://github.com/zksdkjs)
+MIT © [zkThings](https://github.com/zksdk-labs)

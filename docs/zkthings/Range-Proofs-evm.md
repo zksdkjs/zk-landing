@@ -316,4 +316,4 @@ This implementation builds upon:
 ## Support
 
 - **Documentation**: [zksdk.dev](https://zksdk.dev)
-- **GitHub**: [zkThings/range-proof-evm](https://github.com/zksdkjs/range-proof-evm)
+- **GitHub**: [zkThings/range-proof-evm](https://github.com/zksdk-labs/range-proof-evm)
