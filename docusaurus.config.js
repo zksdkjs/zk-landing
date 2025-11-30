@@ -10,7 +10,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 const config = {
   title: 'zksdk',
   tagline: 'Privacy infrastructure for any blockchain',
-  favicon: 'img/zkimage.png',
+  favicon: 'img/new-logo.png',
 
   // Set the production url of your site here
   url: 'https://zksdk.dev',
@@ -68,9 +68,13 @@ const config = {
           type: 'text/css',
         },
       ],
-      image: 'img/zkimage.png',
+      image: 'img/new-logo.png',
       navbar: {
-        title: 'zk',
+        title: 'zksdk',
+        logo: {
+          alt: 'zksdk logo',
+          src: 'img/new-logo.png',
+        },
         items: [
           {
             to: '/docs/privacy-oracle',
