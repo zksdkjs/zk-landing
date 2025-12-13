@@ -13,4 +13,5 @@ Feel free to reach out through any of these channels
 
 For technical discussions and feature requests, please use GitHub Issues - this helps build a public knowledge base for everyone in the community.
 
-Want to contribute? Check out our repositories on [GitHub](https://github.com/zksdk-labs) to get started!
+Want to contribute? Check out our repositories on [GitHub](https://github.com/zksdk-labs) to get started.
+
