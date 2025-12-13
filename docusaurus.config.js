@@ -130,6 +130,10 @@ const config = {
                 href: 'https://github.com/zksdk-labs',
               },
               {
+                label: 'team@zksdk.com',
+                href: 'mailto:team@zksdk.com',
+              },
+              {
                 label: 'X',
                 href: 'https://x.com/zksdk_dev',
               },
